@@ -10,12 +10,208 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sample {
+model User {
+  id              Int               @id @default(autoincrement())
+  username        String            @unique
+  email           String            @unique
+  password        String
+  role            Role              @default(CUSTOMER)
+  UserDetail      UserDetail?
+  Point           Point?
+  ReferralHistory ReferralHistory[]
+  Event           Event[]
+  UserVoucher     UserVoucher[]
+  Voucher         Voucher[]
+  Review          Review[]
+  Transaction     Transaction[]
+
+  @@map("users")
+}
+
+enum Role {
+  CUSTOMER
+  ORGANIZER
+}
+
+model UserDetail {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @unique
+  user       User     @relation(fields: [userId], references: [id])
+  firstName  String
+  lastName   String
+  phone      String
+  birthDate  DateTime
+  gender     Gender   @default(MALE)
+  referral   String   @unique
+  deletedAt  DateTime
+  isVerified Boolean
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("user_detail")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+model ReferralHistory {
   id        Int      @id @default(autoincrement())
-  name      String
-  code      String   @unique
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  referral  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("samples") // if you want to use snake_case format
+  @@map("referral_history")
+}
+
+model Point {
+  id          Int           @id @default(autoincrement())
+  userId      Int           @unique
+  user        User          @relation(fields: [userId], references: [id])
+  balance     Int           @default(0)
+  expireDate  DateTime
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Transaction Transaction[]
+
+  @@map("points")
+}
+
+model Event {
+  id           Int            @id @default(autoincrement())
+  user         User           @relation(fields: [userId], references: [id])
+  userId       Int
+  category     Category       @relation(fields: [categoryId], references: [id]) // One-to-many relationship with category
+  categoryId   Int
+  location     Location       @relation(fields: [locationId], references: [id])
+  locationId   Int
+  title        String
+  description  String
+  image        String
+  startDate    DateTime
+  endDate      DateTime
+  limit        Int
+  booked       Int
+  TicketType   TicketType[]
+  EventVoucher EventVoucher[]
+  Reviews      Review[]
+  Transaction  Transaction[]
+
+  @@map("events")
+}
+
+model UserVoucher {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  user        User          @relation(fields: [userId], references: [id])
+  voucherId   Int
+  vouchers    Voucher       @relation(fields: [voucherId], references: [id])
+  Transaction Transaction[]
+
+  @@map("user_voucher")
+}
+
+model Voucher {
+  id             Int            @id @default(autoincrement())
+  userId         Int
+  user           User           @relation(fields: [userId], references: [id])
+  title          String
+  discount_value Float
+  voucher_type   String
+  expiredDate    DateTime
+  limit          Int
+  isUsed         Boolean
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  UserVoucher    UserVoucher[]
+  EventVoucher   EventVoucher[]
+
+  @@map("vouchers")
+}
+
+model EventVoucher {
+  id          Int           @id @default(autoincrement())
+  voucherId   Int
+  voucher     Voucher       @relation(fields: [voucherId], references: [id])
+  isUsed      Boolean
+  eventId     Int
+  event       Event         @relation(fields: [eventId], references: [id])
+  Transaction Transaction[]
+}
+
+model TicketType {
+  id          Int           @id @default(autoincrement())
+  eventId     Int
+  event       Event         @relation(fields: [eventId], references: [id])
+  name        String
+  limit       Int
+  booked      Int
+  price       Float
+  Transaction Transaction[]
+
+  @@map("ticket_type")
+}
+
+model Category {
+  id     Int     @id @default(autoincrement())
+  name   String
+  Events Event[] // One-to-many relationship with events
+
+  @@map("categories")
+}
+
+model Location {
+  id         Int     @id @default(autoincrement())
+  address    String
+  province   String
+  city       String
+  postalCode String
+  Event      Event[]
+
+  @@map("locations")
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id])
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  id             Int           @id @default(autoincrement())
+  userId         Int
+  user           User          @relation(fields: [userId], references: [id])
+  eventId        Int
+  event          Event         @relation(fields: [eventId], references: [id])
+  eventVoucherId Int?
+  eventVoucher   EventVoucher? @relation(fields: [eventVoucherId], references: [id])
+  userVoucherId  Int?
+  userVoucher    UserVoucher?  @relation(fields: [userVoucherId], references: [id])
+  ticketTypeId   Int
+  ticketType     TicketType    @relation(fields: [ticketTypeId], references: [id])
+  pointId        Int?
+  point          Point?        @relation(fields: [pointId], references: [id])
+  qty            Int
+  status         Status        @default(PENDING)
+  totalPrice     Float
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+enum Status {
+  PENDING
+  PROCESSING
+  FAILED
+  CANCELLED
+  REFUNDED
+  COMPLETED
 }
