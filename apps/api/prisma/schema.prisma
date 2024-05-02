@@ -10,12 +10,113 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sample {
-  id        Int      @id @default(autoincrement())
-  name      String
-  code      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  password     String
+  name         String?
+  role         Role          @default(CUSTOMER)
+  referral     String        @unique
+  points       Int           @default(0)
+  coupon       String?
+  transactions Transaction[]
+  reviews      Review[]
+  events       Event[]
+  Referral     Referral[]
+  Promotion    Promotion[]
 
-  @@map("samples") // if you want to use snake_case format
+  @@map("users")
+}
+
+model Referral {
+  id         Int       @id @default(autoincrement())
+  referrerId Int
+  refereeId  Int
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime?
+  User       User?     @relation(fields: [userId], references: [id])
+  userId     Int?
+
+  @@map("referrals")
+}
+
+model Event {
+  id             Int           @id @default(autoincrement())
+  name           String
+  price          Float
+  date           DateTime
+  time           DateTime
+  location       String
+  description    String
+  availableSeats Int
+  ticketTypes    TicketType[]
+  isFree         Boolean       @default(false)
+  promotions     Promotion[]
+  organizer      User          @relation(fields: [organizerId], references: [id])
+  organizerId    Int
+  transactions   Transaction[]
+  reviews        Review[]
+
+  @@map("events")
+}
+
+model TicketType {
+  id          Int           @id @default(autoincrement())
+  name        String
+  limit       Int
+  booked      Int
+  price       Float
+  event       Event         @relation(fields: [eventId], references: [id])
+  eventId     Int
+  Transaction Transaction[]
+
+  @@map("ticket_types")
+}
+
+model Transaction {
+  id           Int        @id @default(autoincrement())
+  user         User       @relation(fields: [userId], references: [id])
+  event        Event      @relation(fields: [eventId], references: [id])
+  ticketType   TicketType @relation(fields: [ticketTypeId], references: [id])
+  price        Float
+  discount     Float?
+  finalPrice   Float
+  createdAt    DateTime   @default(now())
+  userId       Int
+  eventId      Int
+  ticketTypeId Int
+
+  @@map("transactions")
+}
+
+model Promotion {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  event     Event    @relation(fields: [eventId], references: [id])
+  code      String
+  discount  Float
+  maxUses   Int
+  createdAt DateTime @default(now())
+  eventId   Int
+
+  @@map("promotions")
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id])
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  userId    Int
+  eventId   Int
+
+  @@map("reviews")
+}
+
+enum Role {
+  CUSTOMER
+  ORGANIZER
 }
