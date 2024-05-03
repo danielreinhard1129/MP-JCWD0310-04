@@ -21,10 +21,11 @@ export default function Home() {
             </p>
 
             <Input
-              type="search"
+              type="text"
               placeholder="search"
               className=" rounded-md text-black h-auto w-auto "
             />
+       
           </div>
 
           <Image
