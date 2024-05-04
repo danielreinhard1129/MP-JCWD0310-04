@@ -34,7 +34,8 @@ export default function Home() {
               alt="heroSection"
               width="1441"
               height="668"
-              className="h-screen w-screen object-cover"
+              objectFit='cover'
+              className="h-screen w-screen"
             />
           </div>
         </section>
