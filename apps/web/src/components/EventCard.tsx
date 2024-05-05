@@ -46,9 +46,10 @@ const EventCard = () => {
                   <Image
                     src="https://plus.unsplash.com/premium_photo-1682600415610-e634ad0a485e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="band"
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-t-lg shadow-md"
+                    // layout="fill"
+                    width={300}
+                    height={300}
+                    className="rounded-t-lg shadow-md object-cover"
                   />
                 </div>
               </div>
@@ -71,9 +72,10 @@ const EventCard = () => {
                   <Image
                     src="https://plus.unsplash.com/premium_photo-1682600415610-e634ad0a485e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="band"
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-t-lg shadow-md"
+                    // layout="fill"
+                    width={300}
+                    height={300}
+                    className="rounded-t-lg shadow-md object-cover"
                   />
                 </div>
               </div>
@@ -96,9 +98,10 @@ const EventCard = () => {
                   <Image
                     src="https://plus.unsplash.com/premium_photo-1682600415610-e634ad0a485e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="band"
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-t-lg shadow-md"
+                    // layout="fill"
+                    width={300}
+                    height={300}
+                    className="rounded-t-lg shadow-md object-cover"
                   />
                 </div>
               </div>
@@ -122,9 +125,10 @@ const EventCard = () => {
               <Image
                 src="https://plus.unsplash.com/premium_photo-1682600415610-e634ad0a485e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="band"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-t-lg shadow-md"
+                // layout="fill"
+                width={300}
+                    height={300}
+                    className="rounded-t-lg shadow-md object-cover"
               />
             </div>
           </CardHeader>
@@ -148,9 +152,10 @@ const EventCard = () => {
                     <Image
                       src="https://plus.unsplash.com/premium_photo-1682600415610-e634ad0a485e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                       alt="band"
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-t-lg shadow-md"
+                      // layout="fill"
+                      width={300}
+                    height={300}
+                    className="rounded-t-lg shadow-md object-cover"
                     />
                   </div>
                 </div>

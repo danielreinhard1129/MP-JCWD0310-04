@@ -34,8 +34,7 @@ export default function Home() {
               alt="heroSection"
               width="1441"
               height="668"
-              objectFit='cover'
-              className="h-screen w-screen"
+                    className="rounded-t-lg shadow-md object-cover"
             />
           </div>
         </section>
