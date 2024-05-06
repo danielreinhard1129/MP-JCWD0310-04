@@ -11,7 +11,10 @@ import Image from 'next/image';
 
 const EventCard = () => {
   return (
-    <section className="h-fit">
+    <section className="h-fit text-[#E7E7E5]">
+      <div className=' text-5xl text-center py-5 mt-2'>
+        <h1>Upcoming Events This Month</h1>
+      </div>
       <div className="grid grid-cols-4 gap-4">
         <Card className="w-full">
           <CardContent>

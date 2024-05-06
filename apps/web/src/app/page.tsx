@@ -1,4 +1,5 @@
 import EventCard from '@/components/EventCard';
+import Category from '@/components/Category';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 
@@ -38,7 +39,9 @@ export default function Home() {
             />
           </div>
         </section>
+        <Category/>
         <EventCard />
+
       </div>
     </main>
   );
