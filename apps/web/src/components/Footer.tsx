@@ -7,7 +7,7 @@ export const Footer = () => {
   return (
     <footer>
       {/* input email */}
-      <div className=" py-4 rounded-3xl h-auto w-auto mx-10 my-5 px-16 border bg-[#212120] text-[#E7E7E5] ">
+      {/* <div className=" py-4 rounded-3xl h-auto w-auto mx-10 my-5 px-16 border bg-[#212120] text-[#E7E7E5] ">
         <h1 className=" text-3xl py-5">
           Want to get latest news about events?
         </h1>
@@ -16,7 +16,7 @@ export const Footer = () => {
           placeholder="Enter your email..."
           className="border-[#3B3938] bg-[#212120] border-t-0 border-l-0 border-r-0 border-b-2 rounded-none"
         />
-      </div>
+      </div> */}
       <div className="grid grid-cols-3 justify-evenly bg-[#212120] text-[#E7E7E5] pt-16 pb-8 px-4">
         <div>
           <h2 className=" text-lg font-semibold">Eventure</h2>

@@ -2,12 +2,13 @@ import EventCard from '@/components/EventCard';
 import Category from '@/components/Category';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
+import EmailNews from '@/components/EmailNews';
 
 export default function Home() {
   return (
     <main>
       {' '}
-      <div className=' bg-[#212120]'>
+      <div className=" bg-[#212120]">
         {/* heroSection */}
         <section>
           <div className="relative z-0">
@@ -35,13 +36,13 @@ export default function Home() {
               alt="heroSection"
               width="1441"
               height="668"
-                    className="rounded-t-lg shadow-md object-cover"
+              className="rounded-t-lg shadow-md object-cover"
             />
           </div>
         </section>
-        <Category/>
+        <Category />
         <EventCard />
-
+        <EmailNews />
       </div>
     </main>
   );

@@ -19,7 +19,7 @@ interface LoginResponse {
 
 const useLogin = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const login = async (payload: LoginArgs) => {
     try {
       const { data } = await axiosInstance.post<LoginResponse>(
@@ -27,8 +27,8 @@ const useLogin = () => {
         payload,
       );
 
-      dispatch(loginAction(data.data));
-      localStorage.setItem('token', data.token);
+      // dispatch(loginAction(data.data));
+      // localStorage.setItem('token', data.token);
       router.replace('/');
     } catch (error) {
         if(error instanceof AxiosError){
