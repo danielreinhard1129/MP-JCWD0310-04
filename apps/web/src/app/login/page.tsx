@@ -27,9 +27,9 @@ const Login = () => {
     },
   });
   return (
-    <main className="container mx-auto px-4">
+    <main className="container mx-auto px-4 py-8 mb-6 bg-[#212120]">
       <div className="mt-16 flex justify-center">
-        <Card className="w-[350px] ">
+        <Card className="w-[350px]  bg-[#E7E7E5] text-[#212120]">
           <CardHeader className="space-y-4">
             <CardTitle className="text-center text-2xl ">
              Login
@@ -64,7 +64,7 @@ const Login = () => {
                   handleChange={handleChange}
                 />
 
-                <Button type="submit" className=" mt-6 w-full text-white">
+                <Button type="submit" className=" mt-6 w-fulltext-[#E7E7E5] bg-[#EC6D47]">
                   Login
                 </Button>
               </div>
