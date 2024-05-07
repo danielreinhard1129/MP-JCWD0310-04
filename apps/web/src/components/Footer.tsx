@@ -45,7 +45,7 @@ export const Footer = () => {
               <Twitter />
               <Facebook />
               <Instagram />
-              <Linkedin/>
+              <Linkedin />
             </div>
           </div>
         </div>
@@ -65,3 +65,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;
