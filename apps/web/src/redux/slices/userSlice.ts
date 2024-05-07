@@ -3,7 +3,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState: User = {
   id: 0,
-  userName: '',
+  username: '',
   email: '',
 };
 
@@ -13,12 +13,12 @@ export const userSlice = createSlice({
   reducers: {
     loginAction: (state, action: PayloadAction<User>) => {
       (state.id = action.payload.id),
-        (state.userName = action.payload.userName),
+        (state.username = action.payload.username),
         (state.email = action.payload.email);
     },
     logoutAction: (state) => {
       state.id = 0;
-      (state.userName = ''), (state.email = '');
+      (state.username = ''), (state.email = '');
     },
   },
 });
