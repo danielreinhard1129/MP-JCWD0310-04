@@ -12,7 +12,7 @@ const NavItems = () => {
         return (
           <li
             key={link.route}
-            className={`${isActive && 'text-[#EC6D47]'} flex-center text-white`}
+            className={`${isActive && 'text-black'} flex-center text-black`}
           >
             <Link href={link.route}>{link.label}</Link>
           </li>

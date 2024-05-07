@@ -21,11 +21,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-[#212120]">
+    <nav className= "bg-white text-black">
       <div className="container py-6 px-12">
         <div className="flex items-center justify-between">
           <Link href="/" className="">
-            <h1 className="text-white text-4xl">LOGO</h1>
+            <h1 className=" text-4xl">LOGO</h1>
           </Link>
 
           <div className="hidden md:block w-full max-w-lg">
@@ -38,14 +38,15 @@ const Navbar = () => {
                 <Button
                   onClick={() => router.push('/profile')}
                   variant="ghost"
-                  className="bg-[#EC6D47]"
+                  className="bg-[#5a75f9] hover:bg-[#5a75f9]"
+                  
                 >
                   Profile
                 </Button>
                 <Button
                   onClick={logout}
                   variant="ghost"
-                  className="bg-[#EC6D47]"
+                  className="bg-[#5a75f9] hover:bg-[#EC6D47]"
                 >
                   Logout
                 </Button>
@@ -55,14 +56,14 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   onClick={() => router.push('/register')}
-                  className="bg-[#EC6D47]"
+                  className="bg-[#5a75f9] hover:bg-[#5a75f9]"
                 >
                   Register
                 </Button>
                 <Button
                   variant="ghost"
                   onClick={() => router.push('/login')}
-                  className="bg-[#EC6D47]"
+                  className="bg-[#5a75f9] hover:bg-[#5a75f9]"
                 >
                   Login
                 </Button>
