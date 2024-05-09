@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card';
 import useRegister from '@/hooks/api/auth/useRegister';
 import { useFormik } from 'formik';
-import { validationSchema } from './validationSchema';
+import { validationSchemaRegister } from '../validationSchema';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
 
@@ -24,8 +24,11 @@ const Register = () => {
       username: '',
       email: '',
       password: '',
+      referral: '',
+      role: '',
+      point: '',
     },
-    validationSchema,
+    validationSchema: validationSchemaRegister,
     onSubmit: (values) => {
       register(values);
     },
@@ -79,6 +82,19 @@ const Register = () => {
                     error={formik.errors.password}
                     isError={
                       !!formik.touched.password && !!formik.errors.password
+                    }
+                    handleBlur={formik.handleBlur}
+                    handleChange={formik.handleChange}
+                  />
+                  <FormInput
+                    name="referral"
+                    type="text"
+                    label="Referral"
+                    placeholder="Referral"
+                    value={formik.values.referral}
+                    error={formik.errors.referral}
+                    isError={
+                      !!formik.touched.referral && !!formik.errors.referral
                     }
                     handleBlur={formik.handleBlur}
                     handleChange={formik.handleChange}

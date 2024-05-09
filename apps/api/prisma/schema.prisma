@@ -11,41 +11,43 @@ datasource db {
 }
 
 model User {
-  id              Int               @id @default(autoincrement())
-  email           String            @unique
-  password        String
-  username        String
-  role            Role              @default(CUSTOMER)
-  referral        String            @unique
-  points          Int               @default(0)
-  ReferralHistory ReferralHistory[]
-  Event           Event[]
-  Order           Order[]
-  Review          Review[]
-  Voucher         Voucher[]
-  Reward          Reward[]
+  id                          Int               @id @default(autoincrement())
+  email                       String            @unique
+  password                    String
+  username                    String
+  role                        Role              @default(CUSTOMER)
+  referral                    String            @unique
+  points                      Int               @default(0)
+  pointsExpired               DateTime?
+  referralHistoriesAsReferrer ReferralHistory[] @relation("referralHistoriesAsReferrer")
+  referralHistoriesAsReferred ReferralHistory[] @relation("referralHistoriesAsReferred")
+  Event                       Event[]
+  Order                       Order[]
+  Review                      Review[]
+  Voucher                     Voucher[]
+  Reward                      Reward[]
 
   @@map("users")
 }
 
 model ReferralHistory {
-  id             Int      @id @default(autoincrement())
-  user           User     @relation(fields: [userId], references: [id])
-  userId         Int
-  userReferralId Int
-  createdAt      DateTime @default(now())
-  expiresAt      DateTime
+  id         Int      @id @default(autoincrement())
+  referrerId Int
+  referredId Int
+  createdAt  DateTime @default(now())
+  referrer   User     @relation("referralHistoriesAsReferrer", fields: [referrerId], references: [id])
+  user       User     @relation("referralHistoriesAsReferred", fields: [referredId], references: [id])
 
   @@map("referral_history")
 }
 
-model Category {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique
-  Event Event[]
+// model Category {
+//   id    Int     @id @default(autoincrement())
+//   name  String  @unique
+//   Event Event[]
 
-  @@map("categories")
-}
+//   @@map("categories")
+// }
 
 model Event {
   id             Int          @id @default(autoincrement())
@@ -54,18 +56,19 @@ model Event {
   location       String
   availableSeats Int
   booked         String
-  createdAt      DateTime     @default(now())
-  imageUrl       String
+  image          String
   startDate      DateTime
   endDate        DateTime
-  price          Float
+  price          Int
   time           DateTime
   isFree         Boolean      @default(false)
+  organizerId    Int
+  category       String
+  // categoryId     Int
+  updatedAt      DateTime     @updatedAt
   ticketTypes    TicketType[]
   organizer      User         @relation(fields: [organizerId], references: [id])
-  organizerId    Int
-  category       Category     @relation(fields: [categoryId], references: [id])
-  categoryId     Int
+  // category       Category     @relation(fields: [categoryId], references: [id])
   reviews        Review[]
   Order          Order[]
   Voucher        Voucher[]
