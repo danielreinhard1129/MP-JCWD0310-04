@@ -17,10 +17,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import EventCard from '@/components/EventCard';
 
 export default function Home() {
   return (
     <>
+    {/* herosection */}
       <section className="relative h-[400px] overflow-hidden bg-[url('https://tecdn.b-cdn.net/img/new/slides/041.webp')] bg-cover bg-no-repeat p-12 text-center text-white">
         <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-black/60 bg-fixed">
           <div className="flex h-full items-center justify-center">
@@ -43,9 +45,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* eventCard upcoming event */}
       <section className="container mx-auto py-6 md:px-36 px-8">
         <h1 className="font-bold md:text-2xl text-xl md:py-6">
-          Rekomendasi Event
+          Upcoming Event
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-4 py-4 md:gap-4">
           <Card className="shadow-xl md:mb-4 mb-6">
@@ -185,6 +188,7 @@ export default function Home() {
           </Card>
         </div>
       </section>
+      {/* promotion */}
       <section className="bg-blue-700 w-full text-white md:pt-7 md:pb-10 py-6 pb-8">
         <div className=" px-8 container mx-auto md:px-36">
           <div className="md:pb-4 mb-2 text-center">
@@ -290,7 +294,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="container mx-auto py-6 md:px-36 px-8">
+
+      {/* Popular event */}
+      {/* <section className="container mx-auto py-6 md:px-36 px-8">
         <h1 className="font-bold md:text-2xl text-xl md:py-6">
           Event Terdekat
         </h1>
@@ -431,7 +437,9 @@ export default function Home() {
             </CardFooter>
           </Card>
         </div>
-      </section>
+      </section> */}
+      <EventCard/>
+
     </>
   );
 }
