@@ -8,7 +8,7 @@ import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 
-interface LoginArgs extends Omit<User, 'id' | 'username'> {
+interface LoginArgs extends Omit<User, 'id' | 'username' | 'role'> {
   password: string;
 }
 
@@ -38,7 +38,7 @@ const useLogin = () => {
     } catch (error) {
       if (error instanceof AxiosError) {
         toast({
-          description: error?.response?.data || 'An error occurred',
+          description: error?.response?.data,
         });
       }
     }

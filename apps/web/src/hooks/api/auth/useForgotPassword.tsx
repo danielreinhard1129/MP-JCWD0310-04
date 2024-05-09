@@ -28,7 +28,7 @@ const useForgotPassword = () => {
     } catch (error) {
       if (error instanceof AxiosError) {
         toast({
-          description: error?.response?.data || 'An error occurred',
+          description: error?.response?.data,
         });
       }
     } finally {

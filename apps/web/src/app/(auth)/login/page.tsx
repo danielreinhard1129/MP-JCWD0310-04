@@ -2,16 +2,10 @@
 
 import FormInput from '@/components/FormInput';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import useLogin from '@/hooks/api/auth/useLogin';
 import { useFormik } from 'formik';
-import { validationSchema } from './validationSchema';
+import { validationSchemaLogin } from '../validationSchema';
 import { useRouter } from 'next/navigation';
 
 const Login = () => {
@@ -23,16 +17,16 @@ const Login = () => {
         email: '',
         password: '',
       },
-      validationSchema,
+      validationSchema: validationSchemaLogin,
       onSubmit: (values) => {
         login(values);
       },
     });
   return (
-    <main className="bg-[#212120] h-screen flex items-center justify-center">
+    <main className=" h-screen flex items-center justify-center">
       <div className="container mx-auto px-4 py-8 mb-6 ">
         <div className="mt-16 flex justify-center">
-          <Card className="w-[350px]  bg-[#E7E7E5] text-[#212120]">
+          <Card className="w-[350px]  text-black shadow-2xl">
             <CardHeader className="space-y-4">
               <CardTitle className="text-center text-2xl mt-4">Login</CardTitle>
             </CardHeader>
@@ -68,18 +62,12 @@ const Login = () => {
                   >
                     Forgot Password ?
                   </p>
-                  <Button
-                    type="submit"
-                    className=" mt-3 w-fulltext-[#E7E7E5] bg-[#EC6D47]"
-                  >
+                  <Button type="submit" className=" mt-3 w-full bg-blue-700">
                     Login
                   </Button>
                 </div>
               </form>
             </CardContent>
-            <CardFooter className="flex justify-end">
-              {/* <Button className=" text-white">Register</Button> */}
-            </CardFooter>
           </Card>
         </div>
       </div>

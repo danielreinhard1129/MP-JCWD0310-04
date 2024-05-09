@@ -4,10 +4,10 @@ import prisma from '@/prisma';
 import { User } from '@prisma/client';
 
 export const registerService = async (
-  body: Pick<User, 'email' | 'username' | 'password' | 'referral' | 'role'>,
+  body: Pick<User, 'email' | 'username' | 'password' | 'referral'>,
 ): Promise<User> => {
   try {
-    const { email, password, referral } = body;
+    const { username, email, password, referral } = body;
 
     // Cek email sudah terdaftar atau belum
     const existingUser = await prisma.user.findUnique({
@@ -18,15 +18,6 @@ export const registerService = async (
       throw new Error('Email already exists');
     }
 
-    // Cari user dengan referral yang diberikan
-    const findUserReferral = await prisma.user.findUnique({
-      where: { referral },
-    });
-
-    if (!findUserReferral || findUserReferral.role === 'ORGANIZER') {
-      throw new Error('Referral not found');
-    }
-
     // Buat kode referral baru untuk user yang mendaftar
     const userReferral = generateReferralCode();
 
@@ -35,34 +26,53 @@ export const registerService = async (
 
     // Buat user baru
     const user = await prisma.user.create({
-      data: { ...body, password: hashedPassword, referral: userReferral },
+      data: {
+        username,
+        email,
+        role: 'CUSTOMER',
+        password: hashedPassword,
+        referral: userReferral,
+        points: 0,
+      },
     });
 
-    // Jika pengguna dengan referral ditemukan, tambahkan poin pada pengguna yang merujuk
-    if (findUserReferral) {
-      // Hitung tanggal 3 bulan dari sekarang
-      const currentDate = new Date();
-      const threeMonthsLater = new Date(
-        currentDate.setMonth(currentDate.getMonth() + 3),
-      );
-      await prisma.user.update({
-        where: { id: findUserReferral.id },
-        data: {
-          points: {
-            increment: 10000, // Tambahkan 10000 poin
-          },
-          pointsExpired: threeMonthsLater,
-        },
+    // Jika referral tidak ada, lewati proses dibawah
+    if (referral) {
+      // Cari user dengan referral yang dimasukkan
+      const findUserReferral = await prisma.user.findFirst({
+        where: { referral },
       });
 
-      // Buat catatan referralHistory
-      await prisma.referralHistory.create({
-        data: {
-          referrerId: user.id,
-          referredId: findUserReferral.id,
-          createdAt: new Date(),
-        },
-      });
+      if (!findUserReferral || findUserReferral.role === 'ORGANIZER') {
+        throw new Error('Referral not found');
+      }
+
+      // Jika pengguna dengan referral ditemukan, tambahkan poin pada pengguna yang merujuk
+      if (findUserReferral) {
+        // Hitung tanggal 3 bulan dari sekarang
+        const currentDate = new Date();
+        const threeMonthsLater = new Date(
+          currentDate.setMonth(currentDate.getMonth() + 3),
+        );
+        await prisma.user.update({
+          where: { id: findUserReferral.id },
+          data: {
+            points: {
+              increment: 10000, // Tambahkan 10000 poin
+            },
+            pointsExpired: threeMonthsLater,
+          },
+        });
+
+        // Buat catatan referralHistory
+        await prisma.referralHistory.create({
+          data: {
+            referrerId: user.id,
+            referredId: findUserReferral.id,
+            createdAt: new Date(),
+          },
+        });
+      }
     }
 
     return user;
