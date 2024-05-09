@@ -19,13 +19,13 @@ model User {
   referral                    String            @unique
   points                      Int               @default(0)
   pointsExpired               DateTime?
-  referralHistoriesAsReferrer ReferralHistory[] @relation("referralHistoriesAsReferrer")
-  referralHistoriesAsReferred ReferralHistory[] @relation("referralHistoriesAsReferred")
   Event                       Event[]
   Order                       Order[]
   Review                      Review[]
   Voucher                     Voucher[]
   Reward                      Reward[]
+  referralHistoriesAsReferrer ReferralHistory[] @relation("referralHistoriesAsReferrer")
+  referralHistoriesAsReferred ReferralHistory[] @relation("referralHistoriesAsReferred")
 
   @@map("users")
 }
@@ -64,14 +64,14 @@ model Event {
   isFree         Boolean      @default(false)
   organizerId    Int
   category       String
-  // categoryId     Int
   updatedAt      DateTime     @updatedAt
-  ticketTypes    TicketType[]
-  organizer      User         @relation(fields: [organizerId], references: [id])
+  // categoryId     Int
   // category       Category     @relation(fields: [categoryId], references: [id])
+  ticketTypes    TicketType[]
   reviews        Review[]
   Order          Order[]
   Voucher        Voucher[]
+  organizer      User         @relation(fields: [organizerId], references: [id])
 
   @@map("events")
 }

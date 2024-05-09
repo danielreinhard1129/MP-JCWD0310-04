@@ -3,6 +3,7 @@ import FormInput from '@/components/FormInput';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
+import AuthGuard from '@/hoc/AuthGuard';
 
 const Profile = () => {
   return (
@@ -14,7 +15,7 @@ const Profile = () => {
         </div>
         <div className="w-1/5 flex justify-center place-self-center items-center gap-2">
           <Switch />
-          <p className='text-sm font-semibold'>Become Admin</p>
+          <p className="text-sm font-semibold">Become Admin</p>
         </div>
       </div>
       <hr className="w-full" />
@@ -93,4 +94,4 @@ const Profile = () => {
     </section>
   );
 };
-export default Profile;
+export default AuthGuard(Profile);
