@@ -20,9 +20,9 @@ model User {
   points                      Int               @default(0)
   pointsExpired               DateTime?
   Event                       Event[]
-  Order                       Order[]
-  Review                      Review[]
-  Voucher                     Voucher[]
+  // Order                       Order[]
+  // Review                      Review[]
+  // Voucher                     Voucher[]
   Reward                      Reward[]
   referralHistoriesAsReferrer ReferralHistory[] @relation("referralHistoriesAsReferrer")
   referralHistoriesAsReferred ReferralHistory[] @relation("referralHistoriesAsReferred")
@@ -50,58 +50,58 @@ model ReferralHistory {
 // }
 
 model Event {
-  id             Int          @id @default(autoincrement())
-  title          String
-  description    String
+  id             Int      @id @default(autoincrement())
+  title          String   @unique
+  description    String   @db.LongText
   location       String
+  thumbnail      String
+  category       String
+  organizerId    Int
+  updatedAt      DateTime @updatedAt
   availableSeats Int
-  booked         String
-  image          String
+  booked         Int
+  price          Int
+  time           String
   startDate      DateTime
   endDate        DateTime
-  price          Int
-  time           DateTime
-  isFree         Boolean      @default(false)
-  organizerId    Int
-  category       String
-  updatedAt      DateTime     @updatedAt
+  isFree         Boolean  @default(false)
   // categoryId     Int
   // category       Category     @relation(fields: [categoryId], references: [id])
-  ticketTypes    TicketType[]
-  reviews        Review[]
-  Order          Order[]
-  Voucher        Voucher[]
-  organizer      User         @relation(fields: [organizerId], references: [id])
+  // ticketTypes    TicketType[]
+  // reviews        Review[]
+  // Order          Order[]
+  // Voucher        Voucher[]
+  organizer      User     @relation(fields: [organizerId], references: [id])
 
   @@map("events")
 }
 
-model TicketType {
-  id      Int     @id @default(autoincrement())
-  name    String  @unique
-  limit   Int
-  price   Float
-  event   Event   @relation(fields: [eventId], references: [id])
-  eventId Int
-  Order   Order[]
+// model TicketType {
+//   id      Int     @id @default(autoincrement())
+//   name    String  @unique
+//   limit   Int
+//   price   Float
+//   event   Event   @relation(fields: [eventId], references: [id])
+//   eventId Int
+//   Order   Order[]
 
-  @@map("ticket_types")
-}
+//   @@map("ticket_types")
+// }
 
-model Voucher {
-  id          Int      @id @default(autoincrement())
-  event       Event    @relation(fields: [eventId], references: [id])
-  organizer   User     @relation(fields: [organizerId], references: [id])
-  eventId     Int
-  organizerId Int
-  voucher     String
-  price       Float
-  limit       Int
-  isUsed      Boolean  @default(false)
-  createdAt   DateTime @default(now())
+// model Voucher {
+//   id          Int      @id @default(autoincrement())
+//   event       Event    @relation(fields: [eventId], references: [id])
+//   organizer   User     @relation(fields: [organizerId], references: [id])
+//   eventId     Int
+//   organizerId Int
+//   voucher     String
+//   price       Float
+//   limit       Int
+//   isUsed      Boolean  @default(false)
+//   createdAt   DateTime @default(now())
 
-  @@map("vouchers")
-}
+//   @@map("vouchers")
+// }
 
 model Reward {
   id         Int      @id @default(autoincrement())
@@ -116,34 +116,34 @@ model Reward {
   @@map("rewards")
 }
 
-model Order {
-  id           Int        @id @default(autoincrement())
-  buyer        User       @relation(fields: [buyerId], references: [id])
-  event        Event      @relation(fields: [eventId], references: [id])
-  ticketType   TicketType @relation(fields: [ticketTypeId], references: [id])
-  buyerId      Int
-  eventId      Int
-  ticketTypeId Int
-  totalAmount  Float
-  status       String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @default(now())
+// model Order {
+//   id           Int        @id @default(autoincrement())
+//   buyer        User       @relation(fields: [buyerId], references: [id])
+//   event        Event      @relation(fields: [eventId], references: [id])
+//   ticketType   TicketType @relation(fields: [ticketTypeId], references: [id])
+//   buyerId      Int
+//   eventId      Int
+//   ticketTypeId Int
+//   totalAmount  Float
+//   status       String
+//   createdAt    DateTime   @default(now())
+//   updatedAt    DateTime   @default(now())
 
-  @@map("orders")
-}
+//   @@map("orders")
+// }
 
-model Review {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
-  event     Event    @relation(fields: [eventId], references: [id])
-  userId    Int
-  eventId   Int
-  rating    Int
-  comment   String
-  createdAt DateTime @default(now())
+// model Review {
+//   id        Int      @id @default(autoincrement())
+//   user      User     @relation(fields: [userId], references: [id])
+//   event     Event    @relation(fields: [eventId], references: [id])
+//   userId    Int
+//   eventId   Int
+//   rating    Int
+//   comment   String
+//   createdAt DateTime @default(now())
 
-  @@map("reviews")
-}
+//   @@map("reviews")
+// }
 
 enum Role {
   CUSTOMER

@@ -5,33 +5,32 @@ export interface Event {
   title: string;
   description: string;
   location: string;
-  availableSeats: number;
-  booked: number;
-  image: string;
-  startDate: Date;
-  endDate: Date;
-  price: number;
-  time: Date;
-  isFree: Boolean;
+  thumbnail: string;
   category: string;
   organizerId: number;
+  availableSeats: number;
+  booked: number;
+  price: number;
+  time: string;
   updatedAt: Date;
-
   user: User;
+  isFree: Boolean;
+  startDate: Date;
+  endDate: Date;
 }
 
 export interface IFormCreateEvent {
   title: string;
   description: string;
   location: string;
+  thumbnail: File[];
+  category: string;
+  organizerId?: number;
   availableSeats: number;
   booked: number;
-  image: [];
+  price: number;
+  time: string;
+  isFree: Boolean;
   startDate: Date;
   endDate: Date;
-  price: number;
-  time: Date;
-  isFree: Boolean;
-  category: string;
-  organizerId: number;
 }

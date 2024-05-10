@@ -9,7 +9,6 @@ interface DropzoneProps {
   isError: boolean;
   onDrop: (files: FileWithPath[]) => void;
 }
-
 const Dropzone: FC<DropzoneProps> = ({ isError, label, onDrop }) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -20,7 +19,6 @@ const Dropzone: FC<DropzoneProps> = ({ isError, label, onDrop }) => {
       onDrop(acceptedFiles);
     },
   });
-
   return (
     <div className="space-y-1.5">
       <Label className={isError ? 'text-red-500' : ''}>{label}</Label>
