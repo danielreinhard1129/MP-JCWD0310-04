@@ -26,7 +26,7 @@ export interface IFormCreateEvent {
   location: string;
   availableSeats: number;
   booked: number;
-  image: string;
+  image: [];
   startDate: Date;
   endDate: Date;
   price: number;
