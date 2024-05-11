@@ -1,21 +1,80 @@
+'use client';
+import { Badge } from '@/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import useGetPromotions from '@/hooks/api/event/useGetPromotionEvent';
+import { appConfig } from '@/utils/config';
+import { format } from 'date-fns';
+import { CalendarIcon, LocateIcon } from 'lucide-react';
 import Image from 'next/image';
 
-const PromotionCard = () => {
+const PromotionCard = ({}) => {
+  const { data: events } = useGetPromotions();
   return (
-    <section className="container relative py-8 px-20 h-full ">
-      <div className="absolute inset-0 overflow-hidden mx-20 my-5 rounded-sm h-full bg-opacity-75 bg-gradient-to-tr from-black via-60% to-100%">
-        <Image
-           src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-           alt="heroSection"
-           objectFit="cover"
-           fill
-        />
-      </div>
-      <div className="inset-0 text-black relative">
-        <h1 className="text-4xl font-semibold">Promotions</h1>
-        <div className='text-lg text-white'>
-          <p>Code:</p>
-          <p className='bg-[#EC6D47] w-1/6'>ASDFGHJKL</p>
+    <section className="bg-blue-700 w-full text-white md:pt-7 md:pb-10 py-6 pb-8">
+      <div className=" px-8 container mx-auto md:px-36">
+        <div className="md:pb-4 mb-2 text-center">
+          <h1 className="font-bold md:text-2xl text-xl">PROMOTION !!!</h1>
+          <p className="font-light">Kumpulan event-event laris manis di sini</p>
+        </div>
+        <div className="flex justify-center">
+          <Carousel className="md:w-full w-[300px] max-w-7xl">
+            <CarouselContent className="-ml-2 md:-ml-4 w-[300px]">
+              {events.map((event, index) => {
+                return (
+                  <>
+                    <CarouselItem className="pl-2 md:pl-4">
+                      <Card>
+                        <div className="relative h-[200px] rounded-t-xl overflow-hidden">
+                          <Image
+                            src={
+                              appConfig.baseURL + `/assets${event.thumbnail}`
+                            }
+                            alt="foto1"
+                            objectFit="cover"
+                            layout="fill"
+                          />
+                        </div>
+                        <CardHeader>
+                          <CardTitle className="md:text-xl">
+                            {event.title}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col md:text-xs gap-2">
+                          <p className="flex gap-4">
+                            <CalendarIcon size={15} />
+                            {format(event.startDate, 'dd MMMM yyyy')} -
+                            {format(event.endDate, 'dd MMMM yyyy')}
+                          </p>
+                          <p className="flex gap-4">
+                            <LocateIcon size={15} />
+                            {event.location}
+                          </p>
+                        </CardContent>
+                        <CardFooter className="flex gap-2">
+                          <Badge>{event.category}</Badge>
+                        </CardFooter>
+                      </Card>
+                    </CarouselItem>
+                  </>
+                );
+              })}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </div>
       </div>
     </section>

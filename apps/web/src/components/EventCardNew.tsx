@@ -11,14 +11,17 @@ import { FC } from 'react';
 import { Badge } from './ui/badge';
 import Link from 'next/link';
 import { Button } from './ui/button';
+import { CalendarIcon, LocateIcon } from 'lucide-react';
 
 interface EventCardProps {
   title: string;
   description: string;
+  location: string;
   category: string;
   author: string;
   imageUrl: string;
-  createdAt: Date;
+  startDate: Date;
+  endDate: Date;
   eventId: number;
   price: number;
 }
@@ -28,9 +31,11 @@ const EventCardNew: FC<EventCardProps> = ({
   author,
   category,
   description,
+  location,
   price,
   imageUrl,
-  createdAt,
+  startDate,
+  endDate,
   eventId,
 }) => {
   return (
@@ -45,17 +50,23 @@ const EventCardNew: FC<EventCardProps> = ({
               fill
             />
           </div>
-          <CardTitle className="md:text-xl">Metal Rock</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col md:text-xs gap-2">
-          <Badge variant="outline" className="rounded-sm bg-green-100">
-            {category}
-          </Badge>
-          <h2 className="line-clamp-2 text-lg font-semibold">{title}</h2>
-          <p className="text-sm font-light italic">
-            {format(createdAt, 'dd MMMM yyyy')} - {author}
+          <div >
+            <Badge variant="outline" className="rounded-sm bg-green-100 w-16 h-5 text-sm">
+              {category}
+            </Badge>
+          </div>
+          <CardTitle className="md:text-xl">{title}</CardTitle>
+          <h2 className="line-clamp-2 text-lg font-semibold"></h2>
+          <p className="text-sm font-light italic flex gap-1">
+          <CalendarIcon size={20} />
+            {format(startDate, 'dd MMMM yyyy')} - {format(endDate, 'dd MMMM yyyy')}
           </p>
-          <p className="line-clamp-3 ">{description}</p>
+          <p className="line-clamp-3 flex gap-1">
+          <LocateIcon size={20} />
+            {location}
+            </p>
         </CardContent>
         <CardFooter className="flex justify-between md:text-sm">
           <div>{price}</div>

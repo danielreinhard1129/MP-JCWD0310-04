@@ -1,4 +1,4 @@
-import SideBar from '@/components/admin/SideBar';
+import SideBar from '@/components/root/SideBar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (

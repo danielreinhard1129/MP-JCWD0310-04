@@ -1,160 +1,50 @@
-'use client'
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
-import { CalendarIcon, LocateIcon } from 'lucide-react';
-import Image from 'next/image';
+'use client';
+import EventCardNew from '@/components/EventCardNew';
+import Pagination from '@/components/Pagination';
+import useGetEvents from '@/hooks/api/event/useGetEvents';
+import { appConfig } from '@/utils/config';
+import { useState } from 'react';
 
-const UpcomingEvent = () => {
+export default function UpcomingEvent() {
+  const [page, setPage] = useState<number>(1);
+  const { data: events, meta } = useGetEvents({
+    page: page,
+    take: 6,
+  });
+
+  const handleChangePaginate = ({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  };
+
   return (
     <section className="container mx-auto py-6 md:px-36 px-8">
-    <h1 className="font-bold md:text-2xl text-xl md:py-6">
-      Upcoming Event
-    </h1>
-    <div className="grid grid-cols-1 md:grid-cols-4 py-4 md:gap-4">
-      <Card className="shadow-xl md:mb-4 mb-6">
-        <div className="relative h-[200px] rounded-t-xl overflow-hidden">
-          <Image
-            src="/assets/images/carousel-1.svg"
-            alt="foto1"
-            fill
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
-        <CardHeader>
-          <CardTitle className="md:text-xl">Metal Rock</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col md:text-xs gap-2">
-          <p className="flex gap-4">
-            <CalendarIcon size={15} />
-            10 - 11 Aug 2024
-          </p>
-          <p className="flex gap-4">
-            <LocateIcon size={15} />
-            Lapangan Panahan Kenari, Yogyakarta
-          </p>
-        </CardContent>
-        <CardFooter className="flex justify-between md:text-sm">
-          <div>Rp. 10.000</div>
-          <Button className="bg-blue-700">Buy</Button>
-        </CardFooter>
-      </Card>
-      <Card className="shadow-xl md:mb-4 mb-6">
-        <div className="relative h-[200px] rounded-t-xl overflow-hidden">
-          <Image
-            src="/assets/images/carousel-1.svg"
-            alt="foto1"
-            fill
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
-        <CardHeader>
-          <CardTitle className="md:text-xl">Metal Rock</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col md:text-xs gap-2">
-          <p className="flex gap-4">
-            <CalendarIcon size={15} />
-            10 - 11 Aug 2024
-          </p>
-          <p className="flex gap-4">
-            <LocateIcon size={15} />
-            Lapangan Panahan Kenari, Yogyakarta
-          </p>
-        </CardContent>
-        <CardFooter className="flex justify-between md:text-sm">
-          <div>Rp. 10.000</div>
-          <Button className="bg-blue-700">Buy</Button>
-        </CardFooter>
-      </Card>
-      <Card className="shadow-xl md:mb-4 mb-6">
-        <div className="relative h-[200px] rounded-t-xl overflow-hidden">
-          <Image
-            src="/assets/images/carousel-1.svg"
-            alt="foto1"
-            fill
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
-        <CardHeader>
-          <CardTitle className="md:text-xl">Metal Rock</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col md:text-xs gap-2">
-          <p className="flex gap-4">
-            <CalendarIcon size={15} />
-            10 - 11 Aug 2024
-          </p>
-          <p className="flex gap-4">
-            <LocateIcon size={15} />
-            Lapangan Panahan Kenari, Yogyakarta
-          </p>
-        </CardContent>
-        <CardFooter className="flex justify-between md:text-sm">
-          <div>Rp. 10.000</div>
-          <Button className="bg-blue-700">Buy</Button>
-        </CardFooter>
-      </Card>
-      <Card className="shadow-xl md:mb-4 mb-6">
-        <div className="relative h-[200px] rounded-t-xl overflow-hidden">
-          <Image
-            src="/assets/images/carousel-1.svg"
-            alt="foto1"
-            fill
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
-        <CardHeader>
-          <CardTitle className="md:text-xl">Metal Rock</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col md:text-xs gap-2">
-          <p className="flex gap-4">
-            <CalendarIcon size={15} />
-            10 - 11 Aug 2024
-          </p>
-          <p className="flex gap-4">
-            <LocateIcon size={15} />
-            Lapangan Panahan Kenari, Yogyakarta
-          </p>
-        </CardContent>
-        <CardFooter className="flex justify-between md:text-sm">
-          <div>Rp. 10.000</div>
-          <Button className="bg-blue-700">Buy</Button>
-        </CardFooter>
-      </Card>
-      <Card className="shadow-xl md:mb-4 mb-6">
-        <div className="relative h-[200px] rounded-t-xl overflow-hidden">
-          <Image
-            src="/assets/images/carousel-1.svg"
-            alt="foto1"
-            fill
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
-        <CardHeader>
-          <CardTitle className="md:text-xl">Metal Rock</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col md:text-xs gap-2">
-          <p className="flex gap-4">
-            <CalendarIcon size={15} />
-            10 - 11 Aug 2024
-          </p>
-          <p className="flex gap-4">
-            <LocateIcon size={15} />
-            Lapangan Panahan Kenari, Yogyakarta
-          </p>
-        </CardContent>
-        <CardFooter className="flex justify-between md:text-sm">
-          <div>Rp. 10.000</div>
-          <Button className="bg-blue-700">Buy</Button>
-        </CardFooter>
-      </Card>
-    </div>
-  </section>
-  )
+      <h1 className="font-bold md:text-2xl text-xl md:py-6">Upcoming Event</h1>
+      <div className="grid grid-cols-1 md:grid-cols-4 py-4 md:gap-4">
+        {events.map((event, index) => {
+          return (
+            <EventCardNew
+              key={index}
+              title={event.title}
+              author={event.organizer.username}
+              category={event.category}
+              description={event.description}
+              location={event.location}
+              imageUrl={appConfig.baseURL + `/assets${event.thumbnail}`}
+              startDate={new Date(event.startDate)}
+              endDate={new Date(event.endDate)}
+              price={event.price}
+              eventId={event.id}
+            />
+          );
+        })}
+      </div>
+      <div className="flex justify-center my-4">
+        <Pagination
+          total={meta?.total || 0}
+          take={meta?.take || 0}
+          onChangePage={handleChangePaginate}
+        />
+      </div>
+    </section>
+  );
 }
-
-export default UpcomingEvent
