@@ -2,27 +2,22 @@
 
 import { axiosInstance } from '@/lib/axios';
 import { Event } from '@/types/event.type';
-import { IPaginationMeta, IPaginationQueries } from '@/types/pagination.type';
+
 import { useEffect, useState } from 'react';
 
-interface IGetEventsQuery extends IPaginationQueries {
-  search?: string;
-}
 
-const useGetEvents = (queries: IGetEventsQuery) => {
+
+const useGetPromotions = () => {
   const [data, setData] = useState<Event[]>([]);
-  const [meta, setMeta] = useState<IPaginationMeta | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  
 
-  const getEvents = async () => {
+  const getPromotions = async () => {
     try {
       const { data } = await axiosInstance.get('/events', {
-        params: queries,
+        
       });
 
       setData(data.data);
-      setMeta(data.meta);
     } catch (error) {
       console.log(error);
     } finally {
@@ -31,10 +26,10 @@ const useGetEvents = (queries: IGetEventsQuery) => {
   };
 
   useEffect(() => {
-    getEvents();
-  }, [queries?.page, queries?.search]);
+    getPromotions();
+  }, []);
 
-  return { data, meta, isLoading };
+  return { data, isLoading };
 };
 
-export default useGetEvents;
+export default useGetPromotions;

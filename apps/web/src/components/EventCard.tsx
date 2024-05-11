@@ -17,7 +17,7 @@ const EventCard = () => {
         Rekomendasi Event
       </h1>
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid md:grid-cols-4 gap-4">
         <Card className="shadow-xl md:mb-4 mb-6">
           <div className="relative h-[200px] rounded-t-xl overflow-hidden">
             <Image
