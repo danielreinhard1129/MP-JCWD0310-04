@@ -4,22 +4,28 @@ import Image from 'next/image'
 
 const HeroSection = () => {
   return (
-    <section className="relative h-screen">
-    <div className="absolute inset-0 overflow-hidden">
-      <Image
-        src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt="heroSection"
-        objectFit="cover"
-        fill
-      />
-    </div>
-    <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 text-white bg-black bg-opacity-70">
-      <h1 className="text-4xl md:text-6xl font-bold mb-4">Eventure</h1>
-      <p className="text-lg md:text-xl font-medium mb-6">
-        Music becomes your new Adventure
-      </p>
-    </div>
-  </section>
+    <section className="relative h-[400px] overflow-hidden bg-[url('https://tecdn.b-cdn.net/img/new/slides/041.webp')] bg-cover bg-no-repeat p-12 text-center text-white">
+        <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-black/60 bg-fixed">
+          <div className="flex h-full items-center justify-center">
+            <div className="text-white">
+              <h2 className="mb-4 md:text-8xl text-6xl font-semibold">
+                EVENTURE
+              </h2>
+              <h4 className="mb-6 md:text-xl text-lg font-semibold">
+                MUSIC BECOMES YOUR NEW ADVENTURE
+              </h4>
+              <button
+                type="button"
+                className="inline-block rounded border-2 border-neutral-50 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50 transition duration-150 ease-in-out hover:border-neutral-300 hover:text-neutral-200 focus:border-neutral-300 focus:text-neutral-200 focus:outline-none focus:ring-0 active:border-neutral-300 active:text-neutral-200 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
+                data-twe-ripple-init
+                data-twe-ripple-color="light"
+              >
+                Call to action
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
   )
 }
 

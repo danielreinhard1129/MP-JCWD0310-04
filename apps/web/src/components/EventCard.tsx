@@ -128,9 +128,9 @@ const EventCard = () => {
         </Card>
       </div>
 
-      <div className=" grid grid-cols-4 gap-5 py-4">
-        <Card className="flex w-full col-span-3 shadow-xl">
-          <div className="relative w-full h-full rounded-xl overflow-hidden">
+      <div className=" grid md:grid-cols-4 md:gap-5 py-4">
+        <Card className="flex w-full md:col-span-3 shadow-xl">
+          <div className="relative w-full h-full md:rounded-xl rounded-t-xl overflow-hidden">
             <Image
               src="/assets/images/carousel-1.svg"
               alt="foto1"
@@ -196,7 +196,7 @@ const EventCard = () => {
           </Card>
 
           {/* button */}
-          <Button className=" bg-blue-700 h-[100px] text-xl">
+          <Button className=" bg-blue-700 h-[200px] text-xl">
             View All
             <ArrowUpRight size={48} />
           </Button>
