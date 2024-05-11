@@ -6,9 +6,10 @@ import { Textarea } from './ui/textarea';
 
 interface FormInputProps {
   name: string;
+  label: string;
   placeholder: string;
-  onChange: FormikHandlers['handleChange'];
-  onBlur: FormikHandlers['handleBlur'];
+  handleChange: FormikHandlers['handleChange'];
+  handleBlur: FormikHandlers['handleBlur'];
   value: string;
   isError: boolean;
   error: string | undefined;
@@ -16,23 +17,24 @@ interface FormInputProps {
 
 const FormTextArea: React.FC<FormInputProps> = ({
   name,
+  label,
   placeholder,
-  onChange,
-  onBlur,
   value,
   isError,
   error,
+  handleChange,
+  handleBlur,
 }) => {
   return (
     <div className="flex flex-col space-y-1.5">
-      <Label htmlFor={placeholder} className={isError ? 'text-red-500' : ''}>
-        {placeholder}
+      <Label htmlFor={name} className={isError ? 'text-red-500' : ''}>
+        {label}
       </Label>
       <Textarea
         name={name}
         placeholder={placeholder}
-        onChange={onChange}
-        onBlur={onBlur}
+        onChange={handleChange}
+        onBlur={handleBlur}
         value={value}
         style={{ resize: 'none' }}
         rows={4}

@@ -35,8 +35,8 @@ const PreviewImages: FC<PreviewImagesProps> = ({
           >
             <Image
               src={images ? `${appConfig.baseURL}/${image}` : image}
-              alt="image"
-              objectFit="contain"
+              alt="thumbnail"
+              style={{ objectFit: 'contain' }}
               fill
             />
 

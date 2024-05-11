@@ -9,7 +9,7 @@ interface FormInputProps {
   name: string;
   label: string;
   type: string;
-  value: string;
+  value: string | number | Date;
   placeholder: string;
   isError: boolean;
   error: string | undefined;
@@ -20,7 +20,7 @@ interface FormInputProps {
 const FormInput: React.FC<FormInputProps> = ({
   name,
   label,
-  type = 'text',
+  type,
   isError,
   placeholder,
   value,
@@ -28,6 +28,10 @@ const FormInput: React.FC<FormInputProps> = ({
   handleChange,
   handleBlur,
 }) => {
+  const displayValue =
+    typeof value === 'object' && value instanceof Date
+      ? value.toISOString() // Jika tipe data adalah Date, ubah menjadi string format tanggal
+      : value; // Jika bukan tipe data Date, biarkan nilai tetap sama
   return (
     <div className="flex flex-col space-y-1.5">
       <Label htmlFor={name} className={isError ? 'text-red-500' : 'text-black'}>
@@ -39,7 +43,7 @@ const FormInput: React.FC<FormInputProps> = ({
         placeholder={placeholder}
         onBlur={handleBlur}
         onChange={handleChange}
-        value={value}
+        value={displayValue}
         className={isError ? 'border-red-500' : ''}
       />
       {isError ? <div className="text-xs text-red-500">{error}</div> : null}

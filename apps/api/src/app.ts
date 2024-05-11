@@ -9,7 +9,7 @@ import express, {
 import cors from 'cors';
 import { PORT } from './config';
 import { AuthRouter } from './routers/auth.router';
-import { EventRouter} from './routers/event.router'
+import { EventRouter } from './routers/event.router';
 
 export default class App {
   private app: Express;
@@ -59,7 +59,7 @@ export default class App {
     });
 
     this.app.use('/api/auth', authRouter.getRouter());
-    this.app.use('/api/event', eventRouter.getRouter());
+    this.app.use('/api/events', eventRouter.getRouter());
   }
 
   public start(): void {

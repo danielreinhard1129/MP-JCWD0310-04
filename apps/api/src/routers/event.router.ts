@@ -17,8 +17,8 @@ export class EventRouter {
     this.router.post(
       '/',
       verifyToken,
-      uploader('IMG', '/images').array('imageUrl', 1),
-      this.eventController.createEvent,
+      uploader('IMG', '/images').array('thumbnail', 1),
+      this.eventController.createEventController,
     );
     this.router.get('/:id', this.eventController.getEventController);
   }

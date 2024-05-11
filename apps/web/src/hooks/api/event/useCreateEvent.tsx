@@ -10,32 +10,39 @@ const useCreateEvent = () => {
   const router = useRouter();
   const createEvent = async (payload: IFormCreateEvent) => {
     try {
-      const { title,description,location, availableSeats,booked,image,startDate,endDate,price,time,isFree, category, organizerId } =
-        payload;
+      const {
+        title,
+        description,
+        location,
+        thumbnail,
+        category,
+        organizerId,
+        availableSeats,
+        booked,
+        price,
+        time,
+        isFree,
+        startDate,
+        endDate,
+      } = payload;
 
       const createEventForm = new FormData();
-
-      for (const [key, value] of Object.entries(payload)) {
-        console.log('key', key);
-        console.log('value', value);
-      }
 
       createEventForm.append('title', title);
       createEventForm.append('description', description);
       createEventForm.append('location', location);
-      createEventForm.append('availableSeats', JSON.stringify(availableSeats),);
-      createEventForm.append('booked', JSON.stringify(booked));
-      createEventForm.append('image', JSON.stringify(image));
-      createEventForm.append('startDate', startDate.toUTCString());
-      createEventForm.append('endDate', endDate.toUTCString());
-      createEventForm.append('price', JSON.stringify(price));
-      createEventForm.append('time', time.toTimeString());
-      createEventForm.append('isFree', JSON.stringify(isFree));
       createEventForm.append('category', category);
       createEventForm.append('organizerId', String(organizerId));
+      createEventForm.append('availableSeats', String(availableSeats));
+      createEventForm.append('booked', String(booked));
+      createEventForm.append('price', String(price));
+      createEventForm.append('time', time);
+      createEventForm.append('isFree', String(isFree));
+      createEventForm.append('startDate', String(startDate));
+      createEventForm.append('endDate', String(endDate));
 
-      image.forEach((file: FileWithPath) => {
-        createEventForm.append('image', file);
+      thumbnail.forEach((file: FileWithPath) => {
+        createEventForm.append('thumbnail', file);
       });
 
       await axiosInstance.post<Event>('/events', createEventForm);
