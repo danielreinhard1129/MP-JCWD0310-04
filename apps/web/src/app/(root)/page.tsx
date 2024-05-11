@@ -1,3 +1,8 @@
+'use client';
+import Autocomplete from '@/components/AutoComplete';
+import Pagination from '@/components/Pagination';
+import useGetEvents from '@/hooks/api/event/useGetEvents';
+import { appConfig } from '@/utils/config';
 import Image from 'next/image';
 import {
   Card,
@@ -18,155 +23,66 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import EventCard from '@/components/EventCard';
-import HeroSection from '@/components/HeroSection';
+import { useState } from 'react';
+import EventCardNew from '@/components/EventCardNew';
 
 export default function Home() {
+  const [page, setPage] = useState<number>(1);
+  const { data: events, meta } = useGetEvents({
+    page: page,
+    take: 6,
+  });
+
+  const handleChangePaginate = ({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  };
+
   return (
     <>
-    {/* herosection */}
-     
-      <HeroSection/>
+      {/* herosection */}
+      <section className="relative h-[400px] overflow-hidden bg-[url('https://tecdn.b-cdn.net/img/new/slides/041.webp')] bg-cover bg-no-repeat p-12 text-center text-white">
+        <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-black/60 bg-fixed">
+          <div className="flex h-full items-center justify-center">
+            <div className="text-white">
+              <h2 className="mb-4 md:text-8xl text-6xl font-semibold">
+                EVENTURE
+              </h2>
+              <h4 className="mb-6 md:text-xl text-lg font-semibold">
+                MUSIC BECOMES YOUR NEW ADVENTURE
+              </h4>
+              <Autocomplete />
+            </div>
+          </div>
+        </div>
+      </section>
       {/* eventCard upcoming event */}
       <section className="container mx-auto py-6 md:px-36 px-8">
         <h1 className="font-bold md:text-2xl text-xl md:py-6">
           Upcoming Event
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-4 py-4 md:gap-4">
-          <Card className="shadow-xl md:mb-4 mb-6">
-            <div className="relative h-[200px] rounded-t-xl overflow-hidden">
-              <Image
-                src="/assets/images/carousel-1.svg"
-                alt="foto1"
-                fill
-                style={{ objectFit: 'cover' }}
+          {events.map((event, index) => {
+            return (
+              <EventCardNew
+                key={index}
+                title={event.title}
+                author={event.organizer.username}
+                category={event.category}
+                description={event.description}
+                imageUrl={appConfig.baseURL + `/assets${event.thumbnail}`}
+                createdAt={new Date(event.createdAt)}
+                price={event.price}
+                eventId={event.id}
               />
-            </div>
-            <CardHeader>
-              <CardTitle className="md:text-xl">Metal Rock</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col md:text-xs gap-2">
-              <p className="flex gap-4">
-                <CalendarIcon size={15} />
-                10 - 11 Aug 2024
-              </p>
-              <p className="flex gap-4">
-                <LocateIcon size={15} />
-                Lapangan Panahan Kenari, Yogyakarta
-              </p>
-            </CardContent>
-            <CardFooter className="flex justify-between md:text-sm">
-              <div>Rp. 10.000</div>
-              <Button className="bg-blue-700">Buy</Button>
-            </CardFooter>
-          </Card>
-          <Card className="shadow-xl md:mb-4 mb-6">
-            <div className="relative h-[200px] rounded-t-xl overflow-hidden">
-              <Image
-                src="/assets/images/carousel-1.svg"
-                alt="foto1"
-                fill
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-            <CardHeader>
-              <CardTitle className="md:text-xl">Metal Rock</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col md:text-xs gap-2">
-              <p className="flex gap-4">
-                <CalendarIcon size={15} />
-                10 - 11 Aug 2024
-              </p>
-              <p className="flex gap-4">
-                <LocateIcon size={15} />
-                Lapangan Panahan Kenari, Yogyakarta
-              </p>
-            </CardContent>
-            <CardFooter className="flex justify-between md:text-sm">
-              <div>Rp. 10.000</div>
-              <Button className="bg-blue-700">Buy</Button>
-            </CardFooter>
-          </Card>
-          <Card className="shadow-xl md:mb-4 mb-6">
-            <div className="relative h-[200px] rounded-t-xl overflow-hidden">
-              <Image
-                src="/assets/images/carousel-1.svg"
-                alt="foto1"
-                fill
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-            <CardHeader>
-              <CardTitle className="md:text-xl">Metal Rock</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col md:text-xs gap-2">
-              <p className="flex gap-4">
-                <CalendarIcon size={15} />
-                10 - 11 Aug 2024
-              </p>
-              <p className="flex gap-4">
-                <LocateIcon size={15} />
-                Lapangan Panahan Kenari, Yogyakarta
-              </p>
-            </CardContent>
-            <CardFooter className="flex justify-between md:text-sm">
-              <div>Rp. 10.000</div>
-              <Button className="bg-blue-700">Buy</Button>
-            </CardFooter>
-          </Card>
-          <Card className="shadow-xl md:mb-4 mb-6">
-            <div className="relative h-[200px] rounded-t-xl overflow-hidden">
-              <Image
-                src="/assets/images/carousel-1.svg"
-                alt="foto1"
-                fill
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-            <CardHeader>
-              <CardTitle className="md:text-xl">Metal Rock</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col md:text-xs gap-2">
-              <p className="flex gap-4">
-                <CalendarIcon size={15} />
-                10 - 11 Aug 2024
-              </p>
-              <p className="flex gap-4">
-                <LocateIcon size={15} />
-                Lapangan Panahan Kenari, Yogyakarta
-              </p>
-            </CardContent>
-            <CardFooter className="flex justify-between md:text-sm">
-              <div>Rp. 10.000</div>
-              <Button className="bg-blue-700">Buy</Button>
-            </CardFooter>
-          </Card>
-          <Card className="shadow-xl md:mb-4 mb-6">
-            <div className="relative h-[200px] rounded-t-xl overflow-hidden">
-              <Image
-                src="/assets/images/carousel-1.svg"
-                alt="foto1"
-                fill
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-            <CardHeader>
-              <CardTitle className="md:text-xl">Metal Rock</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col md:text-xs gap-2">
-              <p className="flex gap-4">
-                <CalendarIcon size={15} />
-                10 - 11 Aug 2024
-              </p>
-              <p className="flex gap-4">
-                <LocateIcon size={15} />
-                Lapangan Panahan Kenari, Yogyakarta
-              </p>
-            </CardContent>
-            <CardFooter className="flex justify-between md:text-sm">
-              <div>Rp. 10.000</div>
-              <Button className="bg-blue-700">Buy</Button>
-            </CardFooter>
-          </Card>
+            );
+          })}
+          <div className="flex justify-center my-4">
+            <Pagination
+              total={meta?.total || 0}
+              take={meta?.take || 0}
+              onChangePage={handleChangePaginate}
+            />
+          </div>
         </div>
       </section>
       {/* promotion */}
@@ -419,8 +335,7 @@ export default function Home() {
           </Card>
         </div>
       </section> */}
-      <EventCard/>
-
+      <EventCard />
     </>
   );
 }
