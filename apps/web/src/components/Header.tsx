@@ -34,43 +34,13 @@ const Header = () => {
     dispatch(logoutAction());
   };
   const pathname = usePathname();
-  const isExplorePage = pathname === '/explore';
+  // const isExplorePage = pathname === '/explore';
 
   return (
     <nav className="mx-auto px-10 md:px-52 py-6 md:py-4 flex justify-between gap-6 items-center bg-blue-700 w-full text-white">
       <div className="font-bold cursor-pointer" onClick={logout}>
         Logo
       </div>
-      {!isExplorePage && (
-        <div className="relative flex md:mr-auto md:w-[400px]" id="search">
-          <span
-            className="flex items-center whitespace-nowrap px-3 py-[0.25rem] text-surface dark:border-neutral-400 dark:text-white [&>svg]:h-5 [&>svg]:w-5"
-            id="button-addon2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="white"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
-          </span>
-          <input
-            type="search"
-            className="relative m-0 block flex-auto rounded border border-solid border-neutral-200 bg-white bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-black outline-none transition duration-200 ease-in-out placeholder:text-gray-600 focus:z-[3] focus:border-primary focus:shadow-inset focus:outline-none motion-reduce:transition-none dark:border-white/10 dark:text-white dark:placeholder:text-white dark:autofill:shadow-autofill dark:focus:border-primary"
-            placeholder="Search"
-            aria-label="Search"
-            id="exampleFormControlInput2"
-            aria-describedby="button-addon2"
-          />
-        </div>
-      )}
       {Boolean(id) ? (
         <>
           <div className="font-bold hidden md:flex md:justify-between md:gap-10 md:items-center">
