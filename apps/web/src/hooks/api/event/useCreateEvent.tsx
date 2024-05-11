@@ -1,5 +1,6 @@
 'use client';
 
+import { useToast } from '@/components/ui/use-toast';
 import { axiosInstance } from '@/lib/axios';
 import { Event, IFormCreateEvent } from '@/types/event.type';
 import { AxiosError } from 'axios';
@@ -8,6 +9,7 @@ import { FileWithPath } from 'react-dropzone';
 
 const useCreateEvent = () => {
   const router = useRouter();
+  const { toast } = useToast();
   const createEvent = async (payload: IFormCreateEvent) => {
     try {
       const {
@@ -46,8 +48,11 @@ const useCreateEvent = () => {
       });
 
       await axiosInstance.post<Event>('/events', createEventForm);
-      // toast success here 👇👇👇
-      router.push('/');
+      // toast success here
+      toast({
+        description: 'create event success',
+      });
+      router.push('/dashboard');
     } catch (error) {
       if (error instanceof AxiosError) {
         // TODO: replace log with toast

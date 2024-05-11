@@ -12,11 +12,13 @@ export interface Event {
   booked: number;
   price: number;
   time: string;
+  createdAt: Date;
   updatedAt: Date;
-  user: User;
   isFree: Boolean;
   startDate: Date;
   endDate: Date;
+
+  organizer: User;
 }
 
 export interface IFormCreateEvent {

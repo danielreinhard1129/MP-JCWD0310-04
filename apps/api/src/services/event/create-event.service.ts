@@ -2,7 +2,7 @@ import prisma from '@/prisma';
 import { Event } from '@prisma/client';
 
 interface CreateEventBody
-  extends Omit<Event, 'id' | 'thumbnail' | 'updatedAt'> {}
+  extends Omit<Event, 'id' | 'thumbnail' | 'updatedAt' | 'createdAt'> {}
 export const createEventService = async (
   body: CreateEventBody,
   file: Express.Multer.File,
