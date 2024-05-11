@@ -94,4 +94,4 @@ const Profile = () => {
     </section>
   );
 };
-export default AuthGuard(Profile);
+export default (Profile);

@@ -13,42 +13,11 @@ import { useRouter } from 'next/navigation';
 
 const SideBar = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const { id } = useAppSelector((state) => state.user);
-  // const menuItems =[
-  //   title: "Pages",
-  //   list:[
-  //     {
-  //       title: "Dashboard",
-  //       path:"/dashboard",
-  //       icon:<LayoutDashboard/>
-  //     },
-  //     {
-  //       title: "Statistic",
-  //       path:"/statistic",
-  //       icon:<BarChart2/>
-  //     },
-  //     {
-  //       title: "Event List",
-  //       path:"/event-list",
-  //       icon:<LayoutList/>
-  //     },
-  //     {
-  //       title: "Transaction",
-  //       path:"/transaction",
-  //       icon: <CreditCard />
-  //     },
-  //     {
-  //       title: "Approval",
-  //       path:"/aprroval",
-  //       icon: <SquareCheckBig />
-  //     },
-  //   ]
-  // ]
+
   return (
-    <section className="container">
-      <div className="flex flex-col gap-6 bg-[#EEEE]">
-        <h1 className="font-bold text-2xl w-1/5">Logo</h1>
+    <section className="container bg-[#EEEE] h-screen w-full">
+      <div className="flex flex-col gap-6">
+        <h1 className="font-bold text-2xl p-5 mt-10">Logo</h1>
         <div className="w-4/5">
           <Button
             variant="ghost"
