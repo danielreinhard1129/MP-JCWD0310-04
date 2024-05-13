@@ -13,6 +13,7 @@ const useCreateEvent = () => {
   const router = useRouter();
   const { toast } = useToast();
   const createEvent = async (payload: IFormCreateEvent) => {
+    setIsLoading(true);
     try {
       const createEventForm = new FormData();
       // console.log(createEvent);

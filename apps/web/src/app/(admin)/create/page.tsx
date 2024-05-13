@@ -5,7 +5,6 @@ import useCreateEvent from '@/hooks/api/event/useCreateEvent';
 import { useAppSelector } from '@/redux/hooks';
 import { Formik } from 'formik';
 import CreateEventForm from './components/CreateEventForm';
-// import useGetCategory from '@/hooks/api/event/userGetCategory';
 
 const Write = () => {
   const { createEvent, isLoading } = useCreateEvent();
@@ -33,10 +32,11 @@ const Write = () => {
   };
 
   return (
-    <main className="container mx-auto px-4">
+    <main className="ml-10 py-10">
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
+          console.log(values);
           createEvent({ ...values, organizerId: id });
         }}
       >

@@ -18,8 +18,8 @@ interface FormInputProps {
   setFieldValue: any;
   handleChange: FormikHandlers['handleChange'];
   handleBlur: FormikHandlers['handleBlur'];
+  disabled: boolean;
 }
-
 
 const FormInputCurrency: React.FC<FormInputProps> = ({
   name,
@@ -32,6 +32,7 @@ const FormInputCurrency: React.FC<FormInputProps> = ({
   setFieldValue,
   handleChange,
   handleBlur,
+  disabled,
 }) => {
   return (
     <div className="flex flex-col space-y-1.5">
@@ -39,6 +40,7 @@ const FormInputCurrency: React.FC<FormInputProps> = ({
         {label}
       </Label>
       <CurrencyInput
+        disabled={disabled}
         name={name}
         id={name}
         intlConfig={{ locale: 'id-ID', currency: 'IDR' }}
