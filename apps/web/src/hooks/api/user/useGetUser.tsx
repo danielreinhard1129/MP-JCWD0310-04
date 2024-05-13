@@ -1,15 +1,17 @@
+'use client'
+
 import { axiosInstance } from '@/lib/axios';
-import { Event } from '@/types/event.type';
+import { User } from '@/types/user.type';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
-const useGetEvent = (id: number) => {
-  const [data, setData] = useState<Event | null>(null);
+const useGetUser = (id: number) => {
+  const [data, setData] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getEvent = async () => {
+  const getUser = async () => {
     try {
-      const { data } = await axiosInstance.get<Event>(`/events/${id}`);
+      const { data } = await axiosInstance.get<User>(`/users/${id}`);
       setData(data);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -22,9 +24,9 @@ const useGetEvent = (id: number) => {
   };
 
   useEffect(() => {
-    getEvent();
+    getUser();
   }, []);
-  return { event: data, isLoading, refetch: getEvent };
+  return { user: data, isLoading, refetch: getUser };
 };
 
-export default useGetEvent;
+export default useGetUser;

@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   LayoutList,
   SquareCheckBig,
+  SquareGanttChart,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -15,7 +16,7 @@ const SideBar = () => {
   const router = useRouter();
 
   return (
-    <section className="container bg-[#EEEE] h-screen w-full">
+    <section className="container fixed top-0 left-0 bg-[#EEEE] h-screen w-64">
       <div className="flex flex-col gap-6">
         <h1 className="font-bold text-2xl p-5 mt-10">Logo</h1>
         <div className="w-4/5">
@@ -58,6 +59,14 @@ const SideBar = () => {
           >
             <SquareCheckBig />
             <span className="mr-10">Approval</span>
+          </Button>
+          <Button
+            variant="ghost"
+            className="flex gap-2 justify-between cursor-pointer"
+            onClick={() => router.push('/create-event')}
+          >
+            <SquareGanttChart />
+            <span className="mr-10">Create Event</span>
           </Button>
         </div>
       </div>
