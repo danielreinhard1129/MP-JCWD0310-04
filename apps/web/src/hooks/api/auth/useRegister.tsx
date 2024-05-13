@@ -19,7 +19,7 @@ const useRegister = () => {
       await axiosInstance.post<RegisterArgs>('/auth/register', payload);
 
       toast({
-        description: 'User created successfully',
+        description: 'Register successfully',
       });
       router.push('/login');
     } catch (error) {

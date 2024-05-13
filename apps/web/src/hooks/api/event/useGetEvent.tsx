@@ -3,7 +3,7 @@ import { Event } from '@/types/event.type';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
-const useGetBlog = (id: number) => {
+const useGetEvent = (id: number) => {
   const [data, setData] = useState<Event | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -27,4 +27,4 @@ const useGetBlog = (id: number) => {
   return { event: data, isLoading, refetch: getEvent };
 };
 
-export default useGetBlog;
+export default useGetEvent;

@@ -14,15 +14,18 @@ import { validationSchema } from './validationSchema';
 import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
+// import useGetCategory from '@/hooks/api/event/userGetCategory';
 
 const Write = () => {
   const [isFree, setIsFree] = useState(false);
   const { createEvent } = useCreateEvent();
   const { id } = useAppSelector((state) => state.user);
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = (e: any) => {
     setIsFree(e.target.checked);
   };
+
+  // const { categories } = useGetCategory();
 
   const {
     handleSubmit,
@@ -37,8 +40,9 @@ const Write = () => {
       title: '',
       description: '',
       location: '',
+      venue: '',
       thumbnail: [],
-      category: '',
+      // categoryId: 0,
       availableSeats: 0,
       booked: 0,
       price: 0,
@@ -46,11 +50,16 @@ const Write = () => {
       isFree: false,
       startDate: new Date(),
       endDate: new Date(),
+      ticketTypes: [
+        { name: '', price: 0 },
+        { name: '', price: 0 },
+        { name: '', price: 0 },
+      ],
     },
     validationSchema,
     onSubmit: (values) => {
+      // console.log(...values);
       createEvent({ ...values, organizerId: id });
-      console.log(values);
     },
   });
 
@@ -80,17 +89,6 @@ const Write = () => {
             handleChange={handleChange}
             handleBlur={handleBlur}
           />
-          <FormInput
-            name="location"
-            label="location"
-            type="text"
-            placeholder="Location"
-            value={values.location}
-            error={errors.location}
-            isError={!!touched.location && !!errors.location}
-            handleBlur={handleBlur}
-            handleChange={handleChange}
-          />
 
           <FormInput
             name="availableSeats"
@@ -100,18 +98,6 @@ const Write = () => {
             value={values.availableSeats}
             error={errors.availableSeats}
             isError={!!touched.availableSeats && !!errors.availableSeats}
-            handleBlur={handleBlur}
-            handleChange={handleChange}
-          />
-
-          <FormInput
-            name="booked"
-            label="booked"
-            type="number"
-            placeholder="Booked"
-            value={values.booked}
-            error={errors.booked}
-            isError={!!touched.booked && !!errors.booked}
             handleBlur={handleBlur}
             handleChange={handleChange}
           />
@@ -136,7 +122,7 @@ const Write = () => {
           <FormInput
             name="startDate"
             label="startDate"
-            type="datetime-local"
+            type="date"
             placeholder="Start Date"
             value={values.startDate}
             error={errors.startDate as string}
@@ -148,7 +134,7 @@ const Write = () => {
           <FormInput
             name="endDate"
             label="endDate"
-            type="datetime-local"
+            type="date"
             placeholder="End Date"
             value={values.endDate}
             error={errors.endDate as string}
@@ -189,18 +175,76 @@ const Write = () => {
             />
           </div>
 
+          {/* <div>
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Select Category
+            </label>
+            <select
+              id="categories"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              name="categoryId"
+              onChange={handleChange}
+            >
+              <option selected>Choose a category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div> */}
+
+          {/* <div>
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Select Location
+            </label>
+            <select
+              id="locations"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              name="location"
+              onChange={handleChange}
+            >
+              <option>Choose a Location</option>
+              <option value="Yogyakarta">Yogyakarta</option>
+              <option value="Jakarta">Jakarta</option>
+              <option value="Semarang">Semarang</option>
+              <option value="Bandung">Bandung</option>
+              <option value="Surabaya">Surabaya</option>
+            </select>
+          </div> */}
+
           <FormInput
-            name="category"
-            label="category"
-            placeholder="Category"
+            name="venue"
+            label="venue"
+            placeholder="venue"
             type="text"
-            value={values.category}
-            error={errors.category}
-            isError={!!touched.category && !!errors.category}
+            value={values.venue}
+            error={errors.venue}
+            isError={!!touched.venue && !!errors.venue}
             handleBlur={handleBlur}
             handleChange={handleChange}
           />
 
+          <div>
+            {values.ticketTypes.map((ticketType, index) => (
+              <div key={index}>
+                <label>Tipe Ticket {index + 1}</label>
+                <input
+                  type="text"
+                  name={`ticketTypes[${index}].name`}
+                  value={ticketType.name}
+                  onChange={handleChange}
+                />
+                <label>Harga Ticket {index + 1}</label>
+                <input
+                  type="number"
+                  name={`ticketTypes[${index}].price`}
+                  value={ticketType.price}
+                  onChange={handleChange}
+                />
+              </div>
+            ))}
+          </div>
           <div className="mb-4 flex justify-end">
             <Button type="submit">Submit</Button>
           </div>
