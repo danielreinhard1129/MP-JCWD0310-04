@@ -12,7 +12,7 @@ import {
 
 const EventList = () => {
   return (
-    <section className="container h-screen w-full ">
+    <section className="container h-screen w-full ml-60">
       <div className="text-4xl font-bold p-5 mt-10">
         <h1>Event List</h1>
       </div>

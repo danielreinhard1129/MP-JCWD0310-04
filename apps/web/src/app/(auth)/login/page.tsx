@@ -56,6 +56,7 @@ const Login = () => {
                     handleBlur={handleBlur}
                     handleChange={handleChange}
                   />
+
                   <p
                     className="cursor-pointer text-end text-xs"
                     onClick={() => router.push('/forgot-password')}

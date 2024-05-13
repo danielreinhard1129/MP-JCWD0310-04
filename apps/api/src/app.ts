@@ -12,6 +12,8 @@ import { PORT } from './config';
 import { AuthRouter } from './routers/auth.router';
 import { EventRouter } from './routers/event.router';
 import { join } from 'path';
+import { UserRouter } from './routers/user.router';
+import { ReviewRouter } from './routers/review.router';
 
 export default class App {
   private app: Express;
@@ -56,6 +58,8 @@ export default class App {
   private routes(): void {
     const authRouter = new AuthRouter();
     const eventRouter = new EventRouter();
+    const userRouter = new UserRouter();
+    const reviewRouter = new ReviewRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student !`);
@@ -63,6 +67,8 @@ export default class App {
 
     this.app.use('/api/auth', authRouter.getRouter());
     this.app.use('/api/events', eventRouter.getRouter());
+    this.app.use('/api/profile', userRouter.getRouter());
+    this.app.use('/api/review', reviewRouter.getRouter());
   }
 
   public start(): void {

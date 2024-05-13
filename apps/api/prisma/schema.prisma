@@ -26,6 +26,7 @@ model User {
   Reward                      Reward[]
   referralHistoriesAsReferrer ReferralHistory[] @relation("referralHistoriesAsReferrer")
   referralHistoriesAsReferred ReferralHistory[] @relation("referralHistoriesAsReferred")
+  Review                      Review[]
 
   @@map("users")
 }
@@ -73,6 +74,7 @@ model Event {
   // reviews        Review[]
   // Order          Order[]
   // Voucher        Voucher[]
+  Review         Review[]
 
   @@map("events")
 }
@@ -133,18 +135,18 @@ model Reward {
 //   @@map("orders")
 // }
 
-// model Review {
-//   id        Int      @id @default(autoincrement())
-//   user      User     @relation(fields: [userId], references: [id])
-//   event     Event    @relation(fields: [eventId], references: [id])
-//   userId    Int
-//   eventId   Int
-//   rating    Int
-//   comment   String
-//   createdAt DateTime @default(now())
+model Review {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id])
+  userId    Int
+  eventId   Int
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
 
-//   @@map("reviews")
-// }
+  @@map("reviews")
+}
 
 enum Role {
   CUSTOMER

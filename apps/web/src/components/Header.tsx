@@ -37,7 +37,7 @@ const Header = () => {
   // const isExplorePage = pathname === '/explore';
 
   return (
-    <nav className="mx-auto px-10 md:px-52 py-6 md:py-4 flex justify-between gap-6 items-center bg-blue-700 w-full text-white">
+    <nav className="mx-auto px-10 md:px-52 py-6 md:py-4 flex justify-between gap-6 items-center bg-primary w-full text-white">
       <div className="font-bold cursor-pointer" onClick={logout}>
         Logo
       </div>
@@ -89,7 +89,7 @@ const Header = () => {
                 </Avatar>
                 <ul className="flex-between flex w-full flex-col items-start gap-2">
                   <li className="w-full">
-                    <Link href="">
+                    <Link href="/profile">
                       <Button
                         variant="ghost"
                         className="w-full flex justify-between"
@@ -100,7 +100,7 @@ const Header = () => {
                     </Link>
                   </li>
                   <li className="w-full">
-                    <Link href="">
+                    <Link href="/profile">
                       <Button
                         variant="ghost"
                         className="w-full flex justify-between"
@@ -161,14 +161,14 @@ const Header = () => {
           </h1>
           <Button
             variant="outline"
-            className="text-blue-700 font-bold cursor-pointer"
+            className="text-primary font-bold cursor-pointer"
             onClick={() => router.push('/register')}
           >
             Register
           </Button>
           <Button
             variant="outline"
-            className="text-blue-700 font-bold cursor-pointer"
+            className="text-primary font-bold cursor-pointer"
             onClick={() => router.push('/login')}
           >
             Login
