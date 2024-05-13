@@ -1,22 +1,10 @@
 'use client';
 import Autocomplete from '@/components/AutoComplete';
 import EventCard from '@/components/EventCard';
-import PromotionCard from '@/components/PromotionCard';
+import PromotionEvent from '@/components/PromotionEvent';
 import UpcomingEvent from '@/components/UpcomingEvent';
-import useGetEvents from '@/hooks/api/event/useGetEvents';
-import { useState } from 'react';
 
 export default function Home() {
-  const [page, setPage] = useState<number>(1);
-  const { data: events, meta } = useGetEvents({
-    page: page,
-    take: 6,
-  });
-
-  const handleChangePaginate = ({ selected }: { selected: number }) => {
-    setPage(selected + 1);
-  };
-
   return (
     <>
       {/* herosection */}
@@ -40,7 +28,7 @@ export default function Home() {
       <UpcomingEvent />
 
       {/* promotion */}
-      <PromotionCard  />
+      <PromotionEvent />
 
       {/* Popular event */}
 

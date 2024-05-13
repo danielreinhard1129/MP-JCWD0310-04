@@ -6,13 +6,12 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { format } from 'date-fns';
+import { CalendarIcon, LocateIcon } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FC } from 'react';
 import { Badge } from './ui/badge';
-import Link from 'next/link';
 import { Button } from './ui/button';
-import { CalendarIcon, LocateIcon } from 'lucide-react';
-
 interface EventCardProps {
   title: string;
   description: string;
@@ -38,6 +37,10 @@ const EventCardNew: FC<EventCardProps> = ({
   endDate,
   eventId,
 }) => {
+  const priceEvent = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+  }).format(price);
   return (
     <Link href={`/${eventId}`}>
       <Card className="shadow-xl md:mb-4 mb-6">
@@ -52,24 +55,28 @@ const EventCardNew: FC<EventCardProps> = ({
           </div>
         </CardHeader>
         <CardContent className="flex flex-col md:text-xs gap-2">
-          <div >
-            <Badge variant="outline" className="rounded-sm bg-green-100 w-16 h-5 text-sm">
+          <div>
+            <Badge
+              variant="outline"
+              className="rounded-sm bg-green-100 w-16 h-5 text-sm"
+            >
               {category}
             </Badge>
           </div>
           <CardTitle className="md:text-xl">{title}</CardTitle>
           <h2 className="line-clamp-2 text-lg font-semibold"></h2>
           <p className="text-sm font-light italic flex gap-1">
-          <CalendarIcon size={20} />
-            {format(startDate, 'dd MMMM yyyy')} - {format(endDate, 'dd MMMM yyyy')}
+            <CalendarIcon size={20} />
+            {format(startDate, 'dd MMMM yyyy')} -{' '}
+            {format(endDate, 'dd MMMM yyyy')}
           </p>
           <p className="line-clamp-3 flex gap-1">
-          <LocateIcon size={20} />
+            <LocateIcon size={20} />
             {location}
-            </p>
+          </p>
         </CardContent>
         <CardFooter className="flex justify-between md:text-sm">
-          <div>{price}</div>
+          <div>{priceEvent}</div>
           <Button className="bg-blue-700">Buy</Button>
         </CardFooter>
       </Card>

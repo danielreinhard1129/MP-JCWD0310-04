@@ -27,7 +27,7 @@ const SideBar = () => {
             <LayoutDashboard />
             <span className="mr-10"> Account Info</span>
           </Button>
-          <Button
+          {/* <Button
             variant="ghost"
             className="flex gap-2 justify-between cursor-pointer"
             onClick={() => router.push('/change-email')}
@@ -42,7 +42,7 @@ const SideBar = () => {
           >
             <LayoutList />
             <span className="mr-10">Change Password</span>
-          </Button>
+          </Button> */}
           
         </div>
       </div>
