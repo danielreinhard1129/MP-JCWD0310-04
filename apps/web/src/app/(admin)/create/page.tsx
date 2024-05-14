@@ -1,6 +1,6 @@
 'use client';
 
-import AuthGuard from '@/hoc/AuthGuard';
+import AuthGuardAdmin from '@/hoc/AuthGuardAdmin';
 import useCreateEvent from '@/hooks/api/event/useCreateEvent';
 import { useAppSelector } from '@/redux/hooks';
 import { Formik } from 'formik';
@@ -28,6 +28,9 @@ const Write = () => {
       { name: '', price: 0 },
       { name: '', price: 0 },
     ],
+    voucherName: '',
+    voucherLimit: 0,
+    voucherPrice: 0,
   };
 
   return (
@@ -44,4 +47,4 @@ const Write = () => {
   );
 };
 
-export default AuthGuard(Write);
+export default AuthGuardAdmin(Write);

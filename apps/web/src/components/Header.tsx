@@ -7,6 +7,7 @@ import {
   UserIcon,
   LogOut,
   Settings,
+  CircleDollarSign,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -29,6 +30,7 @@ const Header = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { id } = useAppSelector((state) => state.user);
+  const { points } = useAppSelector((state) => state.user);
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -39,8 +41,16 @@ const Header = () => {
 
   return (
     <nav className="mx-auto px-10 md:px-42 py-6 md:py-4 flex justify-between gap-6 items-center bg-primary w-full text-white">
-      <div className="relative cursor-pointer md:h-[50px] min-h-full md:w-1/4 w-1/2" onClick={logout}>
-        <Image src="/assets/images/logo-no-background.png" alt="logonobg" fill />
+      <div
+        className="relative cursor-pointer md:h-[50px] min-h-full md:w-1/4 w-1/2"
+        onClick={() => router.push('/')}
+      >
+        <Image
+          src="/assets/images/logo-whitenobg.png"
+          alt="logonobg"
+          style={{ objectFit: 'contain' }}
+          fill
+        />
       </div>
       {Boolean(id) ? (
         <>
@@ -67,6 +77,10 @@ const Header = () => {
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <CircleDollarSign className="mr-2 h-4 w-4" />
+                  <span>{points}</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.push('/profile')}>
                   <UserIcon className="mr-2 h-4 w-4" />
                   <span>Profile</span>

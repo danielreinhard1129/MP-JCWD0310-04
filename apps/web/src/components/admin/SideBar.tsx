@@ -39,7 +39,7 @@ const SideBar = () => {
     <section className="fixed top-0 left-0 bg-primary text-white h-screen w-64">
       <div className=" relative h-[50px] w-full mx-auto  p-5 mt-10">
         <Image
-          src="/assets/images/logo-no-background.png"
+          src="/assets/images/logo-whitenobg.png"
           alt="logonobg"
           style={{ objectFit: 'contain' }}
           fill

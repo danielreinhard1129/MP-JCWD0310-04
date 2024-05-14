@@ -20,7 +20,7 @@ import { notFound } from 'next/navigation';
 
 const AccountInfo = () => {
   const { id } = useAppSelector((state) => state.user);
-  const { user } = useGetUser(id);
+  const { user } = useGetUser(Number(id));
 
   // if (!user) {
   //   return notFound();
@@ -30,10 +30,10 @@ const AccountInfo = () => {
       <section className="py-10   ">
         <div className="flex justify-between">
           <h1 className="font-bold text-4xl">Account Information</h1>
-          <div className="flex items-center gap-3">
+          {/* <div className="flex items-center gap-3">
             <Switch />
             <p className="text-sm font-semibold">Become Admin</p>
-          </div>
+          </div> */}
         </div>
         <hr className="w-full my-6" />
 
@@ -50,15 +50,15 @@ const AccountInfo = () => {
             <div className="flex flex-col gap-7 md:py-4 md:w-auto">
               <div className="flex items-center justify-between">
                 <Label className="w-28 text-left mr-4">Username</Label>
-                {/* <p>{user.username}</p> */}
+                <p>{user?.username}</p>
               </div>
               <div className="flex justify-between ">
                 <Label className="w-28 text-left mr-4">Email:</Label>
-                {/* <p>{user.email}</p> */}
+                <p>{user?.email}</p>
               </div>
               <div className="flex justify-between ">
                 <Label className="w-28 text-left mr-4">Referral</Label>
-                {/* <p>{user.referral}</p> */}
+                <p>{user?.referral}</p>
               </div>
             </div>
             <div className="w-full gap-y-2 md:w-auto">
