@@ -195,18 +195,6 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 handleBlur={handleBlur}
                 handleChange={handleChange}
               />
-
-              <FormInput
-                name="time"
-                label="Time"
-                error={errors.time}
-                isError={!!touched.time && !!errors.time}
-                handleBlur={handleBlur}
-                handleChange={handleChange}
-                placeholder="time"
-                type="time"
-                value={values.time}
-              />
             </div>
             <h2 className="text-2xl font-mono mt-5">
               <hr className="mt-3" />
@@ -276,12 +264,6 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                       setFieldValue={setFieldValue}
                       disabled={isFree}
                     />
-                    {/* <Input
-                      type="number"
-                      name={`ticketTypes[${index}].price`}
-                      value={ticketType.price}
-                      onChange={handleChange}
-                    /> */}
                   </div>
                 </div>
               ))}

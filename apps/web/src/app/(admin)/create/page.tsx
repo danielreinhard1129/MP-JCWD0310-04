@@ -20,7 +20,6 @@ const Write = () => {
     availableSeats: 0,
     booked: 0,
     price: 0,
-    time: '',
     isFree: false,
     startDate: new Date(),
     endDate: new Date(),

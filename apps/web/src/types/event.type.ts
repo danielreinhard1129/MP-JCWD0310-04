@@ -11,7 +11,6 @@ export interface Event {
   thumbnail: string;
   availableSeats: number;
   price: number;
-  time: string;
   isFree: boolean;
   startDate: Date;
   endDate: Date;
@@ -35,7 +34,6 @@ export interface IFormCreateEvent {
   venue: string;
   booked: number;
   price: number;
-  time: string;
   isFree: boolean;
   startDate: Date;
   endDate: Date;

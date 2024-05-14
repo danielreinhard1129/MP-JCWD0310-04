@@ -62,7 +62,6 @@ model Event {
   availableSeats Int
   booked         Int
   price          Int
-  time           String
   startDate      DateTime
   endDate        DateTime
   isFree         Boolean      @default(false)

@@ -25,7 +25,6 @@ export const createEventService = async (
       isFree,
       booked,
       price,
-      time,
 
       // ARRAY
       ticketTypes,
@@ -54,7 +53,6 @@ export const createEventService = async (
         description: String(description),
         location: String(location),
         venue: String(venue),
-        time: String(time),
         categoryId: Number(categoryId),
         startDate: new Date(startDate),
         endDate: new Date(endDate),
