@@ -52,7 +52,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             variant="outline"
             className="inline-block px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-sm"
           >
-            {event.category}
+            {event.category.name}
           </Badge>
           <div className="flex items-center justify-between">
             <div>
@@ -71,7 +71,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
               </Button>
             </div>
           </div>
-              <hr className='h-px my-8 bg-gray-200 border-0 dark:bg-gray-700'/>
+          <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
         </div>
       </section>
 

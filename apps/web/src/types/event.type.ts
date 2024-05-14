@@ -12,7 +12,7 @@ export interface Event {
   availableSeats: number;
   price: number;
   time: string;
-  isFree: Boolean;
+  isFree: boolean;
   startDate: Date;
   endDate: Date;
   createdAt: Date;
@@ -36,7 +36,7 @@ export interface IFormCreateEvent {
   booked: number;
   price: number;
   time: string;
-  isFree: Boolean;
+  isFree: boolean;
   startDate: Date;
   endDate: Date;
 

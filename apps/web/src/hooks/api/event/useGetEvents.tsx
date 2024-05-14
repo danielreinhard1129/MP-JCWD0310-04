@@ -13,7 +13,6 @@ const useGetEvents = (queries: IGetEventsQuery) => {
   const [data, setData] = useState<Event[]>([]);
   const [meta, setMeta] = useState<IPaginationMeta | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  
 
   const getEvents = async () => {
     try {

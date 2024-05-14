@@ -26,7 +26,7 @@ export default function UpcomingEvent() {
               key={index}
               title={event.title}
               author={event.organizer.username}
-              category={event.category}
+              category={event.category.name}
               description={event.description}
               location={event.location}
               imageUrl={appConfig.baseURL + `/assets${event.thumbnail}`}

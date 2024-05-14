@@ -34,7 +34,11 @@ const useLogin = () => {
       toast({
         description: 'login success',
       });
-      router.replace('/');
+      if (data.data.role === 'ORGANIZER') {
+        router.replace('/dashboard');
+      } else {
+        router.replace('/');
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         toast({

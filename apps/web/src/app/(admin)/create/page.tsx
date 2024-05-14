@@ -36,7 +36,6 @@ const Write = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
-          console.log(values);
           createEvent({ ...values, organizerId: id });
         }}
       >
