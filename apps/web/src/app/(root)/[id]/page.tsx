@@ -38,7 +38,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   return (
     <main>
       <section className=" mb-8 ">
-        <div className="relative h-[400px] overflow-hidden w">
+        <div className="relative h-[400px] overflow-hidden ">
           <Image
             fill
             src={`${appConfig.baseURL}/assets${event.thumbnail}`}
@@ -76,29 +76,26 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
       </section>
 
       {/* information of event and organizer */}
-      <div className="flex justify-between mx-5">
-        <div className=" flex flex-col items-center">
-          <Avatar className="mx-auto">
+      <div className="md:flex md:justify-between mx-5">
+        <div className=" flex flex-col md:items-center">
+          <Avatar className="md:mx-auto">
             <AvatarImage
               src="https://github.com/shadcn.png"
               className="rounded-full w-24 h-24"
             />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <h2 className=" mb-2 text-xl font-bold">Hosted By:</h2>
-          <p className="text-base font-light ">{event.organizer.username}</p>
+          <div className="flex gap-3 md:flex-col md:gap-0">
+            <h2 className=" md:mb-2 text-xl font-bold">Hosted By:</h2>
+            <p className="text-xl font-semibold ">{event.organizer.username}</p>
+          </div>
         </div>
         <div className="w-2/3 mx-4">
-          <p className="text-sm text-gray-700">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iure
-            temporibus ad maiores, nisi minus vero expedita excepturi, illo
-            culpa neque dignissimos sed sunt illum eligendi nobis earum
-            aspernatur ab debitis.
-          </p>
+          <p className="text-sm text-gray-700">{event.description}</p>
         </div>
 
         {/* buy ticket data */}
-        <div className=" w-1/3 pb-2">
+        <div className="md:w-1/3 w-1/2  md:pb-2">
           <div className="border p-4 rounded ">
             <p className="text-sm font-light italic flex gap-2 place-items-center">
               <CalendarIcon className="w-8 h-8 " />
@@ -111,15 +108,19 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             </div>
             <p className="line-clamp-3 flex gap-1">
               <LocateIcon size={15} />
-              {event.location}
+              {event.location},<br />
+              {event.venue}
             </p>
+         
+             
+            
             <div>
               <p>Available Seat :</p>
               {event.availableSeats}
             </div>
             <div>
               <p>Booked :</p>
-              <div className="flex gap-2 justify-between">
+              <div className="flex gap-2 justify-evenly">
                 <SquarePlus size={20} />
                 {event.booked}
                 <SquareMinus size={20} />

@@ -42,10 +42,7 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mx-auto md:max-w-6xl pr-2">
-        {/* <h1 className="text-4xl font-semibold md:mx-10 mt-5">
-          Create a New Event
-        </h1> */}
+      <div className="mx-auto md:max-w-6xl pr-2rounded-lg mt-5">
         <h1 className="text-4xl font-semibold md:mx-10 mt-5">
           Create a New Event
         </h1>
@@ -159,9 +156,9 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
           <div>
             {/* Date and Time */}
             <h2 className="text-2xl font-mono mt-0 md:mb-3">
-            <hr className='mt-3 md:hidden'/>
+              <hr className="mt-3 md:hidden" />
               Date & Time
-            <hr className="mb-3 md:mt-3" />
+              <hr className="mb-3 md:mt-3" />
             </h2>
             <div className="flex items-center gap-5 my-1 ">
               <Input
@@ -289,9 +286,15 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 </div>
               ))}
             </div>
-            <div className="flex justify-end mt-4 mr-8">
-              <Button disabled={isLoading} type="submit">
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <div className="flex justify-end mt-4 mr-8 ">
+              <Button
+                disabled={isLoading}
+                type="submit"
+                className=" text-[#6EDEF5]"
+              >
+                {isLoading && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin " />
+                )}
                 {isLoading ? 'Loading' : 'Submit'}
               </Button>
             </div>

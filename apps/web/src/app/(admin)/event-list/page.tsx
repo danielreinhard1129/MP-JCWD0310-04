@@ -1,5 +1,5 @@
 // 'use client';
-// import TableEventList from '@/components/admin/TableEventList';
+// import  from '@/components/admin/TableEventList';
 // import useGetEvent from '@/hooks/api/event/useGetEvent';
 
 // export default function EventList() {

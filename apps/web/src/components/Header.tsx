@@ -23,6 +23,7 @@ import { Separator } from '@/components/ui/separator';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { logoutAction } from '@/redux/slices/userSlice';
+import Image from 'next/image';
 
 const Header = () => {
   const router = useRouter();
@@ -37,9 +38,9 @@ const Header = () => {
   // const isExplorePage = pathname === '/explore';
 
   return (
-    <nav className="mx-auto px-10 md:px-52 py-6 md:py-4 flex justify-between gap-6 items-center bg-primary w-full text-white">
-      <div className="font-bold cursor-pointer" onClick={logout}>
-        Logo
+    <nav className="mx-auto px-10 md:px-42 py-6 md:py-4 flex justify-between gap-6 items-center bg-primary w-full text-white">
+      <div className="relative cursor-pointer md:h-[50px] min-h-full md:w-1/4 w-1/2" onClick={logout}>
+        <Image src="/assets/images/logo-no-background.png" alt="logonobg" fill />
       </div>
       {Boolean(id) ? (
         <>
