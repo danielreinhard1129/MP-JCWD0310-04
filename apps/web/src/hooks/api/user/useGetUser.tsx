@@ -1,18 +1,19 @@
-'use client'
+'use client';
 
-import { axiosInstance } from '@/lib/axios';
 import { User } from '@/types/user.type';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
 const useGetUser = (id: number) => {
-  const [data, setData] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const getUser = async () => {
     try {
-      const { data } = await axiosInstance.get<User>(`/users/${id}`);
-      setData(data);
+      const { data } = await axios.get<User>(
+        `http://localhost:8000/api/users/${id}`,
+      );
+      setUser(data);
     } catch (error) {
       if (error instanceof AxiosError) {
         // ubah ke toast
@@ -25,8 +26,8 @@ const useGetUser = (id: number) => {
 
   useEffect(() => {
     getUser();
-  }, []);
-  return { user: data, isLoading, refetch: getUser };
+  }, [id]);
+  return { user, isLoading, refetch: getUser };
 };
 
 export default useGetUser;

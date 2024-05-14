@@ -1,20 +1,8 @@
-import { Event } from "./event.type";
-
 export interface User {
   id: number;
   username: string;
   email: string;
-  referral: string;
   role: string;
+  referral: string;
+  points: number;
 }
-
-// export interface Review {
-
-//   id: number;
-//   rating: number;
-//   comment:string;
-//   eventId?:number;
-//   userId?: number;
-//   user: User;
-//   event: Event
-// }
