@@ -11,7 +11,6 @@ export interface Event {
   thumbnail: string;
   availableSeats: number;
   price: number;
-  time: string;
   isFree: boolean;
   startDate: Date;
   endDate: Date;
@@ -19,9 +18,11 @@ export interface Event {
   updatedAt: Date;
   booked: number;
   categoryId: number;
+  voucherId: number;
 
   category: Category;
   organizer: User;
+  voucher: Voucher;
 }
 
 export interface IFormCreateEvent {
@@ -35,12 +36,17 @@ export interface IFormCreateEvent {
   venue: string;
   booked: number;
   price: number;
-  time: string;
   isFree: boolean;
   startDate: Date;
   endDate: Date;
 
+  // Ticket Type
   ticketTypes: TicketType[];
+
+  // Voucher
+  voucherName: string;
+  voucherLimit: number;
+  voucherPrice: number;
 }
 
 export interface Promotion {

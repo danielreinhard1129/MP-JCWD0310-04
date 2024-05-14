@@ -99,12 +99,15 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
           <div className="border p-4 rounded ">
             <p className="text-sm font-light italic flex gap-2 place-items-center">
               <CalendarIcon className="w-8 h-8 " />
-              {format(event.startDate, 'dd MMMM yyyy')} -{' '}
-              {format(event.endDate, 'dd MMMM yyyy')}
+              {format(event.startDate, 'hh MMM yyyy')} -{' '}
+              {format(event.endDate, 'hh MMM yyyy')}
             </p>
             <div className="flex gap-2 my-1">
               <p>Time : </p>
-              {event.time}
+              <p>
+                {format(new Date(event.startDate), 'HH:mm')} -{' '}
+                {format(new Date(event.endDate), 'HH:mm')}{' '}
+              </p>
             </div>
             <p className="line-clamp-3 flex gap-1">
               <LocateIcon size={15} />

@@ -4,6 +4,9 @@ import { Event } from '@prisma/client';
 interface CreateEventBody
   extends Omit<Event, 'isFree' | 'thumbnail' | 'updatedAt' | 'createdAt'> {
   ticketTypes: string;
+  voucherName: string;
+  voucherLimit: number;
+  voucherPrice: number;
   isFree: string;
 }
 export const createEventService = async (
@@ -25,10 +28,14 @@ export const createEventService = async (
       isFree,
       booked,
       price,
-      time,
 
-      // ARRAY
+      // Ticket Type
       ticketTypes,
+
+      // Voucher
+      voucherName,
+      voucherLimit,
+      voucherPrice,
     } = body;
 
     const existingTitle = await prisma.event.findFirst({
@@ -54,7 +61,6 @@ export const createEventService = async (
         description: String(description),
         location: String(location),
         venue: String(venue),
-        time: String(time),
         categoryId: Number(categoryId),
         startDate: new Date(startDate),
         endDate: new Date(endDate),
@@ -76,6 +82,17 @@ export const createEventService = async (
           eventId: event.id,
         })),
         skipDuplicates: true,
+      });
+
+      await prisma.voucher.create({
+        data: {
+          voucher: String(voucherName),
+          price: Number(voucherPrice),
+          limit: Number(voucherLimit),
+          isUsed: false,
+          organizerId: Number(organizerId),
+          eventId: Number(event.id),
+        },
       });
     }
 

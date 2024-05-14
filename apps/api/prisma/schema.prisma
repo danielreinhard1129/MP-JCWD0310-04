@@ -27,6 +27,7 @@ model User {
   referralHistoriesAsReferrer ReferralHistory[] @relation("referralHistoriesAsReferrer")
   referralHistoriesAsReferred ReferralHistory[] @relation("referralHistoriesAsReferred")
   Review                      Review[]
+  Voucher                     Voucher[]
 
   @@map("users")
 }
@@ -62,7 +63,6 @@ model Event {
   availableSeats Int
   booked         Int
   price          Int
-  time           String
   startDate      DateTime
   endDate        DateTime
   isFree         Boolean      @default(false)
@@ -71,10 +71,9 @@ model Event {
   categoryId     Int
   category       Category     @relation(fields: [categoryId], references: [id])
   ticketTypes    TicketType[]
-  // reviews        Review[]
   // Order          Order[]
-  // Voucher        Voucher[]
-  Review         Review[]
+  voucher        Voucher[]
+  review         Review[]
 
   @@map("events")
 }
@@ -102,20 +101,20 @@ model TicketType {
 //   @@map("locations")
 // }
 
-// model Voucher {
-//   id          Int      @id @default(autoincrement())
-//   event       Event    @relation(fields: [eventId], references: [id])
-//   organizer   User     @relation(fields: [organizerId], references: [id])
-//   eventId     Int
-//   organizerId Int
-//   voucher     String
-//   price       Float
-//   limit       Int
-//   isUsed      Boolean  @default(false)
-//   createdAt   DateTime @default(now())
+model Voucher {
+  id          Int      @id @default(autoincrement())
+  event       Event    @relation(fields: [eventId], references: [id])
+  organizer   User     @relation(fields: [organizerId], references: [id])
+  eventId     Int
+  organizerId Int
+  voucher     String
+  price       Float
+  limit       Int
+  isUsed      Boolean  @default(false)
+  createdAt   DateTime @default(now())
 
-//   @@map("vouchers")
-// }
+  @@map("vouchers")
+}
 
 model Reward {
   id         Int      @id @default(autoincrement())

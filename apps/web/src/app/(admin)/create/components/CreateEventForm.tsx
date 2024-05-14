@@ -195,18 +195,6 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 handleBlur={handleBlur}
                 handleChange={handleChange}
               />
-
-              <FormInput
-                name="time"
-                label="Time"
-                error={errors.time}
-                isError={!!touched.time && !!errors.time}
-                handleBlur={handleBlur}
-                handleChange={handleChange}
-                placeholder="time"
-                type="time"
-                value={values.time}
-              />
             </div>
             <h2 className="text-2xl font-mono mt-5">
               <hr className="mt-3" />
@@ -262,7 +250,6 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                     />
                   </div>
                   <div>
-                    {/* <Label>Price Ticket {index + 1}</Label> */}
                     <FormInputCurrency
                       name={`ticketTypes[${index}].price`}
                       label={`Price Ticket ${index + 1}`}
@@ -276,21 +263,75 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                       setFieldValue={setFieldValue}
                       disabled={isFree}
                     />
-                    {/* <Input
-                      type="number"
-                      name={`ticketTypes[${index}].price`}
-                      value={ticketType.price}
-                      onChange={handleChange}
-                    /> */}
                   </div>
                 </div>
               ))}
             </div>
+
+            <h2 className="text-2xl font-mono mt-5">
+              <hr className="mt-3" />
+              Voucher
+              <hr className="mb-3" />
+            </h2>
+
+            <div className="flex items-center mt-4">
+              <Label className="w-28 text-left mr-4">Title</Label>
+              <div className="flex-1">
+                <FormInput
+                  name="voucherName"
+                  label=""
+                  error={errors.voucherName}
+                  isError={!!touched.voucherName && !!errors.voucherName}
+                  handleBlur={handleBlur}
+                  handleChange={handleChange}
+                  placeholder="Voucher Name"
+                  type="text"
+                  value={values.voucherName}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center mt-4">
+              <Label className="w-28 text-left mr-4">Limit</Label>
+              <div className="flex-1">
+                <FormInput
+                  name="voucherLimit"
+                  label=""
+                  error={errors.voucherLimit}
+                  isError={!!touched.voucherLimit && !!errors.voucherLimit}
+                  handleBlur={handleBlur}
+                  handleChange={handleChange}
+                  placeholder="Limit"
+                  type="number"
+                  value={values.voucherLimit}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center mt-4">
+              <Label className="w-28 text-left mr-4">Price</Label>
+              <div className="flex-1">
+                <FormInputCurrency
+                  name="voucherPrice"
+                  label=""
+                  type="number"
+                  placeholder="Price"
+                  value={values.voucherPrice}
+                  error={errors.price}
+                  isError={!!touched.price && !!errors.price}
+                  handleBlur={handleBlur}
+                  handleChange={handleChange}
+                  setFieldValue={setFieldValue}
+                  disabled={isFree}
+                />
+              </div>
+            </div>
+
             <div className="flex justify-end mt-4 mr-8 ">
               <Button
                 disabled={isLoading}
                 type="submit"
-                className=" text-[#6EDEF5]"
+                className=" text-white"
               >
                 {isLoading && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin " />

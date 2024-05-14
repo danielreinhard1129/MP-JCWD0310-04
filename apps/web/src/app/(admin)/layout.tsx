@@ -2,9 +2,9 @@ import Sidebar from '@/components/admin/SideBar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div >
+    <div>
       <Sidebar />
-      <div className="ml-52">{children}</div>
+      <div className="ml-64">{children}</div>
     </div>
   );
 };

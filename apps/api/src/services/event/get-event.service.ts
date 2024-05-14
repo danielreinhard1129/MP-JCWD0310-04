@@ -8,7 +8,6 @@ export const getEventService = async (id: number) => {
         organizer: true,
         category: true,
       },
-
     });
 
     if (!event) {
