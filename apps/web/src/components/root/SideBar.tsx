@@ -1,13 +1,7 @@
 'use client';
-import EventList from '@/components/admin/EventList';
 import { Button } from '@/components/ui/button';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
-  BarChart2,
-  CreditCard,
-  LayoutDashboard,
-  LayoutList,
-  SquareCheckBig,
+  LayoutDashboard
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 

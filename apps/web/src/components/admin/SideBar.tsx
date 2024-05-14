@@ -1,7 +1,5 @@
 'use client';
-import EventList from '@/components/admin/EventList';
 import { Button } from '@/components/ui/button';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
   BarChart2,
   CreditCard,
@@ -10,15 +8,23 @@ import {
   SquareCheckBig,
   SquareGanttChart,
 } from 'lucide-react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 const SideBar = () => {
   const router = useRouter();
 
   return (
-    <section className="container fixed top-0 left-0 bg-[#EEEE] h-screen w-64">
-      <div className="flex flex-col gap-6">
-        <h1 className="font-bold text-2xl p-5 mt-10">Logo</h1>
+    <section className="container fixed top-0 left-0 bg-primary text-[#6EDEF5] h-screen w-64">
+      <div className="flex flex-col gap-6 mt-5">
+        <div className=" relative h-[50px] w-full mx-auto  p-5 mt-10">
+          <Image
+            src="/assets/images/logo-no-background.png"
+            alt="logonobg"
+            fill
+          />
+        </div>
+
         <div className="w-4/5">
           <Button
             variant="ghost"
@@ -63,10 +69,10 @@ const SideBar = () => {
           <Button
             variant="ghost"
             className="flex gap-2 justify-between cursor-pointer"
-            onClick={() => router.push('/create-event')}
+            onClick={() => router.push('/create')}
           >
             <SquareGanttChart />
-            <span className="mr-10">Create Event</span>
+            <span className="mr-10 ">Create Event</span>
           </Button>
         </div>
       </div>

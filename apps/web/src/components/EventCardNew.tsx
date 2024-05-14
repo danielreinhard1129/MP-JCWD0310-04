@@ -42,7 +42,7 @@ const EventCardNew: FC<EventCardProps> = ({
     currency: 'IDR',
   }).format(price);
   return (
-    <Link href={`/${eventId}`}>
+    <Link href={`${eventId}`}>
       <Card className="shadow-xl md:mb-4 mb-6">
         <CardHeader>
           <div className="relative h-[200px] rounded-t-xl overflow-hidden">

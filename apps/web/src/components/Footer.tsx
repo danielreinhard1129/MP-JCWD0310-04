@@ -17,7 +17,7 @@ export const Footer = () => {
           className="border-[#3B3938] bg-[#212120] border-t-0 border-l-0 border-r-0 border-b-2 rounded-none"
         />
       </div> */}
-      <div className="grid grid-cols-3 justify-evenly bg-[#212120] text-[#E7E7E5] pt-16 pb-8 px-4">
+      <div className="grid grid-cols-3 justify-evenly bg-primary text-[#E7E7E5] pt-16 pb-8 px-4">
         <div>
           <h2 className=" text-lg font-semibold">Eventure</h2>
           <div className="text-sm space-y-1">
@@ -57,7 +57,7 @@ export const Footer = () => {
           margin: 'auto',
         }}
       />
-      <div className="bg-[#212120] text-[#E7E7E5] lg:text-xs lg:py-4">
+      <div className="bg-primary text-[#E7E7E5] lg:text-xs lg:py-4">
         <Link href="" className="hover:underline">
           &copy;{new Date().getFullYear()} EVENTURE.ALL RIGHTS RESERVED
         </Link>

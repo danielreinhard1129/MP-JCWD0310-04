@@ -21,7 +21,10 @@ export const getEventsService = async (query: GetEventsQuery) => {
       orderBy: {
         [sortBy]: sortOrder,
       },
-      include: { organizer: true },
+      include: {
+        organizer: true,
+        category: true,
+      },
     });
 
     const count = await prisma.event.count({ where: whereClause });
