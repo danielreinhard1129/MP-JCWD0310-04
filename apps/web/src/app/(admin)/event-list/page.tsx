@@ -1,56 +1,34 @@
-'use client';
-import SideBar from '@/components/admin/SideBar';
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+// 'use client';
+// import TableEventList from '@/components/admin/TableEventList';
+// import useGetEvent from '@/hooks/api/event/useGetEvent';
 
-const EventList = () => {
-  return (
-    <section className="container h-screen w-full ml-60">
-      <div className="text-4xl font-bold p-5 mt-10">
-        <h1>Event List</h1>
-      </div>
-      <hr  className=' border-4 border-gray-700'/>
+// export default function EventList() {
+//   const { data: events } = useGetEvent();
 
-      <Table className="w-4/5">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Event Name</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Start Date</TableHead>
-            <TableHead>End Date</TableHead>
-            <TableHead>Location</TableHead>
-            <TableHead>Venue</TableHead>
-            <TableHead>Available Seat</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>is Free/ not</TableHead>
-            <TableHead>Price</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">Java Jazz</TableCell>
-            <TableCell>Festival</TableCell>
-            <TableCell>11 agustus 2024</TableCell>
-            <TableCell>14 agustus 2024</TableCell>
-            <TableCell>Jakarta</TableCell>
-            <TableCell>Gelora Bung Karno</TableCell>
-            <TableCell>1500</TableCell>
-            <TableCell>on process</TableCell>
-            <TableCell>paid</TableCell>
+//   return (
+//     <section className="container h-screen w-full ml-60">
+//       <div className="text-4xl font-bold p-5 mt-10">
+//         <h1>Event List</h1>
+//       </div>
+//       <hr className=" border-1 border-gray-700" />
 
-            <TableCell>Rp. 1.500.000,-</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </section>
-  );
-};
-
-export default EventList;
+//       {Event.map((event, index) => {
+//         return (
+//           <TableEventList
+//             key={index}
+//             title={event.title}
+//             category={event.category}
+//             startDate={new Date(event.startDate)}
+//             endDate={new Date(event.endDate)}
+//             location={event.location}
+//             venue={event.venue}
+//             availableSeats={event.availableSeats}
+//             isFree={event.isFree}
+//             ticketTypes={event.ticketTypes}
+//             price={event.price}
+//           />
+//         );
+//       })}
+//     </section>
+//   );
+// }

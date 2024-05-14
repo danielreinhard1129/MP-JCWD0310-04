@@ -42,14 +42,18 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mx-auto max-w-6xl">
-        <h1 className="text-4xl font-semibold mx-10 mt-5">
+      <div className="mx-auto md:max-w-6xl pr-2">
+        {/* <h1 className="text-4xl font-semibold md:mx-10 mt-5">
+          Create a New Event
+        </h1> */}
+        <h1 className="text-4xl font-semibold md:mx-10 mt-5">
           Create a New Event
         </h1>
-        <div className="grid grid-cols-2 gap-10 p-10">
+        <div className="grid md:grid-cols-2 gap-10 p-10">
           <div>
             {/* event details */}
             <h2 className="text-2xl font-mono mb-3">Event Details</h2>
+            <hr className="mb-3" />
             <div className="flex items-center">
               <Label className="w-28 text-left mr-4">Title</Label>
               <div className="flex-1">
@@ -137,9 +141,9 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 />
               </div>
             </div>
-
-            <h2 className="text-2xl font-mono mb-2 mt-4">
-              Additional Information{' '}
+            <h2 className="text-2xl font-mono mb-2 mt-5">
+              <hr className="mt-3" />
+              Additional Information <hr className="mb-3" />
             </h2>
             <FormTextArea
               name="description"
@@ -154,7 +158,11 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
           </div>
           <div>
             {/* Date and Time */}
-            <h2 className="text-2xl font-mono mt-6">Date & Time</h2>
+            <h2 className="text-2xl font-mono mt-0 md:mb-3">
+            <hr className='mt-3 md:hidden'/>
+              Date & Time
+            <hr className="mb-3 md:mt-3" />
+            </h2>
             <div className="flex items-center gap-5 my-1 ">
               <Input
                 type="checkbox"
@@ -166,7 +174,7 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               <Label className=" text-base">Is this event free?</Label>
             </div>
 
-            <div className="flex gap-3 justify-between mt-6">
+            <div className="flex md:gap-5 gap-3 justify-start mt-6">
               <FormInput
                 name="startDate"
                 label="Start Date"
@@ -203,10 +211,11 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 value={values.time}
               />
             </div>
-            <h2 className="text-2xl font-mono mt-4">
+            <h2 className="text-2xl font-mono mt-5">
+              <hr className="mt-3" />
               Available Seat and Price
+              <hr className="mb-3" />
             </h2>
-
             <div className="flex justify-center gap-5 mt-4">
               <FormInput
                 name="availableSeats"
@@ -235,7 +244,11 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               />
             </div>
 
-            <h2 className="text-2xl font-mono mt-4">Ticket Types</h2>
+            <h2 className="text-2xl font-mono mt-5">
+              <hr className="mt-3" />
+              Ticket Types
+              <hr className="mb-3" />
+            </h2>
 
             <div>
               {values.ticketTypes.map((ticketType, index) => (

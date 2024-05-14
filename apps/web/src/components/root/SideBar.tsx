@@ -1,5 +1,5 @@
 'use client';
-import EventList from '@/components/admin/EventList';
+import EventList from '@/components/admin/TableEventList';
 import { Button } from '@/components/ui/button';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {

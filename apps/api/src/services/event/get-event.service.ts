@@ -4,7 +4,11 @@ export const getEventService = async (id: number) => {
   try {
     const event = await prisma.event.findFirst({
       where: { id },
-      include: { organizer: true },
+      include: {
+        organizer: true,
+        category: true,
+      },
+
     });
 
     if (!event) {

@@ -1,5 +1,5 @@
 'use client';
-import EventList from '@/components/admin/EventList';
+import EventList from '@/components/admin/TableEventList';
 import { Button } from '@/components/ui/button';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
@@ -63,7 +63,7 @@ const SideBar = () => {
           <Button
             variant="ghost"
             className="flex gap-2 justify-between cursor-pointer"
-            onClick={() => router.push('/create-event')}
+            onClick={() => router.push('/create')}
           >
             <SquareGanttChart />
             <span className="mr-10">Create Event</span>
