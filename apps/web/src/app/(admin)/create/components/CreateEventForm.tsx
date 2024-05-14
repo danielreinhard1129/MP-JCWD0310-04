@@ -12,7 +12,7 @@ import useGetCategory from '@/hooks/api/event/useGetCategory';
 import { IFormCreateEvent } from '@/types/event.type';
 import { useFormikContext } from 'formik';
 import { Loader2 } from 'lucide-react';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 interface EventCreateFormProps {
   isLoading: boolean;
@@ -31,10 +31,14 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
     touched,
   } = useFormikContext<IFormCreateEvent>();
 
+  useEffect(() => {
+    // Saat nilai checkbox berubah, perbarui nilai isFree di formik
+    setFieldValue('isFree', isFree);
+  }, [isFree, setFieldValue]);
+
   const handleCheckboxChange = (e: any) => {
     setIsFree(e.target.checked);
   };
-  console.log(isFree);
 
   return (
     <form onSubmit={handleSubmit}>

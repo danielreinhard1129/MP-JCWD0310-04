@@ -2,9 +2,9 @@ import prisma from '@/prisma';
 import { Event } from '@prisma/client';
 
 interface CreateEventBody
-  extends Omit<Event, 'thumbnail' | 'updatedAt' | 'createdAt'> {
+  extends Omit<Event, 'isFree' | 'thumbnail' | 'updatedAt' | 'createdAt'> {
   ticketTypes: string;
-  locations: string;
+  isFree: string;
 }
 export const createEventService = async (
   body: CreateEventBody,
@@ -46,6 +46,8 @@ export const createEventService = async (
       throw new Error('organizer not found');
     }
 
+    const isFreeValue = isFree === 'true';
+
     const event = await prisma.event.create({
       data: {
         title: String(title),
@@ -56,7 +58,7 @@ export const createEventService = async (
         categoryId: Number(categoryId),
         startDate: new Date(startDate),
         endDate: new Date(endDate),
-        isFree: Boolean(isFree),
+        isFree: isFreeValue,
         booked: Number(booked),
         price: Number(price),
         availableSeats: Number(availableSeats),
@@ -66,7 +68,7 @@ export const createEventService = async (
     });
 
     // Check if event is free
-    if (Boolean(isFree) === false) {
+    if (!isFreeValue) {
       await prisma.ticketType.createMany({
         data: JSON.parse(ticketTypes).map((ticketType: any) => ({
           name: String(ticketType.name),
