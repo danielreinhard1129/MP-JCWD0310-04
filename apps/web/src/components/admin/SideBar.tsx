@@ -1,79 +1,72 @@
 'use client';
-import { Button } from '@/components/ui/button';
+
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { logoutAction } from '@/redux/slices/userSlice';
 import {
   BarChart2,
-  CreditCard,
   LayoutDashboard,
   LayoutList,
+  LogOutIcon,
   SquareCheckBig,
   SquareGanttChart,
+  User2Icon,
 } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const SideBar = () => {
+  const dispatch = useAppDispatch();
+  const logout = () => {
+    localStorage.removeItem('token');
+    dispatch(logoutAction());
+  };
+  const menuItems = [
+    { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard /> },
+    { path: '/statistic', label: 'Statistic', icon: <BarChart2 /> },
+    { path: '/event-list', label: 'Event List', icon: <LayoutList /> },
+    { path: '/approval', label: 'Approval', icon: <SquareCheckBig /> },
+    { path: '/create', label: 'Create Event', icon: <SquareGanttChart /> },
+    { path: '/profile', label: 'Profile', icon: <User2Icon /> },
+  ];
+  const getMenuItemClass = (path: string) =>
+    pathname === path
+      ? 'flex p-3 items-center cursor-pointer bg-white text-black'
+      : 'flex p-3 items-center cursor-pointer hover:bg-white hover:text-black transition duration-300 ease-in-out';
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
-    <section className="container fixed top-0 left-0 bg-primary text-[#6EDEF5] h-screen w-64">
-      <div className="flex flex-col gap-6 mt-5">
-        <div className=" relative h-[50px] w-full mx-auto  p-5 mt-10">
-          <Image
-            src="/assets/images/logo-no-background.png"
-            alt="logonobg"
-            fill
-          />
-        </div>
-
-        <div className="w-4/5">
-          <Button
-            variant="ghost"
-            className=" flex gap-2 justify-between cursor-pointer"
-            onClick={() => router.push('/dashboard')}
+    <section className="fixed top-0 left-0 bg-primary text-white h-screen w-64">
+      <div className=" relative h-[50px] w-full mx-auto  p-5 mt-10">
+        <Image
+          src="/assets/images/logo-no-background.png"
+          alt="logonobg"
+          style={{ objectFit: 'contain' }}
+          fill
+        />
+      </div>
+      <div className="flex flex-col">
+        <div className="w-full mt-8 font-semibold text-sm">
+          {menuItems.map((item) => (
+            <div
+              key={item.path}
+              className={getMenuItemClass(item.path)}
+              onClick={() => router.push(item.path)}
+              style={{ userSelect: 'none' }}
+            >
+              <div className="mx-8">{item.icon}</div>
+              <span className="mr-10">{item.label}</span>
+            </div>
+          ))}
+          <div
+            className="flex p-3 items-center cursor-pointer hover:bg-white transition duration-300 ease-in-out hover:text-red-500"
+            onClick={logout}
           >
-            <LayoutDashboard />
-            <span className="mr-10"> Dashboard</span>
-          </Button>
-          <Button
-            variant="ghost"
-            className="flex gap-2 justify-between cursor-pointer"
-            onClick={() => router.push('/statistic')}
-          >
-            <BarChart2 />
-            <span className="mr-10"> Statistic</span>
-          </Button>
-          <Button
-            variant="ghost"
-            className="flex gap-2 justify-between cursor-pointer"
-            onClick={() => router.push('/event-list')}
-          >
-            <LayoutList />
-            <span className="mr-10">Event List</span>
-          </Button>
-          <Button
-            variant="ghost"
-            className="flex gap-2 justify-between cursor-pointer"
-            onClick={() => router.push('/transaction')}
-          >
-            <CreditCard />
-            <span className="mr-10"> Transaction</span>
-          </Button>
-          <Button
-            variant="ghost"
-            className="flex gap-2 justify-between cursor-pointer"
-            onClick={() => router.push('/approval')}
-          >
-            <SquareCheckBig />
-            <span className="mr-10">Approval</span>
-          </Button>
-          <Button
-            variant="ghost"
-            className="flex gap-2 justify-between cursor-pointer"
-            onClick={() => router.push('/create')}
-          >
-            <SquareGanttChart />
-            <span className="mr-10 ">Create Event</span>
-          </Button>
+            <div className="mx-8">
+              <LogOutIcon />
+            </div>
+            <span className="mr-10">Log Out</span>
+          </div>
         </div>
       </div>
     </section>
