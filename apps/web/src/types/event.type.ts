@@ -1,40 +1,46 @@
+import { Category } from './category.type';
 import { User } from './user.type';
 
 export interface Event {
   id: number;
+  organizerId: number;
   title: string;
   description: string;
   location: string;
+  venue: string;
   thumbnail: string;
-  category: string;
-  organizerId: number;
   availableSeats: number;
-  booked: number;
   price: number;
   time: string;
-  createdAt: Date;
-  updatedAt: Date;
   isFree: Boolean;
   startDate: Date;
   endDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  booked: number;
+  categoryId: number;
 
+  category: Category;
   organizer: User;
 }
 
 export interface IFormCreateEvent {
   title: string;
   description: string;
-  location: string;
   thumbnail: File[];
-  category: string;
+  categoryId?: number;
   organizerId?: number;
   availableSeats: number;
+  location: string;
+  venue: string;
   booked: number;
   price: number;
   time: string;
   isFree: Boolean;
   startDate: Date;
   endDate: Date;
+
+  ticketTypes: TicketType[];
 }
 
 export interface Promotion {

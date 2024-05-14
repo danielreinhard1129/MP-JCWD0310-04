@@ -1,12 +1,10 @@
-import SideBar from '@/components/admin/SideBar';
+import Sidebar from '@/components/admin/SideBar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex">
-      <div>
-        <SideBar />
-      </div>
-      <div>{children}</div>
+    <div>
+      <Sidebar />
+      <div className="ml-52">{children}</div>
     </div>
   );
 };

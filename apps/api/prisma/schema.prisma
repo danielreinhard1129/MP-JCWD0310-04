@@ -42,22 +42,22 @@ model ReferralHistory {
   @@map("referral_history")
 }
 
-// model Category {
-//   id    Int     @id @default(autoincrement())
-//   name  String  @unique
-//   Event Event[]
+model Category {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  Event Event[]
 
-//   @@map("categories")
-// }
+  @@map("categories")
+}
 
 model Event {
-  id             Int      @id @default(autoincrement())
-  title          String   @unique
-  description    String   @db.LongText
+  id             Int          @id @default(autoincrement())
+  title          String       @unique
+  description    String       @db.LongText
   location       String
+  venue          String
   thumbnail      String
-  category       String
-  organizer      User     @relation(fields: [organizerId], references: [id])
+  organizer      User         @relation(fields: [organizerId], references: [id])
   organizerId    Int
   availableSeats Int
   booked         Int
@@ -65,12 +65,12 @@ model Event {
   time           String
   startDate      DateTime
   endDate        DateTime
-  isFree         Boolean  @default(false)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  // categoryId     Int
-  // category       Category     @relation(fields: [categoryId], references: [id])
-  // ticketTypes    TicketType[]
+  isFree         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  categoryId     Int
+  category       Category     @relation(fields: [categoryId], references: [id])
+  ticketTypes    TicketType[]
   // reviews        Review[]
   // Order          Order[]
   // Voucher        Voucher[]
@@ -79,16 +79,27 @@ model Event {
   @@map("events")
 }
 
-// model TicketType {
-//   id      Int     @id @default(autoincrement())
-//   name    String  @unique
-//   limit   Int
-//   price   Float
-//   event   Event   @relation(fields: [eventId], references: [id])
-//   eventId Int
-//   Order   Order[]
+model TicketType {
+  id      Int    @id @default(autoincrement())
+  name    String
+  // limit   Int
+  price   Int
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId Int
+  // Order   Order[]
 
-//   @@map("ticket_types")
+  @@map("ticket_types")
+}
+
+// model Location {
+//   id       Int    @id @default(autoincrement())
+//   location String
+//   venue    String
+//   event    Event  @relation(fields: [eventId], references: [id])
+//   eventId  Int
+//   // Order   Order[]
+
+//   @@map("locations")
 // }
 
 // model Voucher {
