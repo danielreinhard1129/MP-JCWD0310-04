@@ -8,10 +8,10 @@ import PreviewImages from '@/components/PreviewImages';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import useGetCategory from '@/hooks/api/event/useGetCategory';
+import useGetLocation from '@/hooks/api/event/useGetLocation';
 import { IFormCreateEvent } from '@/types/event.type';
-import { useFormikContext } from 'formik';
-import { Loader2 } from 'lucide-react';
+import { FieldArray, useFormikContext } from 'formik';
+import { CirclePlus, DeleteIcon, Loader2 } from 'lucide-react';
 import { FC, useEffect, useState } from 'react';
 
 interface EventCreateFormProps {
@@ -20,7 +20,7 @@ interface EventCreateFormProps {
 
 const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
   const [isFree, setIsFree] = useState(false);
-  const { categories } = useGetCategory();
+  const { locations } = useGetLocation();
   const {
     handleSubmit,
     handleChange,
@@ -74,15 +74,14 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               <select
                 id="categories"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 flex-1"
-                name="categoryId"
+                name="category"
                 onChange={handleChange}
               >
-                <option selected>Choose a category</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
+                <option>Choose a Category</option>
+                <option value="NightLife">NightLife</option>
+                <option value="Horror">Horror</option>
+                <option value="Theather">Theather</option>
+                <option value="Music">Music</option>
               </select>
             </div>
 
@@ -110,15 +109,15 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               <select
                 id="locations"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 flex-1"
-                name="location"
+                name="locationId"
                 onChange={handleChange}
               >
-                <option>Choose a Location</option>
-                <option value="Yogyakarta">Yogyakarta</option>
-                <option value="Jakarta">Jakarta</option>
-                <option value="Semarang">Semarang</option>
-                <option value="Bandung">Bandung</option>
-                <option value="Surabaya">Surabaya</option>
+                <option selected>Choose a Location</option>
+                {locations.map((location) => (
+                  <option key={location.id} value={location.id}>
+                    {location.city}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -175,7 +174,7 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               <FormInput
                 name="startDate"
                 label="Start Date"
-                type="date"
+                type="datetime-local"
                 placeholder="Start Date"
                 value={values.startDate}
                 error={errors.startDate as string}
@@ -187,7 +186,7 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               <FormInput
                 name="endDate"
                 label="End Date"
-                type="date"
+                type="datetime-local"
                 placeholder="End Date"
                 value={values.endDate}
                 error={errors.endDate as string}
@@ -198,23 +197,34 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
             </div>
             <h2 className="text-2xl font-mono mt-5">
               <hr className="mt-3" />
-              Available Seat and Price
+              Available Seat
               <hr className="mb-3" />
             </h2>
-            <div className="flex justify-center gap-5 mt-4">
-              <FormInput
-                name="availableSeats"
-                label="availableSeats"
-                error={errors.availableSeats}
-                isError={!!touched.availableSeats && !!errors.availableSeats}
-                handleBlur={handleBlur}
-                handleChange={handleChange}
-                placeholder="availableSeats"
-                type="number"
-                value={values.availableSeats}
-              />
+            <div className="flex items-center gap-5 mt-4">
+              <Label className="w-28 text-left mr-4">Available Seats</Label>
+              <div className="flex-1">
+                <FormInput
+                  name="availableSeats"
+                  label=""
+                  error={errors.availableSeats}
+                  isError={!!touched.availableSeats && !!errors.availableSeats}
+                  handleBlur={handleBlur}
+                  // handleChange={handleChange}
+                  handleChange={(e: any) => {
+                    // Dapatkan nilai dari input
+                    const newValue = parseInt(e.target.value);
+                    // Perbarui nilai availableSeats di dalam form values
+                    setFieldValue('availableSeats', newValue);
+                    // Panggil handleChange dari Formik untuk menangani perubahan nilai input lainnya
+                    handleChange(e);
+                  }}
+                  placeholder="availableSeats"
+                  type="number"
+                  value={values.availableSeats}
+                />
+              </div>
 
-              <FormInputCurrency
+              {/* <FormInputCurrency
                 name="price"
                 label="Price"
                 type="number"
@@ -226,108 +236,175 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 handleChange={handleChange}
                 setFieldValue={setFieldValue}
                 disabled={isFree}
-              />
+              /> */}
             </div>
-
-            <h2 className="text-2xl font-mono mt-5">
-              <hr className="mt-3" />
-              Ticket Types
-              <hr className="mb-3" />
-            </h2>
-
-            <div>
-              {values.ticketTypes.map((ticketType, index) => (
-                <div key={index} className="flex mt-4 gap-4 justify-center">
+            <div
+              className={`transition-opacity duration-500 ${
+                isFree ? 'opacity-0 invisible hidden' : 'opacity-100 visible'
+              }`}
+            >
+              <FieldArray name="ticketTypes">
+                {({ push, remove }) => (
                   <div>
-                    <Label>Type Ticket {index + 1}</Label>
-                    <Input
-                      type="text"
-                      name={`ticketTypes[${index}].name`}
-                      value={ticketType.name}
-                      placeholder="Type"
-                      onChange={handleChange}
-                      disabled={isFree}
-                    />
+                    <div className="flex justify-between">
+                      <h2 className="text-2xl font-mono mt-5">Ticket Types</h2>
+                      <div className=" mt-4">
+                        <Button
+                          type="button"
+                          className="bg-green-500 hover:bg-green-600"
+                          onClick={() => {
+                            // Hitung total limit dari semua ticketTypes yang sudah ada
+                            const totalLimit = values.ticketTypes.reduce(
+                              (acc, curr) => acc + curr.limit,
+                              0,
+                            );
+                            // Hitung sisa availableSeats
+                            const remainingSeats =
+                              values.availableSeats - totalLimit;
+                            // Pastikan sisa availableSeats tidak negatif
+                            if (remainingSeats > 0) {
+                              // Jika masih ada sisa, tambahkan ticket baru dengan limit sesuai sisa availableSeats
+                              push({
+                                name: '',
+                                price: 0,
+                                limit: remainingSeats,
+                              });
+                            }
+                          }}
+                        >
+                          <CirclePlus /> Ticket Type
+                        </Button>
+                      </div>
+                    </div>
+                    {values.ticketTypes.map((ticketType, index) => (
+                      <div
+                        key={index}
+                        className="flex mt-4 gap-4 justify-center items-center"
+                      >
+                        <div>
+                          <Label>Type Ticket {index + 1}</Label>
+                          <Input
+                            type="text"
+                            name={`ticketTypes[${index}].name`}
+                            value={values.ticketTypes[index].name}
+                            placeholder="Type"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            disabled={isFree}
+                          />
+                        </div>
+                        <div>
+                          <FormInputCurrency
+                            name={`ticketTypes[${index}].price`}
+                            label={`Price Ticket ${index + 1}`}
+                            type="number"
+                            placeholder={`ticketTypes[${index}].price`}
+                            value={values.ticketTypes[index].price}
+                            handleBlur={handleBlur}
+                            handleChange={handleChange}
+                            setFieldValue={setFieldValue}
+                            disabled={isFree}
+                          />
+                        </div>
+                        <div>
+                          <Label>Limit Ticket {index + 1}</Label>
+                          <Input
+                            type="number"
+                            name={`ticketTypes[${index}].limit`}
+                            value={values.ticketTypes[index].limit}
+                            placeholder="Limit"
+                            // onChange={handleChange}
+                            onChange={(e: any) => {
+                              // Dapatkan nilai input
+                              const newValue = parseInt(e.target.value);
+                              // Dapatkan nilai availableSeats dari form values
+                              const availableSeats = values.availableSeats;
+                              // Validasi agar nilai baru tidak melebihi availableSeats
+                              if (newValue > availableSeats) {
+                                // Jika melebihi, atur nilai input kembali ke availableSeats
+                                e.target.value = availableSeats;
+                              }
+                              // Panggil handleChange untuk menangani perubahan nilai input lainnya
+                              handleChange(e);
+                            }}
+                            onBlur={handleBlur}
+                            disabled={isFree}
+                          />
+                        </div>
+                        <Button
+                          type="button"
+                          onClick={() => remove(index)}
+                          className="mt-6 bg-red-500 hover:bg-red-600"
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </div>
+                    ))}
                   </div>
-                  <div>
-                    <FormInputCurrency
-                      name={`ticketTypes[${index}].price`}
-                      label={`Price Ticket ${index + 1}`}
-                      type="number"
-                      placeholder={`ticketTypes[${index}].price`}
-                      value={values.ticketTypes[index].price}
-                      error={errors.price}
-                      isError={!!touched.price && !!errors.price}
-                      handleBlur={handleBlur}
-                      handleChange={handleChange}
-                      setFieldValue={setFieldValue}
-                      disabled={isFree}
-                    />
-                  </div>
+                )}
+              </FieldArray>
+
+              <h2 className="text-2xl font-mono mt-5">
+                <hr className="mt-3" />
+                Voucher
+                <hr className="mb-3" />
+              </h2>
+
+              <div className="flex items-center mt-4">
+                <Label className="w-28 text-left mr-4">Title</Label>
+                <div className="flex-1">
+                  <FormInput
+                    name="voucherName"
+                    label=""
+                    error={errors.voucherName}
+                    isError={!!touched.voucherName && !!errors.voucherName}
+                    handleBlur={handleBlur}
+                    handleChange={handleChange}
+                    placeholder="Voucher Name"
+                    type="text"
+                    value={values.voucherName}
+                  />
                 </div>
-              ))}
-            </div>
+              </div>
 
-            <h2 className="text-2xl font-mono mt-5">
-              <hr className="mt-3" />
-              Voucher
-              <hr className="mb-3" />
-            </h2>
+              <div className="flex items-center mt-4">
+                <Label className="w-28 text-left mr-4">Limit</Label>
+                <div className="flex-1">
+                  <FormInput
+                    name="voucherLimit"
+                    label=""
+                    error={errors.voucherLimit}
+                    isError={!!touched.voucherLimit && !!errors.voucherLimit}
+                    handleBlur={handleBlur}
+                    handleChange={handleChange}
+                    placeholder="Limit"
+                    type="number"
+                    value={values.voucherLimit}
+                  />
+                </div>
+              </div>
 
-            <div className="flex items-center mt-4">
-              <Label className="w-28 text-left mr-4">Title</Label>
-              <div className="flex-1">
-                <FormInput
-                  name="voucherName"
-                  label=""
-                  error={errors.voucherName}
-                  isError={!!touched.voucherName && !!errors.voucherName}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
-                  placeholder="Voucher Name"
-                  type="text"
-                  value={values.voucherName}
-                />
+              <div className="flex items-center mt-4">
+                <Label className="w-28 text-left mr-4">Price</Label>
+                <div className="flex-1">
+                  <FormInputCurrency
+                    name="voucherPrice"
+                    label=""
+                    type="number"
+                    placeholder="Price"
+                    value={values.voucherPrice}
+                    // error={errors.voucherPrice}
+                    // isError={!!touched.voucherPrice && !!errors.voucherPrice}
+                    handleBlur={handleBlur}
+                    handleChange={handleChange}
+                    setFieldValue={setFieldValue}
+                    disabled={isFree}
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center mt-4">
-              <Label className="w-28 text-left mr-4">Limit</Label>
-              <div className="flex-1">
-                <FormInput
-                  name="voucherLimit"
-                  label=""
-                  error={errors.voucherLimit}
-                  isError={!!touched.voucherLimit && !!errors.voucherLimit}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
-                  placeholder="Limit"
-                  type="number"
-                  value={values.voucherLimit}
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center mt-4">
-              <Label className="w-28 text-left mr-4">Price</Label>
-              <div className="flex-1">
-                <FormInputCurrency
-                  name="voucherPrice"
-                  label=""
-                  type="number"
-                  placeholder="Price"
-                  value={values.voucherPrice}
-                  error={errors.price}
-                  isError={!!touched.price && !!errors.price}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
-                  setFieldValue={setFieldValue}
-                  disabled={isFree}
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-end mt-4 mr-8 ">
+            <div className="flex justify-end mt-4 ">
               <Button
                 disabled={isLoading}
                 type="submit"

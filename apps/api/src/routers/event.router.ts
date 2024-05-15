@@ -21,7 +21,7 @@ export class EventRouter {
       this.eventController.createEventController,
     );
     this.router.get('/', this.eventController.getEventsController);
-    this.router.get('/create', this.eventController.getCategoryController);
+    this.router.get('/locations', this.eventController.getLocationController);
     this.router.get('/:id', this.eventController.getEventController);
   }
 

@@ -43,33 +43,33 @@ model ReferralHistory {
   @@map("referral_history")
 }
 
-model Category {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique
-  Event Event[]
+// model Category {
+//   id    Int     @id @default(autoincrement())
+//   name  String  @unique
+//   Event Event[]
 
-  @@map("categories")
-}
+//   @@map("categories")
+// }
 
 model Event {
   id             Int          @id @default(autoincrement())
   title          String       @unique
   description    String       @db.LongText
-  location       String
   venue          String
   thumbnail      String
   organizer      User         @relation(fields: [organizerId], references: [id])
   organizerId    Int
+  location       Location     @relation(fields: [locationId], references: [id])
+  locationId     Int
   availableSeats Int
   booked         Int
-  price          Int
+  // price          Int
   startDate      DateTime
   endDate        DateTime
   isFree         Boolean      @default(false)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  categoryId     Int
-  category       Category     @relation(fields: [categoryId], references: [id])
+  category       String
   ticketTypes    TicketType[]
   // Order          Order[]
   voucher        Voucher[]
@@ -81,7 +81,7 @@ model Event {
 model TicketType {
   id      Int    @id @default(autoincrement())
   name    String
-  // limit   Int
+  limit   Int
   price   Int
   event   Event  @relation(fields: [eventId], references: [id])
   eventId Int
@@ -90,16 +90,14 @@ model TicketType {
   @@map("ticket_types")
 }
 
-// model Location {
-//   id       Int    @id @default(autoincrement())
-//   location String
-//   venue    String
-//   event    Event  @relation(fields: [eventId], references: [id])
-//   eventId  Int
-//   // Order   Order[]
+model Location {
+  id    Int     @id @default(autoincrement())
+  city  String
+  event Event[]
+  // Order   Order[]
 
-//   @@map("locations")
-// }
+  @@map("locations")
+}
 
 model Voucher {
   id          Int      @id @default(autoincrement())
@@ -108,7 +106,7 @@ model Voucher {
   eventId     Int
   organizerId Int
   voucher     String
-  price       Float
+  price       Int
   limit       Int
   isUsed      Boolean  @default(false)
   createdAt   DateTime @default(now())
