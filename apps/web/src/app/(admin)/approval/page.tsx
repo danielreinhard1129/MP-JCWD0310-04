@@ -1,4 +1,5 @@
 'use client';
+import { Badge } from '@/components/ui/badge';
 import {
   Table,
   TableBody,
@@ -7,33 +8,47 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { CircleCheck, CircleX } from 'lucide-react';
 
 const Approval = () => {
   return (
     <section className="container h-screen w-full ">
       <div className="text-4xl font-bold p-5 mt-10">
-        <h1>Approval</h1>
+        <h1>Transaction and Approval </h1>
       </div>
-      <hr className=" border-4 border-gray-700" />
-
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Username</TableHead>
-            <TableHead>Transaction Id</TableHead>
-            <TableHead>Event Id</TableHead>
-            <TableHead>Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">Java Jazz</TableCell>
-            <TableCell>Festival</TableCell>
-            <TableCell>11 agustus 2024</TableCell>
-            <TableCell>14 agustus 2024</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>No.</TableHead>
+              <TableHead>Name User</TableHead>
+              <TableHead>Transaction Id</TableHead>
+              <TableHead>Event Id</TableHead>
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {[1, 2, 3].map((id) => (
+              <TableRow key={id}>
+                <TableCell>{id}</TableCell>
+                <TableCell className="font-medium">User Name</TableCell>
+                <TableCell>Transaction</TableCell>
+                <TableCell>Event name</TableCell>
+                <TableCell>
+                  <Badge className="bg-green-100 text-green-800 gap-1">
+                    <CircleCheck />
+                    Approve
+                  </Badge>
+                  <Badge className="bg-red-300 text-red-800 gap-1">
+                    <CircleX />
+                    Cancelled
+                  </Badge>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </section>
   );
 };
