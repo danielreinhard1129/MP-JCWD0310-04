@@ -19,15 +19,15 @@ export const createEventService = async (
       title,
       organizerId,
       description,
-      location,
+      locationId,
       venue,
-      categoryId,
+      category,
       availableSeats,
       startDate,
       endDate,
       isFree,
       booked,
-      price,
+      // price,
 
       // Ticket Type
       ticketTypes,
@@ -59,14 +59,14 @@ export const createEventService = async (
       data: {
         title: String(title),
         description: String(description),
-        location: String(location),
+        locationId: Number(locationId),
         venue: String(venue),
-        categoryId: Number(categoryId),
+        category: String(category),
         startDate: new Date(startDate),
         endDate: new Date(endDate),
         isFree: isFreeValue,
         booked: Number(booked),
-        price: Number(price),
+        // price: Number(price),
         availableSeats: Number(availableSeats),
         thumbnail: `/images/${file.filename}`,
         organizerId: Number(organizerId),
@@ -79,6 +79,7 @@ export const createEventService = async (
         data: JSON.parse(ticketTypes).map((ticketType: any) => ({
           name: String(ticketType.name),
           price: Number(ticketType.price),
+          limit: Number(ticketType.limit),
           eventId: event.id,
         })),
         skipDuplicates: true,
@@ -91,7 +92,7 @@ export const createEventService = async (
           limit: Number(voucherLimit),
           isUsed: false,
           organizerId: Number(organizerId),
-          eventId: Number(event.id),
+          eventId: event.id,
         },
       });
     }

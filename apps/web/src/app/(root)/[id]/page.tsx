@@ -52,7 +52,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             variant="outline"
             className="inline-block px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-sm"
           >
-            {event.category.name}
+            {event.category}
           </Badge>
           <div className="flex items-center justify-between">
             <div>
@@ -111,12 +111,10 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             </div>
             <p className="line-clamp-3 flex gap-1">
               <LocateIcon size={15} />
-              {event.location},<br />
+              {event.location.city},<br />
               {event.venue}
             </p>
-         
-             
-            
+
             <div>
               <p>Available Seat :</p>
               {event.availableSeats}
@@ -131,7 +129,12 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             </div>
             <div className="flex gap-2">
               <p>Price:</p>
-              {event.price}
+              {event.ticketTypes.length > 0 && event.ticketTypes[0].price}
+            </div>
+            <div className="flex gap-2">
+              <p>Ticket Type:</p>
+              {event.ticketTypes.length > 0 && event.ticketTypes[0].name}
+              {event.ticketTypes.length > 0 && event.ticketTypes[0].limit}
             </div>
             <div className="my-auto py-2  ">
               <Button className="gap-1 ">

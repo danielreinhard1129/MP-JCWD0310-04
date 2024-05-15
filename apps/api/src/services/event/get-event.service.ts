@@ -6,7 +6,8 @@ export const getEventService = async (id: number) => {
       where: { id },
       include: {
         organizer: true,
-        category: true,
+        location: true,
+        ticketTypes: true,
       },
     });
 

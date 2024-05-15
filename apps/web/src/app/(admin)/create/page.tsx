@@ -5,6 +5,7 @@ import useCreateEvent from '@/hooks/api/event/useCreateEvent';
 import { useAppSelector } from '@/redux/hooks';
 import { Formik } from 'formik';
 import CreateEventForm from './components/CreateEventForm';
+import { validationSchema } from './validationSchema';
 
 const Write = () => {
   const { createEvent, isLoading } = useCreateEvent();
@@ -13,21 +14,17 @@ const Write = () => {
   const initialValues = {
     title: '',
     description: '',
-    location: '',
+    locationId: 0,
     venue: '',
     thumbnail: [],
-    categoryId: 0,
+    category: '',
     availableSeats: 0,
     booked: 0,
-    price: 0,
+    // price: 0,
     isFree: false,
     startDate: new Date(),
     endDate: new Date(),
-    ticketTypes: [
-      { name: '', price: 0 },
-      { name: '', price: 0 },
-      { name: '', price: 0 },
-    ],
+    ticketTypes: [{ name: '', price: 0, limit: 0 }],
     voucherName: '',
     voucherLimit: 0,
     voucherPrice: 0,
@@ -37,8 +34,19 @@ const Write = () => {
     <main className="ml-10 py-10">
       <Formik
         initialValues={initialValues}
+        validationSchema={validationSchema}
         onSubmit={(values) => {
-          createEvent({ ...values, organizerId: id });
+          const validTicketTypes = values.ticketTypes.filter(
+            (ticketType) =>
+              ticketType.name.trim() !== '' ||
+              ticketType.price > 0 ||
+              ticketType.limit > 0,
+          );
+          createEvent({
+            ...values,
+            ticketTypes: validTicketTypes,
+            organizerId: id,
+          });
         }}
       >
         <CreateEventForm isLoading={isLoading} />

@@ -1,4 +1,4 @@
-import { Category } from './category.type';
+import { Location } from './location.type';
 import { User } from './user.type';
 
 export interface Event {
@@ -6,36 +6,37 @@ export interface Event {
   organizerId: number;
   title: string;
   description: string;
-  location: string;
+  category: string;
   venue: string;
   thumbnail: string;
   availableSeats: number;
-  price: number;
+  // price: number;
   isFree: boolean;
   startDate: Date;
   endDate: Date;
   createdAt: Date;
   updatedAt: Date;
   booked: number;
-  categoryId: number;
+  locationId: number;
   voucherId: number;
 
-  category: Category;
+  location: Location;
   organizer: User;
   voucher: Voucher;
+  ticketTypes: TicketType[];
 }
 
 export interface IFormCreateEvent {
   title: string;
   description: string;
   thumbnail: File[];
-  categoryId?: number;
+  locationId?: number;
   organizerId?: number;
   availableSeats: number;
-  location: string;
+  category: string;
   venue: string;
   booked: number;
-  price: number;
+  // price: number;
   isFree: boolean;
   startDate: Date;
   endDate: Date;
@@ -49,41 +50,41 @@ export interface IFormCreateEvent {
   voucherPrice: number;
 }
 
-export interface Promotion {
-  id: number;
-  title: string;
-  description: string;
-  location: string;
-  thumbnail: string;
-  category: string;
-  organizerId: number;
-  availableSeats: number;
-  booked: number;
-  price: number;
-  time: string;
-  createdAt: Date;
-  updatedAt: Date;
-  isFree: Boolean;
-  startDate: Date;
-  endDate: Date;
-  voucher: string;
+// export interface Promotion {
+//   id: number;
+//   title: string;
+//   description: string;
+//   location: string;
+//   thumbnail: string;
+//   category: string;
+//   organizerId: number;
+//   availableSeats: number;
+//   booked: number;
+//   price: number;
+//   time: string;
+//   createdAt: Date;
+//   updatedAt: Date;
+//   isFree: Boolean;
+//   startDate: Date;
+//   endDate: Date;
+//   voucher: string;
 
-  organizer: User;
-}
+//   organizer: User;
+// }
 
-export interface IFormCreatePromotion {
-  title: string;
-  description: string;
-  location: string;
-  thumbnail: File[];
-  category: string;
-  organizerId?: number;
-  availableSeats: number;
-  booked: number;
-  price: number;
-  time: string;
-  isFree: Boolean;
-  startDate: Date;
-  endDate: Date;
-  voucher: string;
-}
+// export interface IFormCreatePromotion {
+//   title: string;
+//   description: string;
+//   location: string;
+//   thumbnail: File[];
+//   category: string;
+//   organizerId?: number;
+//   availableSeats: number;
+//   booked: number;
+//   price: number;
+//   time: string;
+//   isFree: Boolean;
+//   startDate: Date;
+//   endDate: Date;
+//   voucher: string;
+// }

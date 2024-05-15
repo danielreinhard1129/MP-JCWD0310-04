@@ -1,5 +1,5 @@
 import { createEventService } from '@/services/event/create-event.service';
-import { getCategoryService } from '@/services/event/get-category.service';
+import { getLocationService } from '@/services/event/get-locations.service';
 import { getEventService } from '@/services/event/get-event.service';
 import { getEventsService } from '@/services/event/get-events.service';
 import { NextFunction, Request, Response } from 'express';
@@ -31,9 +31,9 @@ export class EventController {
     }
   }
 
-  async getCategoryController(req: Request, res: Response, next: NextFunction) {
+  async getLocationController(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await getCategoryService();
+      const result = await getLocationService();
 
       return res.status(200).send(result);
     } catch (error) {

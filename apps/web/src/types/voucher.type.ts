@@ -3,7 +3,7 @@ interface Voucher {
   eventId?: number;
   organizerId?: number;
   voucher: string;
-  price: number;
+  percentage: number;
   limit: number;
   isUsed: boolean;
 }

@@ -22,7 +22,7 @@ interface EventCardProps {
   startDate: Date;
   endDate: Date;
   eventId: number;
-  price: number;
+  price: number | string;
 }
 
 const EventCardNew: FC<EventCardProps> = ({
@@ -37,10 +37,13 @@ const EventCardNew: FC<EventCardProps> = ({
   endDate,
   eventId,
 }) => {
-  const priceEvent = new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
-  }).format(price);
+  const priceEvent =
+    typeof price === 'number'
+      ? new Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+        }).format(price)
+      : price;
   return (
     <Link href={`${eventId}`}>
       <Card className="shadow-xl md:mb-4 mb-6">
@@ -67,8 +70,8 @@ const EventCardNew: FC<EventCardProps> = ({
           <h2 className="line-clamp-2 text-lg font-semibold"></h2>
           <p className="text-sm font-light italic flex gap-1">
             <CalendarIcon size={20} />
-            {format(startDate, 'dd MMMM yyyy')} -{' '}
-            {format(endDate, 'dd MMMM yyyy')}
+            {format(startDate, 'hh MMM yyyy')} -{' '}
+            {format(endDate, 'hh MMM yyyy')}
           </p>
           <p className="line-clamp-3 flex gap-1">
             <LocateIcon size={20} />

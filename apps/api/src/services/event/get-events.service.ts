@@ -23,7 +23,8 @@ export const getEventsService = async (query: GetEventsQuery) => {
       },
       include: {
         organizer: true,
-        category: true,
+        location: true,
+        ticketTypes: true,
       },
     });
 
