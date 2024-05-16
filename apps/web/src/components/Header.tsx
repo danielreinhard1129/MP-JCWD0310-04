@@ -40,16 +40,16 @@ const Header = () => {
   // const isExplorePage = pathname === '/explore';
 
   return (
-    <nav className="mx-auto px-10 md:px-42 py-6 md:py-4 flex justify-between gap-6 items-center bg-primary w-full text-white">
+    <nav className="mx-auto px-10 md:px-42 py-4 md:py-1 flex justify-between gap-6 items-center bg-primary w-full text-white">
       <div
-        className="relative cursor-pointer md:h-[50px] min-h-full md:w-1/4 w-1/2"
+        className="relative cursor-pointer md:h-[75px] min-h-full md:w-1/4 w-1/2 "
         onClick={() => router.push('/')}
       >
         <Image
           src="/assets/images/logo-whitenobg.png"
           alt="logonobg"
-          style={{ objectFit: 'contain' }}
           fill
+          className='md:object-contain object-fill'
         />
       </div>
       {Boolean(id) ? (

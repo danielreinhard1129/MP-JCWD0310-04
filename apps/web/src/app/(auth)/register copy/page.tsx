@@ -32,16 +32,16 @@ const Register = () => {
     },
   });
   return (
-    <main className="  flex items-center justify-center">
+    <main className=" flex items-center justify-center">
       <div className="container mx-auto px-4 md:py-6 mb-6">
-        <div className="md:mt-16 mt-8 flex justify-center pb-2 mb-1">
+        <div className="md:mt-16 mt-8  flex justify-center pb-2 mb-1">
           <Card className="w-[350px] text-black shadow-2xl">
             <CardHeader className="space-y-2">
               <CardTitle className="text-center text-2xl mt-4">
-                Register
+                Register as Organizer
               </CardTitle>
               <CardDescription className="text-center">
-                Create an account, and book your event
+                Create an Account, and Make Your Own Event
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -106,12 +106,7 @@ const Register = () => {
                   >
                     Already have an account ?
                   </p>
-                  <p
-                    className="cursor-pointer text-end text-xs"
-                    onClick={() => router.push('/register-organizer')}
-                  >
-                    Register as Organizer
-                  </p>
+                  
                 </div>
               </form>
             </CardContent>

@@ -21,14 +21,14 @@ import { Badge } from '@/components/ui/badge';
 
 const Dashboard = () => {
   return (
-    <section className="container mx-auto md:max-w-6xl px-4 pr-2 rounded-lg">
+    <section className="container mx-auto md:max-w-6xl md:px-4 md:pr-2 rounded-lg">
       <div className="text-4xl font-bold py-5">
         <h1>Dashboard</h1>
       </div>
 
       <div className="grid gap-4">
         {/* Profile and Button Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid  md:grid-cols-2 gap-4">
           <div className="bg-slate-200 border border-b-gray-200 rounded-md p-4 flex items-center space-x-4">
             <div>
               <h2 className="text-3xl font-semibold">
@@ -44,20 +44,20 @@ const Dashboard = () => {
             </Avatar>
           </div>
 
-          <div className="flex flex-col space-y-4">
+          <div className="flex md:flex-col md:space-y-4 gap-4">
             <Button variant="secondary" className="flex items-center gap-4">
               <PlusSquareIcon />
               <span className="text-xl">Create Event</span>
             </Button>
             <Button variant="secondary" className="flex items-center gap-4">
               <PlusSquareIcon />
-              <span className="text-xl hidden md:block">Delete Event</span>
+              <span className="text-xl ">Delete Event</span>
             </Button>
           </div>
         </div>
 
         {/* Statistics and Transactions Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4 ">
           <div className="bg-white border rounded-md p-4">
             <h1 className="text-xl font-semibold mb-4">Statistics</h1>
             <Chart />
@@ -66,7 +66,7 @@ const Dashboard = () => {
               <ArrowUpRight size={24} />
             </Button>
           </div>
-          <div className="bg-white border rounded-md p-4 flex flex-col">
+          <div className="bg-white border rounded-md p-4 flex md:flex-col">
             <h1 className="text-xl font-semibold mb-4">
               Transaction and Approval
             </h1>

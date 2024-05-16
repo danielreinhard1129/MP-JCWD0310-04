@@ -1,5 +1,7 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,30 +9,31 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
 } from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import useGetEvent from '@/hooks/api/event/useGetEvent';
 import { format } from 'date-fns';
 import {
   CalendarIcon,
-  CircleMinus,
-  CirclePlus,
+  EditIcon,
   LocateIcon,
   Share2,
-  SquareMinus,
-  SquarePlus,
   Ticket,
 } from 'lucide-react';
-import Image from 'next/image';
-import SkeletonEventDetail from './components/SkeletonEventDetail';
-import { notFound } from 'next/navigation';
+
+import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { appConfig } from '@/utils/config';
 import { Avatar } from '@radix-ui/react-avatar';
-import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import SkeletonEventDetail from './components/SkeletonEventDetail';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
   const { event, isLoading } = useGetEvent(Number(params.id));
@@ -49,7 +52,9 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
 
   return (
     <main>
-      <section className=" mb-8 ">
+      {/* image and title components */}
+
+      <section className=" mb-8">
         <div className="relative h-[400px] overflow-hidden ">
           <Image
             fill
@@ -59,13 +64,13 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             style={{ objectFit: 'cover' }}
           />
         </div>
-        <div className="container relative m-4  space-y-2 mx-auto px-4">
-          <Badge
+        <div className="container m-4  space-y-2 mx-auto px-4">
+          {/* <Badge
             variant="outline"
             className="inline-block px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-sm"
           >
             {event.category}
-          </Badge>
+          </Badge> */}
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-semibold">{event.title}</h1>
@@ -73,7 +78,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                 {format(new Date(event.startDate), 'dd MMMM yyyy')}
               </p>
             </div>
-            <div>
+            <div className='flex gap-2'>
               <Button
                 variant="outline"
                 size="icon"
@@ -81,130 +86,137 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
               >
                 <Share2 className="w-5 h-5" />
               </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="p-2 text-gray-600 bg-gray-100 rounded-full focus:outline-none focus:bg-gray-200"
+              >
+                <EditIcon className="w-5 h-5" />
+              </Button>
             </div>
           </div>
           <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
         </div>
-      </section>
 
-      {/* information of event and organizer */}
-      <div className="md:flex md:justify-between mx-5">
-        <div className=" flex flex-col md:items-center">
-          <Avatar className="md:mx-auto">
-            <AvatarImage
-              src="https://github.com/shadcn.png"
-              className="rounded-full w-24 h-24"
-            />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div className="flex gap-3 md:flex-col md:gap-0">
-            <h2 className=" md:mb-2 text-xl font-bold">Hosted By:</h2>
-            <p className="text-xl font-semibold ">{event.organizer.username}</p>
-          </div>
-        </div>
-        <div className="w-2/3 mx-4">
-          <p className="text-sm text-gray-700">{event.description}</p>
-        </div>
-
-        {/* buy ticket data */}
-        <div className="md:w-1/3 w-1/2  md:pb-2">
-          <div className="border p-4 rounded ">
-            <p className="text-sm font-light italic flex gap-2 place-items-center">
-              <CalendarIcon className="w-8 h-8 " />
-              {format(event.startDate, 'hh MMM yyyy')} -{' '}
-              {format(event.endDate, 'hh MMM yyyy')}
+        <div className=" md:justify-between mx-5 my-8 grid md:grid-cols-7 container">
+          {/* description */}
+          <div className=" py-4 md:col-span-5 md:px-10">
+            <p className="text-base text-gray-700 indent-16 text-justify gap-5">
+              {event.description}
             </p>
-            <div className="flex gap-2 my-1">
-              <p>Time : </p>
-              <p>
-                {format(new Date(event.startDate), 'HH:mm')} -{' '}
-                {format(new Date(event.endDate), 'HH:mm')}{' '}
-              </p>
-            </div>
-            <p className="line-clamp-3 flex gap-1">
-              <LocateIcon size={15} />
-              {event.location.city},<br />
-              {event.venue}
-            </p>
-
-            <div>
-              <p>Available Seat :</p>
-              {event.availableSeats}
-            </div>
-            <div>
-              <p>Booked :</p>
-              <div className="flex gap-2 justify-evenly">
-                <SquarePlus size={20} />
-                {event.booked}
-                <SquareMinus size={20} />
+            {/* organizer */}
+            <div className=" flex items-center gap-5 ">
+              <Avatar className="mx-2 my-2">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  className="rounded-full w-20 h-20"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <div className="flex  flex-col">
+                <h2 className="  text-base font-bold text-black">Hosted By:</h2>
+                <p className="text-sm font-semibold text-black">
+                  {event.organizer.username}
+                </p>
               </div>
             </div>
-            <div className="flex gap-2">
-              <p>Price:</p>
-              {event.ticketTypes.length > 0 && event.ticketTypes[0].price}
-            </div>
-            <div className="flex gap-2">
-              <p>Ticket Type:</p>
-              {event.ticketTypes.length > 0 && event.ticketTypes[0].name}
-              {event.ticketTypes.length > 0 && event.ticketTypes[0].limit}
-            </div>
-            <div className="my-auto py-2  ">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="gap-1 ">
-                    <Ticket size="20px" />
-                    Buy Tickets
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-[650px] max-h-[600px]">
-                  <DialogHeader>
-                    <DialogTitle>Purchase Ticket</DialogTitle>
-                    <DialogDescription>
-                      Make changes to your profile here. Click save when youre
-                      done.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid grid-cols-4">
-                    <div className="bg-red-400 col-span-3 w-full h-96">
-                      <div className="flex justify-between gap-5 mx-10 my-10">
-                        <div className="bg-blue-400 w-36 h- 44"></div>
-                        <div className="bg-blue-400 w-36 h-44"></div>
-                        <div className="bg-blue-400 w-36 h-44"></div>
-                      </div>
-                      <div className="flex justify-between mx-10 my-10">
-                        <div className="bg-blue-400 w-44 h-20"></div>
-                        <div className="bg-blue-400 w-44 h-20"></div>
-                      </div>
-                    </div>
-                    <div className="bg-blue-400 col-span-1 w-full h-96 flex flex-col">
-                      <div className="flex justify-between mx-4">
-                        <div className="w-8 h-8 my-6 bg-red-400 flex items-center justify-center">
-                          <SquareMinus />
-                        </div>
-                        <div className="w-8 h-8 my-6 bg-red-400 text-center flex items-center justify-center">
-                          0
-                        </div>
-                        <div className="w-8 h-8 my-6 bg-red-400 flex items-center justify-center">
-                          <CircleMinus />
-                        </div>
-                      </div>
-                      <div className="flex-grow"></div>
-                      <div className="mx-4 mb-4 bg-red-400 h-10"></div>
-                    </div>
+          </div>
+          {/* buy ticket data */}
+          <div className="md:col-span-2 relative">
+            <Card className="bg-white shadow-lg rounded-lg overflow-hidden ">
+              <CardHeader className="bg-primary py-4 text-white rounded-t-md">
+                <CardTitle className="flex items-center gap-4 justify-start px-4">
+                  <CalendarIcon className="w-8 h-8" />
+                  <span>
+                    {format(event.startDate, 'hh MMM yyyy')} -
+                    {format(event.endDate, 'hh MMM yyyy')}
+                  </span>
+                </CardTitle>
+                <CardDescription className="px-4">
+                  <div className="flex items-center text-base text-white py-2">
+                    <p>Time:</p>
+                    <p className="ml-1">
+                      {format(new Date(event.startDate), 'HH:mm')} -{' '}
+                      {format(new Date(event.endDate), 'HH:mm')}
+                    </p>
                   </div>
-                  <div className="flex justify-between items-center w-full">
-                    <div className="font-bold">TOTAL - 0</div>
-                    <Button type="submit">Buy</Button>
+                  <p className=" text-sm text-white font-medium flex items-center gap-1">
+                    <LocateIcon size={15} />
+                    <span>
+                      {event.location.city}, {event.venue}
+                    </span>
+                  </p>
+                  <hr className="mt-2 border-gray-300" />
+                </CardDescription>
+              </CardHeader>
+
+              <CardContent className="px-4 py-2 bg-[#E8EDFB] ">
+                <div className="grid grid-cols-2 gap-2 text-sm text-gray-700">
+                  <div className="">
+                    <p>Available Seat:</p>
+                    <p>{event.availableSeats}</p>
                   </div>
-                </DialogContent>
-              </Dialog>
-            </div>
+                  <div>
+                    <p>Booked:</p>
+                    <p>{event.booked}</p>
+                  </div>
+                  <div>
+                    <p>Price: </p>
+                    <p>
+                      {event.ticketTypes.length > 0 &&
+                        event.ticketTypes[0].price}
+                    </p>
+                  </div>
+                  <div>
+                    <p>Ticket Type: </p>
+                    <p>
+                      {event.ticketTypes.length > 0 &&
+                        event.ticketTypes[0].name}
+                    </p>
+                  </div>
+                  <div className="grid col-span-2 justify-center text-lg font-medium">
+                    <p>Stock of Ticket: </p>
+                    <p className="text-center">
+                      {event.ticketTypes.length > 0 &&
+                        event.ticketTypes[0].limit}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+
+              <CardFooter className="bg-[#E8EDFB] py-4 px-6 flex justify-end items-center">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button className="bg-primary text-white hover:bg-primary-dark rounded-lg w-[225px] gap-4">
+                      <Ticket size="24px" />
+                      Buy Tickets
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-[650px] max-h-[600px]">
+                    <DialogHeader>
+                      <DialogTitle>Purchase Ticket</DialogTitle>
+                      <DialogTitle>{event.title}</DialogTitle>
+                      <DialogDescription></DialogDescription>
+                    </DialogHeader>
+                    <div className="grid grid-cols-4 gap-4">
+                      Dialog content here
+                    </div>
+                    <div className="flex justify-between items-center mt-4">
+                      <div className="font-bold text-lg">TOTAL - 0</div>
+                      <Button
+                        type="submit"
+                        className="bg-primary text-white hover:bg-primary-dark py-2 px-4 rounded-lg"
+                      >
+                        Buy
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </CardFooter>
+            </Card>
           </div>
         </div>
-      </div>
-
-      {/* data event */}
-      <section></section>
+      </section>
     </main>
   );
 };
