@@ -1,12 +1,22 @@
 'use client';
 
-// import Markdown from '@/components/Markdown';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import useGetEvent from '@/hooks/api/event/useGetEvent';
 import { format } from 'date-fns';
 import {
   CalendarIcon,
+  CircleMinus,
+  CirclePlus,
   LocateIcon,
   Share2,
   SquareMinus,
@@ -19,6 +29,8 @@ import { notFound } from 'next/navigation';
 import { appConfig } from '@/utils/config';
 import { Avatar } from '@radix-ui/react-avatar';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
   const { event, isLoading } = useGetEvent(Number(params.id));
@@ -137,10 +149,55 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
               {event.ticketTypes.length > 0 && event.ticketTypes[0].limit}
             </div>
             <div className="my-auto py-2  ">
-              <Button className="gap-1 ">
-                <Ticket size="20px" />
-                Buy Tickets
-              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="gap-1 ">
+                    <Ticket size="20px" />
+                    Buy Tickets
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-[650px] max-h-[600px]">
+                  <DialogHeader>
+                    <DialogTitle>Purchase Ticket</DialogTitle>
+                    <DialogDescription>
+                      Make changes to your profile here. Click save when youre
+                      done.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid grid-cols-4">
+                    <div className="bg-red-400 col-span-3 w-full h-96">
+                      <div className="flex justify-between gap-5 mx-10 my-10">
+                        <div className="bg-blue-400 w-36 h- 44"></div>
+                        <div className="bg-blue-400 w-36 h-44"></div>
+                        <div className="bg-blue-400 w-36 h-44"></div>
+                      </div>
+                      <div className="flex justify-between mx-10 my-10">
+                        <div className="bg-blue-400 w-44 h-20"></div>
+                        <div className="bg-blue-400 w-44 h-20"></div>
+                      </div>
+                    </div>
+                    <div className="bg-blue-400 col-span-1 w-full h-96 flex flex-col">
+                      <div className="flex justify-between mx-4">
+                        <div className="w-8 h-8 my-6 bg-red-400 flex items-center justify-center">
+                          <SquareMinus />
+                        </div>
+                        <div className="w-8 h-8 my-6 bg-red-400 text-center flex items-center justify-center">
+                          0
+                        </div>
+                        <div className="w-8 h-8 my-6 bg-red-400 flex items-center justify-center">
+                          <CircleMinus />
+                        </div>
+                      </div>
+                      <div className="flex-grow"></div>
+                      <div className="mx-4 mb-4 bg-red-400 h-10"></div>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center w-full">
+                    <div className="font-bold">TOTAL - 0</div>
+                    <Button type="submit">Buy</Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </div>
