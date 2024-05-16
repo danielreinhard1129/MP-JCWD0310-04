@@ -79,9 +79,9 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               >
                 <option>Choose a Category</option>
                 <option value="NightLife">NightLife</option>
-                <option value="Horror">Horror</option>
-                <option value="Theather">Theather</option>
-                <option value="Music">Music</option>
+                <option value="Festival">Festival</option>
+                <option value="Theater Musical">Theater Musical</option>
+                <option value="Concert">Concert</option>
               </select>
             </div>
 

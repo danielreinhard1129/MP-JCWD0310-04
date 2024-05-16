@@ -4,7 +4,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <Sidebar />
-      <div className="ml-64">{children}</div>
+      <div className="md:ml-64">{children}</div>
     </div>
   );
 };

@@ -23,9 +23,9 @@ const Login = () => {
       },
     });
   return (
-    <main className=" h-screen flex items-center justify-center">
-      <div className="container mx-auto px-4 py-8 mb-6 ">
-        <div className="mt-16 flex justify-center">
+    <main className=" flex items-center justify-center">
+      <div className="container mx-auto px-4 md:py-8 py-24 mb-6 ">
+        <div className="md:mt-16 flex justify-center">
           <Card className="w-[350px]  text-black shadow-2xl">
             <CardHeader className="space-y-4">
               <CardTitle className="text-center text-2xl mt-4">Login</CardTitle>
@@ -62,6 +62,12 @@ const Login = () => {
                     onClick={() => router.push('/forgot-password')}
                   >
                     Forgot Password ?
+                  </p>
+                  <p
+                    className="cursor-pointer text-end text-xs"
+                    onClick={() => router.push('/register-organizer')}
+                  >
+                   Register as Organizer
                   </p>
                   <Button type="submit" className=" mt-3 w-full bg-blue-700">
                     Login
