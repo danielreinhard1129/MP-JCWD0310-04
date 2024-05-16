@@ -78,7 +78,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                 {format(new Date(event.startDate), 'dd MMMM yyyy')}
               </p>
             </div>
-            <div className='flex gap-2'>
+            <div className="flex gap-2">
               <Button
                 variant="outline"
                 size="icon"

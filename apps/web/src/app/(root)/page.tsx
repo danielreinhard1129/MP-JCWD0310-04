@@ -9,7 +9,6 @@ export default function Home() {
     <>
       {/* herosection */}
       <section className="relative h-[500px] overflow-hidden bg-[url('/assets/images/heroSectionminpro.jpg')] bg-cover bg-no-repeat p-12 text-center text-white">
-       
         <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-black/60 bg-fixed">
           <div className="flex h-full items-center justify-center">
             <div className="text-white">

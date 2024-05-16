@@ -13,7 +13,6 @@ import useRegister from '@/hooks/api/auth/useRegister';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { validationSchemaRegister } from '../validationSchema';
-import Image from 'next/image';
 
 const Register = () => {
   const router = useRouter();
@@ -25,6 +24,7 @@ const Register = () => {
       password: '',
       referral: '',
       role: '',
+      points: 0,
     },
     validationSchema: validationSchemaRegister,
     onSubmit: (values) => {
