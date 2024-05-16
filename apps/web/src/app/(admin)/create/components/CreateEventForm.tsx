@@ -42,7 +42,7 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-     <div className="mx-auto md:max-w-6xl pr-2 rounded-lg mt-5">
+      <div className="mx-auto md:max-w-6xl pr-2 rounded-lg mt-5">
         <h1 className="text-4xl font-semibold md:mx-10 mt-5">
           Create a New Event
         </h1>
