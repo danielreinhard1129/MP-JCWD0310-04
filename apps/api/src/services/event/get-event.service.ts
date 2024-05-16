@@ -8,6 +8,7 @@ export const getEventService = async (id: number) => {
         organizer: true,
         location: true,
         ticketTypes: true,
+        voucher: true,
       },
     });
 

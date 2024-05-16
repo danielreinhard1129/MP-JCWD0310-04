@@ -63,7 +63,6 @@ model Event {
   locationId     Int
   availableSeats Int
   booked         Int
-  // price          Int
   startDate      DateTime
   endDate        DateTime
   isFree         Boolean      @default(false)

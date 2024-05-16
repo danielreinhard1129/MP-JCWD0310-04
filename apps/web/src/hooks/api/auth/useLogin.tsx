@@ -8,7 +8,7 @@ import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 
-interface LoginArgs extends Omit<User, 'id' | 'username' | 'role'> {
+interface LoginArgs extends Pick<User, 'email'> {
   password: string;
 }
 
