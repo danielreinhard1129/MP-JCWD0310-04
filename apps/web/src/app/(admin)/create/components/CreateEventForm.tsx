@@ -8,7 +8,6 @@ import PreviewImages from '@/components/PreviewImages';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import useGetLocation from '@/hooks/api/event/useGetLocation';
 import { IFormCreateEvent } from '@/types/event.type';
 import { FieldArray, useFormikContext } from 'formik';
 import { CirclePlus, DeleteIcon, Loader2 } from 'lucide-react';
@@ -20,7 +19,6 @@ interface EventCreateFormProps {
 
 const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
   const [isFree, setIsFree] = useState(false);
-  const { locations } = useGetLocation();
   const {
     handleSubmit,
     handleChange,
@@ -104,36 +102,35 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
             />
 
             {/* Location */}
-            <div className="flex items-center mt-4">
-              <Label className="w-28 text-left mr-4">Location</Label>
+            <div className="flex items-center mt-4 mb-8">
+              <Label className="w-28 text-left mr-4">Category</Label>
               <select
                 id="locations"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 flex-1"
-                name="locationId"
+                name="location"
                 onChange={handleChange}
               >
-                <option selected>Choose a Location</option>
-                {locations.map((location) => (
-                  <option key={location.id} value={location.id}>
-                    {location.city}
-                  </option>
-                ))}
+                <option>Choose a Location</option>
+                <option value="Jakarta">Jakarta</option>
+                <option value="Surabaya">Surabaya</option>
+                <option value="Bandung">Bandung</option>
+                <option value="Batam">Batam</option>
               </select>
             </div>
 
             <div className="flex items-center mt-4">
-              <Label className="w-28 text-left mr-4">Venue</Label>
+              <Label className="w-28 text-left mr-4">Address</Label>
               <div className="flex-1">
                 <FormInput
-                  name="venue"
+                  name="address"
                   label=""
-                  error={errors.venue}
-                  isError={!!touched.venue && !!errors.venue}
+                  error={errors.address}
+                  isError={!!touched.address && !!errors.address}
                   handleBlur={handleBlur}
                   handleChange={handleChange}
-                  placeholder="venue"
+                  placeholder="address"
                   type="text"
-                  value={values.venue}
+                  value={values.address}
                 />
               </div>
             </div>
@@ -224,21 +221,21 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 />
               </div>
 
-              {/* <FormInputCurrency
+              <FormInputCurrency
                 name="price"
                 label="Price"
                 type="number"
                 placeholder="Price"
                 value={values.price}
-                error={errors.price}
-                isError={!!touched.price && !!errors.price}
+                // error={errors.price}
+                // isError={!!touched.price && !!errors.price}
                 handleBlur={handleBlur}
                 handleChange={handleChange}
                 setFieldValue={setFieldValue}
                 disabled={isFree}
-              /> */}
+              />
             </div>
-            <div
+            {/* <div
               className={`transition-opacity duration-500 ${
                 isFree ? 'opacity-0 invisible hidden' : 'opacity-100 visible'
               }`}
@@ -402,7 +399,7 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="flex justify-end mt-4 ">
               <Button
