@@ -14,8 +14,6 @@ import useGetEvent from '@/hooks/api/event/useGetEvent';
 import { format } from 'date-fns';
 import {
   CalendarIcon,
-  CircleMinus,
-  CirclePlus,
   EditIcon,
   LocateIcon,
   Share2,
@@ -36,56 +34,9 @@ import { Avatar } from '@radix-ui/react-avatar';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import SkeletonEventDetail from './components/SkeletonEventDetail';
-import useGetReward from '@/hooks/api/event/useGetReward';
-import { useAppSelector } from '@/redux/hooks';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { useEffect, useState } from 'react';
-import { useFormik } from 'formik';
-import { IFormCreateTransaction } from '@/types/ts.type';
-import useCreateTransaction from '@/hooks/api/transaction/useCreateTransaction';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
-  const [total, setTotal] = useState(0);
-  const [qty, setQty] = useState(0);
-
   const { event, isLoading } = useGetEvent(Number(params.id));
-  const { id } = useAppSelector((state) => state.user);
-  const { points } = useAppSelector((state) => state.user);
-  const { reward } = useGetReward(Number(id));
-  const { createTransaction } = useCreateTransaction();
-
-  const {
-    handleSubmit,
-    handleChange,
-    handleBlur,
-    setFieldValue,
-    values,
-    errors,
-    touched,
-  } = useFormik<IFormCreateTransaction>({
-    initialValues: {
-      qty: 0,
-      // ticketTypeId: 0,
-      // totalAmount: 0,
-      // status: '',
-    },
-    onSubmit: (values) => {
-      console.log(values);
-
-      createTransaction({
-        ...values,
-        // userId: id,
-        // eventId: event?.id,
-      });
-    },
-  });
 
   if (isLoading) {
     return (
@@ -102,6 +53,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   return (
     <main>
       {/* image and title components */}
+
       <section className=" mb-8">
         <div className="relative h-[400px] overflow-hidden ">
           <Image
@@ -145,6 +97,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
           </div>
           <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
         </div>
+
         <div className=" md:justify-between mx-5 my-8 grid md:grid-cols-7 container">
           {/* description */}
           <div className=" py-4 md:col-span-5 md:px-10">
@@ -190,12 +143,13 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                   <p className=" text-sm text-white font-medium flex items-center gap-1">
                     <LocateIcon size={15} />
                     <span>
-                      {event.location}, {event.description}
+                      {event.location}, {event.address}
                     </span>
                   </p>
                   <hr className="mt-2 border-gray-300" />
                 </CardDescription>
               </CardHeader>
+
               <CardContent className="px-4 py-2 bg-[#E8EDFB] ">
                 <div className="grid grid-cols-2 gap-2 text-sm text-gray-700">
                   <div className="">
@@ -204,15 +158,29 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                   </div>
                   <div>
                     <p>Booked:</p>
-                    {/* <p>{event.booked}</p> */}
+                    <p>{event.booked}</p>
                   </div>
                   <div>
                     <p>Price: </p>
                     <p>{event.price}</p>
                   </div>
-                  <div></div>
+                  {/* <div>
+                    <p>Ticket Type: </p>
+                    <p>
+                      {event.ticketTypes.length > 0 &&
+                        event.ticketTypes[0].name}
+                    </p>
+                  </div> */}
+                  {/* <div className="grid col-span-2 justify-center text-lg font-medium">
+                    <p>Stock of Ticket: </p>
+                    <p className="text-center">
+                      {event.ticketTypes.length > 0 &&
+                        event.ticketTypes[0].limit}
+                    </p>
+                  </div> */}
                 </div>
               </CardContent>
+
               <CardFooter className="bg-[#E8EDFB] py-4 px-6 flex justify-end items-center">
                 <Dialog>
                   <DialogTrigger asChild>
@@ -222,43 +190,23 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-[650px] max-h-[600px]">
-                    <form onSubmit={handleSubmit}>
-                      <DialogHeader>
-                        <DialogTitle>Purchase Ticket</DialogTitle>
-                        <DialogTitle>{event.title}</DialogTitle>
-                        <DialogDescription></DialogDescription>
-                      </DialogHeader>
-                      <div>
-                        <Table className="table-auto">
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead>Name</TableHead>
-                              <TableHead>Limit</TableHead>
-                              <TableHead>Price</TableHead>
-                              <TableHead>Order</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            <TableCell></TableCell>
-                          </TableBody>
-                        </Table>
-                      </div>
-                      <div>
-                        {' '}
-                        <div>{reward?.title} reward title</div>
-                        <div>{points} points</div>
-                      </div>
-                      <div className="flex justify-between items-center mt-4">
-                        <div className="font-bold text-lg">Total = {qty}</div>
-                        <div className="font-bold text-lg">Rp.{total}</div>
-                        <Button
-                          type="submit"
-                          className="bg-primary text-white hover:bg-primary-dark py-2 px-4 rounded-lg"
-                        >
-                          Buy
-                        </Button>
-                      </div>
-                    </form>
+                    <DialogHeader>
+                      <DialogTitle>Purchase Ticket</DialogTitle>
+                      <DialogTitle>{event.title}</DialogTitle>
+                      <DialogDescription></DialogDescription>
+                    </DialogHeader>
+                    <div className="grid grid-cols-4 gap-4">
+                      Dialog content here
+                    </div>
+                    <div className="flex justify-between items-center mt-4">
+                      <div className="font-bold text-lg">TOTAL - 0</div>
+                      <Button
+                        type="submit"
+                        className="bg-primary text-white hover:bg-primary-dark py-2 px-4 rounded-lg"
+                      >
+                        Buy
+                      </Button>
+                    </div>
                   </DialogContent>
                 </Dialog>
               </CardFooter>
