@@ -64,15 +64,6 @@ export const registerService = async (
             },
           });
 
-          // Buat catatan referralHistory
-          await transaction.referralHistory.create({
-            data: {
-              referrerId: user.id,
-              referredId: findUserReferral.id,
-              createdAt: new Date(),
-            },
-          });
-
           // Buat reward user
           await transaction.reward.create({
             data: {

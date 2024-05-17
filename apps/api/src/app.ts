@@ -15,6 +15,7 @@ import { join } from 'path';
 import { UserRouter } from './routers/user.router';
 import { ReviewRouter } from './routers/review.router';
 import { RewardRouter } from './routers/reward.router';
+import { TransactionRouter } from './routers/transaction.router';
 
 export default class App {
   private app: Express;
@@ -62,6 +63,7 @@ export default class App {
     const userRouter = new UserRouter();
     const reviewRouter = new ReviewRouter();
     const rewardRouter = new RewardRouter();
+    const transactionRouter = new TransactionRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student !`);
@@ -72,6 +74,7 @@ export default class App {
     this.app.use('/api/users', userRouter.getRouter());
     this.app.use('/api/review', reviewRouter.getRouter());
     this.app.use('/api/rewards', rewardRouter.getRouter());
+    this.app.use('/api/transactions', transactionRouter.getRouter());
   }
 
   public start(): void {

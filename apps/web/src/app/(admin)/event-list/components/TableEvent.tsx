@@ -52,7 +52,7 @@ const TableEvent = () => {
               <TableHead>Available Seats</TableHead>
               <TableHead>Booked</TableHead>
               <TableHead>Free Event</TableHead>
-              <TableHead>Ticket Types</TableHead>
+              <TableHead>Price</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -78,7 +78,7 @@ const TableEvent = () => {
                       </PopoverContent>
                     </Popover>
                   </TableCell>
-                  <TableCell>{event.location.city}</TableCell>
+                  <TableCell>{event.location}</TableCell>
                   <TableCell>{event.category}</TableCell>
                   <TableCell>
                     {format(event.startDate, 'hh MMM yyyy')}-{' '}
@@ -95,35 +95,7 @@ const TableEvent = () => {
                   >
                     {event.isFree ? 'true' : 'false'}
                   </TableCell>
-                  <TableCell>
-                    <Popover>
-                      <PopoverTrigger>
-                        <Button variant="secondary">
-                          <FileStack />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        <Table>
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead>Name</TableHead>
-                              <TableHead>Limit</TableHead>
-                              <TableHead>Price</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {event.ticketTypes.map((ticketType, index) => (
-                              <TableRow key={index}>
-                                <TableCell>{ticketType.name}</TableCell>
-                                <TableCell>{ticketType.limit}</TableCell>
-                                <TableCell>{ticketType.price}</TableCell>
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </PopoverContent>
-                    </Popover>
-                  </TableCell>
+                  <TableCell>{event.price}</TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>

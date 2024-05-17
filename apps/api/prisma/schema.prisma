@@ -11,106 +11,65 @@ datasource db {
 }
 
 model User {
-  id                          Int               @id @default(autoincrement())
-  email                       String            @unique
-  password                    String
-  username                    String
-  role                        Role              @default(CUSTOMER)
-  referral                    String            @unique
-  points                      Int               @default(0)
-  pointsExpired               DateTime?
-  Event                       Event[]
-  // Order                       Order[]
-  // Review                      Review[]
-  // Voucher                     Voucher[]
-  Reward                      Reward[]
-  referralHistoriesAsReferrer ReferralHistory[] @relation("referralHistoriesAsReferrer")
-  referralHistoriesAsReferred ReferralHistory[] @relation("referralHistoriesAsReferred")
-  Review                      Review[]
-  Voucher                     Voucher[]
+  id            Int           @id @default(autoincrement())
+  username      String
+  email         String        @unique
+  password      String
+  role          Role          @default(CUSTOMER)
+  referral      String        @unique
+  points        Int           @default(0)
+  pointsExpired DateTime?
+  // userReward    Boolean       @default(false)
+  avatar        String?
+  Event         Event[]
+  Reward        Reward[]
+  Review        Review[]
+  Transaction   Transaction[]
+  Coupon        Coupon[]
 
   @@map("users")
 }
-
-model ReferralHistory {
-  id         Int      @id @default(autoincrement())
-  referrerId Int
-  referredId Int
-  createdAt  DateTime @default(now())
-  referrer   User     @relation("referralHistoriesAsReferrer", fields: [referrerId], references: [id])
-  user       User     @relation("referralHistoriesAsReferred", fields: [referredId], references: [id])
-
-  @@map("referral_history")
-}
-
-// model Category {
-//   id    Int     @id @default(autoincrement())
-//   name  String  @unique
-//   Event Event[]
-
-//   @@map("categories")
-// }
 
 model Event {
   id             Int          @id @default(autoincrement())
   title          String       @unique
   description    String       @db.LongText
-  venue          String
+  category       String
   thumbnail      String
-  organizer      User         @relation(fields: [organizerId], references: [id])
-  organizerId    Int
-  location       Location     @relation(fields: [locationId], references: [id])
-  locationId     Int
+  location       String
+  address        String?
   availableSeats Int
-  booked         Int
   startDate      DateTime
   endDate        DateTime
   isFree         Boolean      @default(false)
+  price          Int
+  booked         Int
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  category       String
-  ticketTypes    TicketType[]
-  // Order          Order[]
-  voucher        Voucher[]
-  review         Review[]
+  deletedAt      DateTime?
+  organizerId    Int
+  organizer      User         @relation(fields: [organizerId], references: [id])
+  Review         Review[]
+  Transaction    Transaction?
+  Coupon         Coupon[]
 
   @@map("events")
 }
 
-model TicketType {
-  id      Int    @id @default(autoincrement())
-  name    String
-  limit   Int
-  price   Int
-  event   Event  @relation(fields: [eventId], references: [id])
-  eventId Int
-  // Order   Order[]
+model Coupon {
+  id             Int           @id @default(autoincrement())
+  event          Event         @relation(fields: [eventId], references: [id])
+  eventId        Int
+  organizer      User          @relation(fields: [organizerId], references: [id])
+  organizerId    Int
+  code           String        @unique
+  discountAmount Int
+  expirationDate DateTime
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  Transaction    Transaction[]
 
-  @@map("ticket_types")
-}
-
-model Location {
-  id    Int     @id @default(autoincrement())
-  city  String
-  event Event[]
-  // Order   Order[]
-
-  @@map("locations")
-}
-
-model Voucher {
-  id          Int      @id @default(autoincrement())
-  event       Event    @relation(fields: [eventId], references: [id])
-  organizer   User     @relation(fields: [organizerId], references: [id])
-  eventId     Int
-  organizerId Int
-  voucher     String
-  price       Int
-  limit       Int
-  isUsed      Boolean  @default(false)
-  createdAt   DateTime @default(now())
-
-  @@map("vouchers")
+  @@map("coupons")
 }
 
 model Reward {
@@ -126,21 +85,35 @@ model Reward {
   @@map("rewards")
 }
 
-// model Order {
-//   id           Int        @id @default(autoincrement())
-//   buyer        User       @relation(fields: [buyerId], references: [id])
-//   event        Event      @relation(fields: [eventId], references: [id])
-//   ticketType   TicketType @relation(fields: [ticketTypeId], references: [id])
-//   buyerId      Int
-//   eventId      Int
-//   ticketTypeId Int
-//   totalAmount  Float
-//   status       String
-//   createdAt    DateTime   @default(now())
-//   updatedAt    DateTime   @default(now())
+model Transaction {
+  id           Int               @id @default(autoincrement())
+  status       TransactionStatus @default(PENDING)
+  qty          Int
+  total        Int
+  userId       Int
+  eventId      Int               @unique
+  paymentProof String            @default("")
+  couponId     Int?
 
-//   @@map("orders")
-// }
+  coupon            Coupon?            @relation(fields: [couponId], references: [id])
+  event             Event              @relation(fields: [eventId], references: [id])
+  user              User               @relation(fields: [userId], references: [id])
+  TransactionDetail TransactionDetail?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  @@map("transactions")
+}
+
+model TransactionDetail {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  transactionId Int      @unique
+
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+
+  @@map("transactionDetails")
+}
 
 model Review {
   id        Int      @id @default(autoincrement())
@@ -158,4 +131,11 @@ model Review {
 enum Role {
   CUSTOMER
   ORGANIZER
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETE
+  ERROR
+  CANCELLED
 }

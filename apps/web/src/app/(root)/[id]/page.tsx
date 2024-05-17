@@ -143,7 +143,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                   <p className=" text-sm text-white font-medium flex items-center gap-1">
                     <LocateIcon size={15} />
                     <span>
-                      {event.location.city}, {event.venue}
+                      {event.location}, {event.address}
                     </span>
                   </p>
                   <hr className="mt-2 border-gray-300" />
@@ -162,25 +162,22 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                   </div>
                   <div>
                     <p>Price: </p>
-                    <p>
-                      {event.ticketTypes.length > 0 &&
-                        event.ticketTypes[0].price}
-                    </p>
+                    <p>{event.price}</p>
                   </div>
-                  <div>
+                  {/* <div>
                     <p>Ticket Type: </p>
                     <p>
                       {event.ticketTypes.length > 0 &&
                         event.ticketTypes[0].name}
                     </p>
-                  </div>
-                  <div className="grid col-span-2 justify-center text-lg font-medium">
+                  </div> */}
+                  {/* <div className="grid col-span-2 justify-center text-lg font-medium">
                     <p>Stock of Ticket: </p>
                     <p className="text-center">
                       {event.ticketTypes.length > 0 &&
                         event.ticketTypes[0].limit}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </CardContent>
 

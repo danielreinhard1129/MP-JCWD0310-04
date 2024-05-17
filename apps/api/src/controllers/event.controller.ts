@@ -31,16 +31,6 @@ export class EventController {
     }
   }
 
-  async getLocationController(req: Request, res: Response, next: NextFunction) {
-    try {
-      const result = await getLocationService();
-
-      return res.status(200).send(result);
-    } catch (error) {
-      next(error);
-    }
-  }
-
   async getEventsController(req: Request, res: Response, next: NextFunction) {
     try {
       const query = {

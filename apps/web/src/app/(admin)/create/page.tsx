@@ -7,27 +7,27 @@ import { Formik } from 'formik';
 import CreateEventForm from './components/CreateEventForm';
 import { validationSchema } from './validationSchema';
 
-const Write = () => {
+const CreateEvent = () => {
   const { createEvent, isLoading } = useCreateEvent();
   const { id } = useAppSelector((state) => state.user);
 
   const initialValues = {
     title: '',
     description: '',
-    locationId: 0,
-    venue: '',
+    location: '',
+    address: '',
     thumbnail: [],
     category: '',
     availableSeats: 0,
     booked: 0,
-    // price: 0,
+    price: 0,
     isFree: false,
     startDate: new Date(),
     endDate: new Date(),
-    ticketTypes: [{ name: '', price: 0, limit: 0 }],
-    voucherName: '',
-    voucherLimit: 0,
-    voucherPrice: 0,
+    // ticketTypes: [{ id: 0, name: '', price: 0, limit: 0 }],
+    // voucherName: '',
+    // voucherLimit: 0,
+    // voucherPrice: 0,
   };
 
   return (
@@ -36,15 +36,17 @@ const Write = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          const validTicketTypes = values.ticketTypes.filter(
-            (ticketType) =>
-              ticketType.name.trim() !== '' ||
-              ticketType.price > 0 ||
-              ticketType.limit > 0,
-          );
+          console.log(values);
+
+          // const validTicketTypes = values.ticketTypes.filter(
+          //   (ticketType) =>
+          //     ticketType.name.trim() !== '' ||
+          //     ticketType.price > 0 ||
+          //     ticketType.limit > 0,
+          // );
           createEvent({
             ...values,
-            ticketTypes: validTicketTypes,
+            // ticketTypes: validTicketTypes,
             organizerId: id,
           });
         }}
@@ -55,4 +57,4 @@ const Write = () => {
   );
 };
 
-export default AuthGuardAdmin(Write);
+export default AuthGuardAdmin(CreateEvent);

@@ -33,17 +33,11 @@ export default function UpcomingEvent() {
               author={event.organizer.username}
               category={event.category}
               description={event.description}
-              location={event.location.city}
+              location={event.location}
               imageUrl={appConfig.baseURL + `/assets${event.thumbnail}`}
               startDate={new Date(event.startDate)}
               endDate={new Date(event.endDate)}
-              price={
-                event.ticketTypes.length === 0 ||
-                event.ticketTypes[0].price === 0 ||
-                event.ticketTypes[0].price === null
-                  ? 'FREE'
-                  : event.ticketTypes[0].price
-              }
+              price={event.price}
               eventId={event.id}
             />
           );

@@ -3,7 +3,6 @@
 import { useToast } from '@/components/ui/use-toast';
 import { axiosInstance } from '@/lib/axios';
 import { Event, IFormCreateEvent } from '@/types/event.type';
-import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FileWithPath } from 'react-dropzone';
@@ -23,9 +22,9 @@ const useCreateEvent = () => {
           value.forEach((file: FileWithPath) => {
             createEventForm.append(key, file);
           });
-        } else if (key === 'ticketTypes') {
-          // Append ticketTypes as JSON string
-          createEventForm.append(key, JSON.stringify(value));
+          // } else if (key === 'ticketTypes') {
+          //   // Append ticketTypes as JSON string
+          //   createEventForm.append(key, JSON.stringify(value));
         } else {
           createEventForm.append(key, String(value));
         }
