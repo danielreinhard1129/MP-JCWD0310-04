@@ -37,8 +37,8 @@ const Autocomplete = () => {
 
   return (
     <AsyncSelect
-      placeholder="Search for event"
-      className="mx-auto my-4 max-w-[650px]"
+      placeholder="Search for event..."
+      className="mx-auto my-4 max-w-[650px] font-mono"
       loadOptions={debounceLoadOptions}
       isLoading={isLoading}
       onChange={(event) => {

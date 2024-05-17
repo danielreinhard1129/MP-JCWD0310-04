@@ -54,6 +54,7 @@ const EventCardNew: FC<EventCardProps> = ({
               alt="Thumbnail"
               style={{ objectFit: 'cover' }}
               fill
+              className='bg-center'
             />
           </div>
         </CardHeader>
@@ -67,7 +68,7 @@ const EventCardNew: FC<EventCardProps> = ({
             </Badge>
           </div>
           <CardTitle className="md:text-xl">{title}</CardTitle>
-          <h2 className="line-clamp-2 text-lg font-semibold"></h2>
+
           <p className="text-sm font-light italic flex gap-1">
             <CalendarIcon size={20} />
             {format(startDate, 'hh MMM yyyy')} -{' '}
@@ -80,7 +81,7 @@ const EventCardNew: FC<EventCardProps> = ({
         </CardContent>
         <CardFooter className="flex justify-between md:text-sm">
           <div>{priceEvent}</div>
-          <Button className="bg-blue-700">Buy</Button>
+          <Button className="bg-blue-700 w-1/4">Buy</Button>
         </CardFooter>
       </Card>
     </Link>

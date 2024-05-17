@@ -24,8 +24,7 @@ const Register = () => {
       email: '',
       password: '',
       referral: '',
-      role: 'customer',
-      points: 0,
+      role: 'organizer',
     },
     validationSchema: validationSchemaRegister,
     onSubmit: (values) => {
@@ -35,9 +34,9 @@ const Register = () => {
   return (
     <main className=" container flex items-center justify-center h-screen">
       <div className=" mx-auto px-4 md:py-8 py-24 mb-6  ">
-        <div className="md:mt-16 grid md:grid-cols-2 w-[700px]   ">
+        <div className="md:mt-16 grid md:grid-cols-2  md:w-[700px] ">
           {/* kiri */}
-          <div className="relative bg-cover bg-primary bg-center rounded-l-lg ">
+          <div className="relative bg-cover bg-primary bg-center rounded-l-lg hidden md:block ">
             <div className=" relative h-[25px] w-1/4  p-5 ">
               <Image
                 src="/assets/images/eventure_logo.png"
@@ -52,18 +51,18 @@ const Register = () => {
                   Welcome Back!
                 </h2>
                 <p className="mb-6 text-lg font-semibold font-mono break-words mr-10 ">
-                  Discover all new event. sign in for personalized
-                  recommendations today.
+                  Discover all new event. sign in for making your own event
+                  today.
                 </p>
               </div>
             </div>
           </div>
 
           <div>
-            <div className="w-full text-black md:shadow-2xl  rounded-r-lg p-5">
+            <div className="w-full text-black md:shadow-2xl rounded-r-lg p-5">
               <CardHeader className="space-y-2">
                 <CardTitle className="text-center text-2xl mt-4">
-                  Register
+                  Register Organizer
                 </CardTitle>
                 <CardDescription className="text-center">
                   Create an account, and book your event
@@ -130,12 +129,6 @@ const Register = () => {
                       onClick={() => router.push('/login')}
                     >
                       Already have an account ?
-                    </p>
-                    <p
-                      className="cursor-pointer text-end text-xs"
-                      onClick={() => router.push('/register-organizer')}
-                    >
-                      Register as Organizer
                     </p>
                   </div>
                 </form>
