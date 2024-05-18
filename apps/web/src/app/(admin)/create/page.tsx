@@ -21,7 +21,6 @@ const CreateEvent = () => {
     availableSeats: 0,
     booked: 0,
     price: 0,
-    isFree: false,
     startDate: new Date(),
     endDate: new Date(),
   };
@@ -42,7 +41,6 @@ const CreateEvent = () => {
           // );
           createEvent({
             ...values,
-            // ticketTypes: validTicketTypes,
             organizerId: id,
           });
         }}

@@ -6,7 +6,6 @@ import { Transaction, IFormCreateTransaction } from '@/types/ts.type';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-// import { FileWithPath } from 'react-dropzone';
 
 const useCreateTransaction = () => {
   const [isLoadinger, setIsLoadinger] = useState<boolean>(false);
@@ -16,18 +15,14 @@ const useCreateTransaction = () => {
   const createTransaction = async (payload: IFormCreateTransaction) => {
     setIsLoadinger(true);
     try {
-      const { qty, userId, eventId, totalAmount } = payload;
+      const { qty, userId, eventId, total } = payload;
 
       const createTransactionForm = new FormData();
 
       createTransactionForm.append('userId', String(userId));
       createTransactionForm.append('eventId', String(eventId));
       createTransactionForm.append('qty', String(qty));
-      createTransactionForm.append('total', String(totalAmount));
-
-      // paymentProof.forEach((file: FileWithPath) => {
-      //   createTransactionForm.append('paymentProof', file);
-      // });
+      createTransactionForm.append('total', String(total));
 
       await axios.post<Transaction>(
         'http://localhost:8000/api/transactions',

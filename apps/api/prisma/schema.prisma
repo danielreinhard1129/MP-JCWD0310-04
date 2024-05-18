@@ -44,7 +44,6 @@ model Event {
   availableSeats Int
   startDate      DateTime
   endDate        DateTime
-  // isFree         Boolean       @default(false)
   price          Int
   booked         Int
   createdAt      DateTime      @default(now())
@@ -142,7 +141,7 @@ model Transaction {
   userCouponId  Int?
   userVoucherId Int?
   qty           Int
-  isUsePoint    Boolean
+  isPointUse    Boolean
   isUseCoupon   Boolean
   isUseVoucher  Boolean
 
