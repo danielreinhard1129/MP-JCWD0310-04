@@ -1,28 +1,36 @@
 'use client';
 
+import { useToast } from '@/components/ui/use-toast';
 import { axiosInstance } from '@/lib/axios';
 import { Transaction, IFormCreateTransaction } from '@/types/ts.type';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+// import { FileWithPath } from 'react-dropzone';
 
 const useCreateTransaction = () => {
+  const [isLoadinger, setIsLoadinger] = useState<boolean>(false);
   const router = useRouter();
+  const { toast } = useToast();
 
   const createTransaction = async (payload: IFormCreateTransaction) => {
+    setIsLoadinger(true);
     try {
-      const { qty } = payload;
+      const { qty, userId, eventId, totalAmount } = payload;
 
       const createTransactionForm = new FormData();
 
-      createTransactionForm.append('buyerId', String(qty));
-      // createTransactionForm.append('eventId', String(eventId));
-      // createTransactionForm.append('ticketTypeId', String(ticketTypeId));
-      // createTransactionForm.append('qty', String(qty));
-      // createTransactionForm.append('totalAmount', String(totalAmount));
-      // createTransactionForm.append('status', status);
+      createTransactionForm.append('userId', String(userId));
+      createTransactionForm.append('eventId', String(eventId));
+      createTransactionForm.append('qty', String(qty));
+      createTransactionForm.append('total', String(totalAmount));
 
-      await axiosInstance.post<Transaction>(
-        '/transactions',
+      // paymentProof.forEach((file: FileWithPath) => {
+      //   createTransactionForm.append('paymentProof', file);
+      // });
+
+      await axios.post<Transaction>(
+        'http://localhost:8000/api/transactions',
         createTransactionForm,
       );
       //   toast success here
@@ -34,9 +42,11 @@ const useCreateTransaction = () => {
 
         // FIXME: message
       }
+    } finally {
+      setIsLoadinger(false);
     }
   };
-  return { createTransaction };
+  return { createTransaction, isLoadinger };
 };
 
 export default useCreateTransaction;

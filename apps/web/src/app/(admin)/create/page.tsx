@@ -24,10 +24,6 @@ const CreateEvent = () => {
     isFree: false,
     startDate: new Date(),
     endDate: new Date(),
-    // ticketTypes: [{ id: 0, name: '', price: 0, limit: 0 }],
-    // voucherName: '',
-    // voucherLimit: 0,
-    // voucherPrice: 0,
   };
 
   return (

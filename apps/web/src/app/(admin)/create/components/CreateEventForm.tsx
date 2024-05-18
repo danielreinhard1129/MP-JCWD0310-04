@@ -18,7 +18,7 @@ interface EventCreateFormProps {
 }
 
 const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
-  const [isFree, setIsFree] = useState(false);
+  // const [isFree, setIsFree] = useState(false);
   const {
     handleSubmit,
     handleChange,
@@ -29,14 +29,14 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
     touched,
   } = useFormikContext<IFormCreateEvent>();
 
-  useEffect(() => {
-    // Saat nilai checkbox berubah, perbarui nilai isFree di formik
-    setFieldValue('isFree', isFree);
-  }, [isFree, setFieldValue]);
+  // useEffect(() => {
+  //   // Saat nilai checkbox berubah, perbarui nilai isFree di formik
+  //   setFieldValue('isFree', isFree);
+  // }, [isFree, setFieldValue]);
 
-  const handleCheckboxChange = (e: any) => {
-    setIsFree(e.target.checked);
-  };
+  // const handleCheckboxChange = (e: any) => {
+  //   setIsFree(e.target.checked);
+  // };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -103,7 +103,7 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
 
             {/* Location */}
             <div className="flex items-center mt-4 mb-8">
-              <Label className="w-28 text-left mr-4">Category</Label>
+              <Label className="w-28 text-left mr-4">Location</Label>
               <select
                 id="locations"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 flex-1"
@@ -156,7 +156,7 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               Date & Time
               <hr className="mb-3 md:mt-3" />
             </h2>
-            <div className="flex items-center gap-5 my-1 ">
+            {/* <div className="flex items-center gap-5 my-1 ">
               <Input
                 type="checkbox"
                 name="isFree"
@@ -165,7 +165,7 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 className="w-3 h-3"
               />
               <Label className=" text-base">Is this event free?</Label>
-            </div>
+            </div> */}
 
             <div className="flex md:gap-5 gap-3 justify-start mt-6">
               <FormInput
@@ -198,28 +198,25 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               <hr className="mb-3" />
             </h2>
             <div className="flex items-center gap-5 mt-4">
-              <Label className="w-28 text-left mr-4">Available Seats</Label>
-              <div className="flex-1">
-                <FormInput
-                  name="availableSeats"
-                  label=""
-                  error={errors.availableSeats}
-                  isError={!!touched.availableSeats && !!errors.availableSeats}
-                  handleBlur={handleBlur}
-                  // handleChange={handleChange}
-                  handleChange={(e: any) => {
-                    // Dapatkan nilai dari input
-                    const newValue = parseInt(e.target.value);
-                    // Perbarui nilai availableSeats di dalam form values
-                    setFieldValue('availableSeats', newValue);
-                    // Panggil handleChange dari Formik untuk menangani perubahan nilai input lainnya
-                    handleChange(e);
-                  }}
-                  placeholder="availableSeats"
-                  type="number"
-                  value={values.availableSeats}
-                />
-              </div>
+              <FormInput
+                name="availableSeats"
+                label="availableSeats"
+                error={errors.availableSeats}
+                isError={!!touched.availableSeats && !!errors.availableSeats}
+                handleBlur={handleBlur}
+                handleChange={handleChange}
+                // handleChange={(e: any) => {
+                //   // Dapatkan nilai dari input
+                //   const newValue = parseInt(e.target.value);
+                //   // Perbarui nilai availableSeats di dalam form values
+                //   setFieldValue('availableSeats', newValue);
+                //   // Panggil handleChange dari Formik untuk menangani perubahan nilai input lainnya
+                //   handleChange(e);
+                // }}
+                placeholder="availableSeats"
+                type="number"
+                value={values.availableSeats}
+              />
 
               <FormInputCurrency
                 name="price"
@@ -232,7 +229,7 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 handleBlur={handleBlur}
                 handleChange={handleChange}
                 setFieldValue={setFieldValue}
-                disabled={isFree}
+                // disabled={isFree}
               />
             </div>
             {/* <div

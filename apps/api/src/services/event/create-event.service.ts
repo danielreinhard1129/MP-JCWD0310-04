@@ -3,10 +3,6 @@ import { Event } from '@prisma/client';
 
 interface CreateEventBody
   extends Omit<Event, 'thumbnail' | 'updatedAt' | 'createdAt'> {
-  // ticketTypes: string;
-  // voucherName: string;
-  // voucherLimit: number;
-  // voucherPrice: number;
   // isFree: string;
 }
 export const createEventService = async (
@@ -24,18 +20,10 @@ export const createEventService = async (
       availableSeats,
       startDate,
       endDate,
-      isFree,
+      // isFree,
       price,
       booked,
       organizerId,
-
-      // // Ticket Type
-      // ticketTypes,
-
-      // // Voucher
-      // voucherName,
-      // voucherLimit,
-      // voucherPrice,
     } = body;
 
     const existingTitle = await prisma.event.findFirst({
@@ -64,7 +52,7 @@ export const createEventService = async (
         category: String(category),
         startDate: new Date(startDate),
         endDate: new Date(endDate),
-        isFree: Boolean(isFree),
+        // isFree: isFreeValue,
         booked: 0,
         price: Number(price),
         availableSeats: Number(availableSeats),
@@ -84,7 +72,28 @@ export const createEventService = async (
     //     })),
     //     skipDuplicates: true,
     //   });
+    // if (!isFreeValue) {
+    //   await prisma.ticketType.createMany({
+    //     data: JSON.parse(ticketTypes).map((ticketType: any) => ({
+    //       name: String(ticketType.name),
+    //       price: Number(ticketType.price),
+    //       limit: Number(ticketType.limit),
+    //       eventId: event.id,
+    //     })),
+    //     skipDuplicates: true,
+    //   });
 
+    //   await prisma.voucher.create({
+    //     data: {
+    //       voucher: String(voucherName),
+    //       price: Number(voucherPrice),
+    //       limit: Number(voucherLimit),
+    //       isUsed: false,
+    //       organizerId: Number(organizerId),
+    //       eventId: event.id,
+    //     },
+    //   });
+    // }
     //   await prisma.voucher.create({
     //     data: {
     //       voucher: String(voucherName),

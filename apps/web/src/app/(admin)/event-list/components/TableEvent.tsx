@@ -51,7 +51,6 @@ const TableEvent = () => {
               <TableHead>Time</TableHead>
               <TableHead>Available Seats</TableHead>
               <TableHead>Booked</TableHead>
-              <TableHead>Free Event</TableHead>
               <TableHead>Price</TableHead>
               <TableHead></TableHead>
             </TableRow>
@@ -90,12 +89,9 @@ const TableEvent = () => {
                   </TableCell>
                   <TableCell>{event.availableSeats}</TableCell>
                   <TableCell>{event.booked}</TableCell>
-                  <TableCell
-                    className={event.isFree ? 'text-green-500' : 'text-red-500'}
-                  >
-                    {event.isFree ? 'true' : 'false'}
+                  <TableCell>
+                    {event.price === 0 ? 'Free' : event.price}
                   </TableCell>
-                  <TableCell>{event.price}</TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>

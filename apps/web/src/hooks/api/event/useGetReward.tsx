@@ -21,7 +21,7 @@ const useGetReward = (id: number) => {
 
   useEffect(() => {
     getReward();
-  }, [data]);
+  }, []);
   return {
     reward: data,
     refetch: getReward,
