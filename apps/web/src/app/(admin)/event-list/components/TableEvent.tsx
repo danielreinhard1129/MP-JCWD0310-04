@@ -34,6 +34,13 @@ import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu';
 const TableEvent = () => {
   const { data: events } = useGetEvents({});
 
+  const formatRupiah = (number: any) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+    }).format(number);
+  };
+
   return (
     <section className="container h-screen w-full ">
       <div className="text-4xl font-bold p-5 mt-10">
@@ -90,7 +97,7 @@ const TableEvent = () => {
                   <TableCell>{event.availableSeats}</TableCell>
                   <TableCell>{event.booked}</TableCell>
                   <TableCell>
-                    {event.price === 0 ? 'Free' : event.price}
+                    {event.price === 0 ? 'Free' : formatRupiah(event.price)}
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>

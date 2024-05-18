@@ -12,7 +12,7 @@ export class TransactionRouter {
   }
 
   private initializeRoutes(): void {
-    // this.router.get('/', this.OrderController.getRewardsController);
+    this.router.get('/', this.transactionController.getTransactionController);
     this.router.post(
       '/',
       this.transactionController.createTransactionController,

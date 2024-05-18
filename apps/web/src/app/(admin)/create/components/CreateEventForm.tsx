@@ -6,19 +6,17 @@ import FormInputCurrency from '@/components/FormInputCurrency';
 import FormTextArea from '@/components/FormTextArea';
 import PreviewImages from '@/components/PreviewImages';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { IFormCreateEvent } from '@/types/event.type';
-import { FieldArray, useFormikContext } from 'formik';
-import { CirclePlus, DeleteIcon, Loader2 } from 'lucide-react';
-import { FC, useEffect, useState } from 'react';
+import { useFormikContext } from 'formik';
+import { Loader2 } from 'lucide-react';
+import { FC } from 'react';
 
 interface EventCreateFormProps {
   isLoading: boolean;
 }
 
 const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
-  // const [isFree, setIsFree] = useState(false);
   const {
     handleSubmit,
     handleChange,
@@ -28,15 +26,6 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
     errors,
     touched,
   } = useFormikContext<IFormCreateEvent>();
-
-  // useEffect(() => {
-  //   // Saat nilai checkbox berubah, perbarui nilai isFree di formik
-  //   setFieldValue('isFree', isFree);
-  // }, [isFree, setFieldValue]);
-
-  // const handleCheckboxChange = (e: any) => {
-  //   setIsFree(e.target.checked);
-  // };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -205,14 +194,6 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 isError={!!touched.availableSeats && !!errors.availableSeats}
                 handleBlur={handleBlur}
                 handleChange={handleChange}
-                // handleChange={(e: any) => {
-                //   // Dapatkan nilai dari input
-                //   const newValue = parseInt(e.target.value);
-                //   // Perbarui nilai availableSeats di dalam form values
-                //   setFieldValue('availableSeats', newValue);
-                //   // Panggil handleChange dari Formik untuk menangani perubahan nilai input lainnya
-                //   handleChange(e);
-                // }}
                 placeholder="availableSeats"
                 type="number"
                 value={values.availableSeats}
@@ -224,12 +205,9 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 type="number"
                 placeholder="Price"
                 value={values.price}
-                // error={errors.price}
-                // isError={!!touched.price && !!errors.price}
                 handleBlur={handleBlur}
                 handleChange={handleChange}
                 setFieldValue={setFieldValue}
-                // disabled={isFree}
               />
             </div>
             {/* <div

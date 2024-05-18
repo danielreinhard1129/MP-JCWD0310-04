@@ -2,10 +2,8 @@
 
 import { FormikHandlers } from 'formik';
 import React from 'react';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { number } from 'yup';
 import CurrencyInput from 'react-currency-input-field';
+import { Label } from './ui/label';
 
 interface FormInputProps {
   name: string;
