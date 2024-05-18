@@ -8,8 +8,7 @@ export default function AuthGuardAdmin(Component: any) {
   return function IsAuth(props: any) {
     const [isLoading, setIsLoading] = useState(true);
 
-    const { id } = useAppSelector((state) => state.user);
-    const { role } = useAppSelector((state) => state.user);
+    const { id, role } = useAppSelector((state) => state.user);
 
     useEffect(() => {
       setTimeout(() => {

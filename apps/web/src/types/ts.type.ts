@@ -6,7 +6,7 @@ export interface Transaction {
   status: string;
   qty: number;
   total: number;
-  paymentProof: string;
+  paymentProof: string | null;
   eventId: number;
   userId: number;
   createdAt: Date;
@@ -17,4 +17,8 @@ export interface Transaction {
 
 export interface IFormCreateTransaction {
   qty: number;
+  totalAmount: number;
+  eventId?: number | undefined;
+  userId?: number | undefined;
+  // paymentProof: File[];
 }

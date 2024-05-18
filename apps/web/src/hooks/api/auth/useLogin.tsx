@@ -31,12 +31,15 @@ const useLogin = () => {
 
       dispatch(loginAction(data.data));
       localStorage.setItem('token', data.token);
-      toast({
-        description: 'login success',
-      });
       if (data.data.role === 'ORGANIZER') {
+        toast({
+          description: 'login as Organizer success',
+        });
         router.replace('/dashboard');
       } else {
+        toast({
+          description: 'login as Customer success',
+        });
         router.replace('/');
       }
     } catch (error) {
