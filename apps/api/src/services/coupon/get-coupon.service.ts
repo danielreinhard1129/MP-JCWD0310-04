@@ -1,8 +1,8 @@
 import prisma from '@/prisma';
 
-export const getRewardService = async (id: number) => {
+export const getCouponService = async (id: number) => {
   try {
-    const reward = await prisma.reward.findFirst({
+    const reward = await prisma.coupon.findFirst({
       where: { userId: id },
       include: {
         user: true,

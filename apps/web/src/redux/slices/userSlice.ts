@@ -1,7 +1,7 @@
 import { User } from '@/types/user.type';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState: User = {
+const initialState: Omit<User, 'password'> = {
   id: 0,
   username: '',
   email: '',

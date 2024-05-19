@@ -24,7 +24,8 @@ const Register = () => {
       email: '',
       password: '',
       referral: '',
-      role: 'organizer',
+      points: 0,
+      role: 'ORGANIZER',
     },
     validationSchema: validationSchemaRegister,
     onSubmit: (values) => {

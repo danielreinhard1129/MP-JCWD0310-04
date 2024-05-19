@@ -14,7 +14,7 @@ import { EventRouter } from './routers/event.router';
 import { join } from 'path';
 import { UserRouter } from './routers/user.router';
 import { ReviewRouter } from './routers/review.router';
-import { RewardRouter } from './routers/reward.router';
+import { CouponRouter } from './routers/coupon.router';
 import { TransactionRouter } from './routers/transaction.router';
 
 export default class App {
@@ -62,7 +62,7 @@ export default class App {
     const eventRouter = new EventRouter();
     const userRouter = new UserRouter();
     const reviewRouter = new ReviewRouter();
-    const rewardRouter = new RewardRouter();
+    const couponRouter = new CouponRouter();
     const transactionRouter = new TransactionRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
@@ -73,7 +73,7 @@ export default class App {
     this.app.use('/api/events', eventRouter.getRouter());
     this.app.use('/api/users', userRouter.getRouter());
     this.app.use('/api/review', reviewRouter.getRouter());
-    this.app.use('/api/rewards', rewardRouter.getRouter());
+    this.app.use('/api/coupons', couponRouter.getRouter());
     this.app.use('/api/transactions', transactionRouter.getRouter());
   }
 

@@ -1,21 +1,48 @@
-import { TransactionController } from '@/controllers/transaction.controller';
 import { Router } from 'express';
+import { uploader } from '@/lib/uploader';
+import { TransactionController } from '@/controllers/transaction.controller';
 
 export class TransactionRouter {
   private router: Router;
   private transactionController: TransactionController;
 
   constructor() {
-    this.transactionController = new TransactionController();
     this.router = Router();
+    this.transactionController = new TransactionController();
     this.initializeRoutes();
   }
 
   private initializeRoutes(): void {
-    this.router.get('/', this.transactionController.getTransactionController);
+    // Endpoint untuk mendapatkan transaksi oleh organizer
+    this.router.get(
+      '/organizer',
+      this.transactionController.getTransactionsController,
+    );
+
+    // Endpoint untuk membuat transaksi baru
     this.router.post(
       '/',
-      this.transactionController.createTransactionController,
+      uploader('IMG', '/txProof').array('paymentProof', 1),
+      this.transactionController.createTransaction,
+    );
+
+    // Endpoint untuk mendapatkan detail transaksi berdasarkan ID
+    this.router.get(
+      '/:id',
+      this.transactionController.getTransactionController,
+    );
+
+    // Endpoint untuk memperbarui transaksi berdasarkan ID
+    this.router.patch(
+      '/:id',
+      uploader('IMG', '/txProof').array('paymentProof', 1),
+      this.transactionController.updateTransactionController,
+    );
+
+    // Endpoint untuk memperbarui status transaksi berdasarkan ID
+    this.router.patch(
+      '/:id/status',
+      this.transactionController.updateTransactionStatusController,
     );
   }
 

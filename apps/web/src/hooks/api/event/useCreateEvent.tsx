@@ -34,7 +34,7 @@ const useCreateEvent = () => {
       toast({
         description: 'create event success',
       });
-      router.push('/dashboard');
+      router.push('/event-list');
     } catch (error) {
       console.log(error);
     } finally {

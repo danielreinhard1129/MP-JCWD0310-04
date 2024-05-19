@@ -20,6 +20,15 @@ export class EventRouter {
       uploader('IMG', '/images').array('thumbnail', 1),
       this.eventController.createEventController,
     );
+    this.router.get(
+      '/organizer',
+      this.eventController.getEventsByOrganizerController,
+    );
+    this.router.patch(
+      '/edit/:id',
+      uploader('IMG', '/images').array('thumbnail', 1),
+      this.eventController.updateEventsController,
+    );
     this.router.get('/', this.eventController.getEventsController);
     this.router.get('/:id', this.eventController.getEventController);
   }

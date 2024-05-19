@@ -35,7 +35,7 @@ const useLogin = () => {
         toast({
           description: 'login as Organizer success',
         });
-        router.replace('/dashboard');
+        router.replace('/event-list');
       } else {
         toast({
           description: 'login as Customer success',

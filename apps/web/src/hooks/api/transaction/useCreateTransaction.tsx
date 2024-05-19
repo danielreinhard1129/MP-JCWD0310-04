@@ -15,14 +15,14 @@ const useCreateTransaction = () => {
   const createTransaction = async (payload: IFormCreateTransaction) => {
     setIsLoadinger(true);
     try {
-      const { qty, userId, eventId, total } = payload;
+      const { qty, userId, eventId } = payload;
 
       const createTransactionForm = new FormData();
 
       createTransactionForm.append('userId', String(userId));
       createTransactionForm.append('eventId', String(eventId));
       createTransactionForm.append('qty', String(qty));
-      createTransactionForm.append('total', String(total));
+      // createTransactionForm.append('total', String(total));
 
       await axios.post<Transaction>(
         'http://localhost:8000/api/transactions',

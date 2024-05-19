@@ -2,15 +2,14 @@ import { hashPassword } from '@/lib/bcrypt';
 import { generateReferralCode } from '@/lib/referralGenerator';
 import prisma from '@/prisma';
 import { User } from '@prisma/client';
+import { addMonths } from 'date-fns';
 
-export const registerService = async (
-  body: Pick<User, 'email' | 'username' | 'password' | 'referral'>,
-): Promise<User> => {
+export const registerService = async (body: Omit<User, 'id'>) => {
   try {
     const { username, email, password, referral } = body;
 
     // Cek email sudah terdaftar atau belum
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.user.findFirst({
       where: { email },
     });
 
@@ -18,68 +17,69 @@ export const registerService = async (
       throw new Error('Email already exists');
     }
 
-    // Buat kode referral baru untuk user yang mendaftar
-    const userReferral = generateReferralCode();
-
     // Hash password sebelum simpan
     const hashedPassword = await hashPassword(password);
 
+    // Buat kode referral baru untuk user yang mendaftar
+    const userReferral = generateReferralCode();
+
     // Buat user baru
-    const newUser = await prisma.$transaction(async (transaction) => {
-      const user = await transaction.user.create({
+    const newUser = await prisma.user.create({
+      data: {
+        ...body,
+        password: hashedPassword,
+        referral: userReferral,
+        points: 0,
+        pointsExpired: new Date(),
+      },
+    });
+
+    const userCoupon = String(
+      newUser.username.substring(0, 3) + Math.ceil(Math.random() * 1000),
+    ).toUpperCase();
+
+    if (referral) {
+      const referredUser = await prisma.user.findFirst({
+        where: { referral: referral },
+      });
+
+      if (!referredUser) {
+        throw new Error('Invalid referral code');
+      }
+
+      const today = new Date();
+      const expiredDate = addMonths(today, 3).toISOString();
+
+      await prisma.user.update({
+        where: { id: referredUser.id },
         data: {
-          username,
-          email,
-          role: 'CUSTOMER',
-          password: hashedPassword,
-          referral: userReferral,
-          points: 0,
+          points: { increment: 10000 },
+          pointsExpired: expiredDate,
         },
       });
 
-      if (!referral) {
-        return user;
-      } else {
-        const findUserReferral = await prisma.user.findFirst({
-          where: { referral },
-        });
+      await prisma.user.update({
+        where: { id: newUser.id },
+        data: {
+          userReward: true,
+        },
+      });
 
-        if (!findUserReferral || findUserReferral.role === 'ORGANIZER') {
-          throw new Error('Referral not found');
-        }
+      await prisma.coupon.create({
+        data: {
+          isUse: false,
+          code: userCoupon,
+          discountAmount: 10000,
+          expirationDate: expiredDate,
+          userId: newUser.id,
+        },
+      });
+    }
 
-        if (findUserReferral) {
-          // Hitung tanggal 3 bulan dari sekarang
-          const currentDate = new Date();
-          const threeMonthsLater = new Date(
-            currentDate.setMonth(currentDate.getMonth() + 3),
-          );
-          await transaction.user.update({
-            where: { id: findUserReferral.id },
-            data: {
-              points: {
-                increment: 10000, // Tambahkan 10000 poin
-              },
-              pointsExpired: threeMonthsLater,
-            },
-          });
-
-          // Buat reward user
-          await transaction.reward.create({
-            data: {
-              userId: user.id,
-              title: '10% discount',
-              percentage: 10,
-              nominal: 2000,
-              isUsed: false,
-            },
-          });
-        }
-      }
-      return user;
-    });
-
-    return newUser;
+    return {
+      message: 'Register success!',
+      data: newUser,
+    };
   } catch (error) {
     throw error;
   }

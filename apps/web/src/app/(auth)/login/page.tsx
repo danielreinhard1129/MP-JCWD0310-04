@@ -53,9 +53,7 @@ const Login = () => {
           <div>
             <div className="w-full text-black md:shadow-2xl  rounded-r-lg p-5">
               <CardHeader className="space-y-4">
-                <CardTitle className="text-center text-3xl ">
-                  Login
-                </CardTitle>
+                <CardTitle className="text-center text-3xl ">Login</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit}>
@@ -84,17 +82,25 @@ const Login = () => {
                       handleChange={handleChange}
                     />
 
+                    <div className="flex justify-between gap-6">
+                      <p
+                        className="cursor-pointer text-end text-xs"
+                        onClick={() => router.push('/forgot-password')}
+                      >
+                        Forgot Password ?
+                      </p>
+                      <p
+                        className="cursor-pointer text-end text-xs"
+                        onClick={() => router.push('/register-organizer')}
+                      >
+                        Register as Organizer
+                      </p>
+                    </div>
                     <p
                       className="cursor-pointer text-end text-xs"
-                      onClick={() => router.push('/forgot-password')}
+                      onClick={() => router.push('/register')}
                     >
-                      Forgot Password ?
-                    </p>
-                    <p
-                      className="cursor-pointer text-end text-xs"
-                      onClick={() => router.push('/register-organizer')}
-                    >
-                      Register as Organizer
+                      Register as Customer
                     </p>
                     <Button type="submit" className=" mt-3 w-full bg-blue-700">
                       Login

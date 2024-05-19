@@ -3,6 +3,7 @@ import { User } from './user.type';
 
 export interface Transaction {
   id: number;
+  invoice: string;
   createdAt: Date;
   updatedStatus: Date;
   status: TransactionStatus;
@@ -10,29 +11,23 @@ export interface Transaction {
   userId: number;
   eventId: number;
   paymentProof: string;
-  transactionDetail: {
-    id: number;
-    createdAt: Date;
-    qty: number;
-    transactionId: number;
-
-    transaction: Transaction;
-  };
+  qty: number;
 
   user: User;
   event: Event;
 }
 
 export enum TransactionStatus {
-  PENDING,
-  COMPLETE,
-  ERROR,
-  CANCELLED,
+  PENDING = 'PENDING',
+  COMPLETE = 'COMPLETE',
+  WAITING = 'WAITING',
+  CANCELLED = 'CANCELLED',
+  EXPIRED = 'EXPIRED',
 }
 
 export interface IFormCreateTransaction {
   qty: number;
-  total: number;
-  eventId?: number;
+  paymentProof: File[];
   userId?: number;
+  eventId?: number;
 }

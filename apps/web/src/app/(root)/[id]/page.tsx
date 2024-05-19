@@ -31,7 +31,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import useGetReward from '@/hooks/api/event/useGetReward';
+import useGetReward from '@/hooks/api/event/useGetCoupon';
 import useCreateTransaction from '@/hooks/api/transaction/useCreateTransaction';
 import { useAppSelector } from '@/redux/hooks';
 import { appConfig } from '@/utils/config';
@@ -43,12 +43,13 @@ import SkeletonEventDetail from './components/SkeletonEventDetail';
 import { useFormik } from 'formik';
 import { IFormCreateTransaction } from '@/types/ts.type';
 import { axiosInstance } from '@/lib/axios';
+import useGetCoupon from '@/hooks/api/event/useGetCoupon';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
   const pathname = usePathname();
   const { createTransaction, isLoadinger } = useCreateTransaction();
   const { id, points } = useAppSelector((state) => state.user);
-  const { reward } = useGetReward(id);
+  // const { coupon } = useGetCoupon(id);
   const { event, isLoading } = useGetEvent(Number(params.id));
   const [qty, setQty] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
@@ -257,7 +258,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                             Voucher
                           </div>
                           <div className="md:w-[120px] md:h-[50px] w-[80px] h-[50px] border shadow-lg bg-white flex items-center hover:bg-primary hover:text-white">
-                            {reward?.title}
+                            {/* {coupon.fsahfjds} */}
                           </div>
                           <div className="md:w-[120px] md:h-[50px] w-[80px] h-[50px] border shadow-lg bg-white flex items-center justify-center gap-6 hover:bg-primary hover:text-white">
                             <CircleDollarSign />

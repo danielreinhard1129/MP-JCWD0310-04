@@ -40,7 +40,7 @@ const Header = () => {
   // const isExplorePage = pathname === '/explore';
 
   return (
-    <section >
+    <section>
       <nav className="fixed top-0 left-0 right-0 z-10 mx-auto px-10  py-2 flex justify-between gap-6 items-center bg-primary w-full text-white">
         <div
           className=" relative w-1/4 z-20 cursor-pointer h-[50px]  "
@@ -153,20 +153,20 @@ const Header = () => {
           </>
         ) : (
           <>
-            <div className="flex gap-10 items-center ">
+            <div className="flex md:gap-10 gap-4 items-center ">
               <h1
                 className="font-bold cursor-pointer"
                 onClick={() => router.push('/explore')}
               >
                 Find Event
               </h1>
-              <Button
+              {/* <Button
                 variant="outline"
                 className="text-primary font-bold cursor-pointer"
                 onClick={() => router.push('/register')}
               >
                 Register
-              </Button>
+              </Button> */}
               <Button
                 variant="outline"
                 className="text-primary font-bold cursor-pointer"

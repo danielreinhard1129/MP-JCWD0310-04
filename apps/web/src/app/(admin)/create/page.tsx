@@ -1,6 +1,5 @@
 'use client';
 
-import AuthGuardAdmin from '@/hoc/AuthGuardAdmin';
 import useCreateEvent from '@/hooks/api/event/useCreateEvent';
 import { useAppSelector } from '@/redux/hooks';
 import { Formik } from 'formik';
@@ -23,6 +22,10 @@ const CreateEvent = () => {
     price: 0,
     startDate: new Date(),
     endDate: new Date(),
+    voucherAmount: 0,
+    voucherCode: '',
+    voucherExpDate: new Date(),
+    voucherLimit: 0,
   };
 
   return (
@@ -32,13 +35,6 @@ const CreateEvent = () => {
         validationSchema={validationSchema}
         onSubmit={(values) => {
           console.log(values);
-
-          // const validTicketTypes = values.ticketTypes.filter(
-          //   (ticketType) =>
-          //     ticketType.name.trim() !== '' ||
-          //     ticketType.price > 0 ||
-          //     ticketType.limit > 0,
-          // );
           createEvent({
             ...values,
             organizerId: id,
@@ -51,4 +47,4 @@ const CreateEvent = () => {
   );
 };
 
-export default AuthGuardAdmin(CreateEvent);
+export default CreateEvent;

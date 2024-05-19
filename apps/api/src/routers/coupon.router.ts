@@ -1,19 +1,19 @@
-import { RewardController } from '@/controllers/reward.controller';
+import { CouponController } from '@/controllers/coupon.controller';
 import { Router } from 'express';
 
-export class RewardRouter {
+export class CouponRouter {
   private router: Router;
-  private rewardController: RewardController;
+  private couponController: CouponController;
 
   constructor() {
-    this.rewardController = new RewardController();
+    this.couponController = new CouponController();
     this.router = Router();
     this.initializeRoutes();
   }
 
   private initializeRoutes(): void {
     // this.router.get('/', this.rewardController.getRewardsController);
-    this.router.get('/:id', this.rewardController.getRewardController);
+    this.router.get('/:id', this.couponController.getCouponController);
   }
 
   getRouter(): Router {

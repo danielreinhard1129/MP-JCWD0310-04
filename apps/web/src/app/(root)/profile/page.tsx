@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import AuthGuard from '@/hoc/AuthGuard';
 import useGetUser from '@/hooks/api/user/useGetUser';
 import { useAppSelector } from '@/redux/hooks';
 import { notFound } from 'next/navigation';
@@ -101,4 +102,4 @@ const AccountInfo = () => {
   );
 };
 
-export default AccountInfo;
+export default AuthGuard(AccountInfo);

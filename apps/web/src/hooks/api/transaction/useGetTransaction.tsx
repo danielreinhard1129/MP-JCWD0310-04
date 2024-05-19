@@ -1,0 +1,34 @@
+import { axiosInstance } from '@/lib/axios';
+import { Transaction } from '@/types/ts.type';
+
+import { AxiosError } from 'axios';
+import { useEffect, useState } from 'react';
+
+const useGetTransaction = (id: number) => {
+  const [data, setData] = useState<Transaction | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getTransaction = async () => {
+    try {
+      const { data } = await axiosInstance.get<Transaction>(
+        `/transactions/${id}`,
+      );
+
+      setData(data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getTransaction();
+  }, []);
+
+  return { transaction: data, isLoading, refetch: getTransaction };
+};
+
+export default useGetTransaction;

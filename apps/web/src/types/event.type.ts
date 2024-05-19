@@ -1,4 +1,5 @@
 import { User } from './user.type';
+import { Voucher } from './voucher.type';
 
 export interface Event {
   id: number;
@@ -8,17 +9,18 @@ export interface Event {
   thumbnail: string;
   location: string;
   address: string;
+  isAvailable: boolean;
   availableSeats: number;
   startDate: Date;
   endDate: Date;
   price: number;
-  // isFree: boolean;
   booked: number;
   createdAt: Date;
   updatedAt: Date;
   organizerId: number;
 
   organizer: User;
+  voucher: Voucher;
 }
 
 export interface IFormCreateEvent {
@@ -32,7 +34,10 @@ export interface IFormCreateEvent {
   price: number;
   booked: number;
   address: string;
-  // isFree: boolean;
   startDate: Date;
   endDate: Date;
+  voucherCode: string | null;
+  voucherAmount: number | null;
+  voucherLimit: number | null;
+  voucherExpDate: Date | null;
 }
