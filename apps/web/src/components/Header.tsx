@@ -134,17 +134,6 @@ const Header = () => {
                         </Button>
                       </Link>
                     </li>
-                    <li className="w-full">
-                      <Link href="/history">
-                        <Button
-                          variant="ghost"
-                          className="w-full flex justify-between"
-                        >
-                          <span>History</span>
-                          <HistoryIcon />
-                        </Button>
-                      </Link>
-                    </li>
                   </ul>
                 </SheetContent>
               </Sheet>

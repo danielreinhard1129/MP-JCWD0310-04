@@ -164,8 +164,8 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
         html: `<a href="${confirmationLink}" target="_blank">Upload payment proof</a>`,
       });
     }
-
-    const schedule = new Date(Date.now() + 2 * 60 * 60 * 1000);
+    const schedule = new Date(Date.now() + 10 * 1000);
+    // const schedule = new Date(Date.now() + 2 * 60 * 60 * 1000);
     scheduleJob('run every ', schedule, async () => {
       const transaction = await prisma.transaction.findFirst({
         where: {
@@ -221,7 +221,8 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
       };
     });
 
-    const scheduleAdmin = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    // const scheduleAdmin = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    const scheduleAdmin = new Date(Date.now() + 10 * 1000);
     scheduleJob('run every ', scheduleAdmin, async () => {
       const transaction = await prisma.transaction.findFirst({
         where: {

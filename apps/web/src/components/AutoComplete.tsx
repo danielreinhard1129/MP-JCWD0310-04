@@ -33,12 +33,12 @@ const Autocomplete = () => {
     }
   };
 
-  const debounceLoadOptions = debounce(loadOptions, 750);
+  const debounceLoadOptions = debounce(loadOptions, 2000);
 
   return (
     <AsyncSelect
       placeholder="Search for event..."
-      className="mx-auto my-4 max-w-[650px] font-mono"
+      className="mx-auto my-4 max-w-[650px] font-mono text-primary"
       loadOptions={debounceLoadOptions}
       isLoading={isLoading}
       onChange={(event) => {

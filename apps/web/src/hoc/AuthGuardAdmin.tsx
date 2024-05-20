@@ -3,9 +3,11 @@
 import { useAppSelector } from '@/redux/hooks';
 import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function AuthGuard(Component: any) {
   return function IsAuth(props: any) {
+    const { toast } = useToast();
     const [isLoading, setIsLoading] = useState(true);
 
     const { id, role } = useAppSelector((state) => state.user);
@@ -23,8 +25,10 @@ export default function AuthGuard(Component: any) {
     }, [id, isLoading]);
 
     useEffect(() => {
-      if (role == 'user' && !isLoading) {
-        alert('you must login as an event organizer');
+      if (role === 'CUSTOMER' && !isLoading) {
+        toast({
+          description: 'you must login as an event organizer',
+        });
         redirect('/');
       }
     }, [role, isLoading]);

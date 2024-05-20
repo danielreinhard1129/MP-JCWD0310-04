@@ -43,6 +43,7 @@ const SideBar = () => {
           alt="logonobg"
           style={{ objectFit: 'contain' }}
           fill
+          onClick={() => router.push('/dashboard')}
         />
       </div>
       <div className="flex flex-col">

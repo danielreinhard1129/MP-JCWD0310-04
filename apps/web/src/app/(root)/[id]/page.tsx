@@ -1,5 +1,4 @@
 'use client';
-
 import { Button } from '@/components/ui/button';
 import useGetEvent from '@/hooks/api/event/useGetEvent';
 import { format } from 'date-fns';
@@ -40,6 +39,14 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   const excludedEvent = event?.id;
   const filteredEvent = events.filter((event) => event.id !== excludedEvent);
   const { review } = useGetReview(id);
+
+  const handleClick = () => {
+    if (id) {
+      setOpen(true);
+    } else {
+      router.push('/login');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -117,7 +124,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
           {/* buy ticket data */}
-          <div className="md:col-span-2 relative">
+          <div className="md:col-span-2 relative flex justify-center items-center w-full">
             <Card className="bg-white shadow-lg rounded-lg overflow-hidden ">
               <CardHeader className="bg-primary py-4 text-white rounded-t-md">
                 <CardTitle className="flex items-center gap-4 justify-start px-4">
@@ -145,24 +152,21 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                 <div className="grid grid-cols-2 gap-2 text-sm text-gray-700">
                   <div className="">
                     <p>Available Seat:</p>
-                    {/* <p>{event.limit}</p> */}
+                    <p>{event.limit}</p>
                   </div>
                   <div>
                     <p>Booked:</p>
                     <p>{event.booked}</p>
                   </div>
-                  <div>
+                  {/* <div>
                     <p>Price: </p>
                     <p>{event.price}</p>
-                  </div>
+                  </div> */}
                 </div>
               </CardContent>
-              <CardFooter className="bg-[#E8EDFB] py-4 px-6 flex flex-col justify-center items-center">
-                <div className="flex items-center gap-4">
-                  <OrderCard
-                    price={event.price}
-                    setOpen={() => setOpen(true)}
-                  />
+              <CardFooter className="bg-[#E8EDFB] py-4 px-4 flex flex-col justify-center items-center">
+                <div className="flex items-center gap-4 ">
+                  <OrderCard price={event.price} setOpen={handleClick} />
                 </div>
               </CardFooter>
             </Card>
@@ -186,7 +190,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
         price={event.price}
         point={point}
         setOpen={setOpen}
-        // onTransactionDetails={() => router.push(`/transaction-details`)}
+        // onTransac={() => router.push(`/transaction/${id}`)}
       />
     </main>
   );

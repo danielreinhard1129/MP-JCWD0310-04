@@ -36,6 +36,10 @@ const categories = [
     value: 'concert',
     label: 'Concert',
   },
+  {
+    value: 'Theater Musical',
+    label: 'Theater Musical',
+  },
 ];
 
 interface CategoryPickerProps {

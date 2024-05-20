@@ -49,15 +49,15 @@ const AccountInfo = () => {
             <div className="grid gap-7 md:py-1 md:w-auto">
               <div className="flex items-center justify-between">
                 <Label className="w-28 text-left mr-4">Username</Label>
-                <Input type="text" value={`: ${username}`} />
+                <Input type="text" value={` ${username}`} />
               </div>
               <div className="flex items-center justify-between ">
                 <Label className="w-28 text-left mr-4">Email:</Label>
-                <Input type="text" value={`: ${email}`} />
+                <Input type="text" value={` ${email}`} />
               </div>
               <div className="flex items-center justify-between ">
                 <Label className="w-28 text-left mr-4">Referral</Label>
-                <Input type="text" value={`: ${referralCode}`} />
+                <Input type="text" value={` ${referralCode}`} />
               </div>
             </div>
           </div>

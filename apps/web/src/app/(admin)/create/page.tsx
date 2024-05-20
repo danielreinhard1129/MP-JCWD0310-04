@@ -130,6 +130,7 @@ const CreateEvent = () => {
                   <option value="Jakarta">Jakarta</option>
                   <option value="Surabaya">Surabaya</option>
                   <option value="Bandung">Bandung</option>
+                  <option value="Yogyakarta">Yogyakarta</option>
                   <option value="Batam">Batam</option>
                 </select>
               </div>
