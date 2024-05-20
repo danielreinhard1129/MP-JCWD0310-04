@@ -1,3 +1,6 @@
+
+'use client'
+import LocationFilter from '@/components/LocationFilter';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,7 +27,7 @@ const Explore = () => {
   return (
     <section className="md:px-10 md:py-10 py-5">
       <div className="md:flex md:justify-between md:px-5 px-10  w-full gap-2 py-2 md:py-1 md:w-auto">
-        <h1 className=" font-bold text-5xl md:w-1/4 flex justify-center md:justify-start pb-2 gap-4 tracking-wider">
+        <h1 className=" font-bold text-5xl md:text-3xl md:w-1/4 flex justify-center md:text- md:justify-center md:items-end pb-2 gap-4 tracking-wider">
           Explore
         </h1>
         <div className="md:w-4/5  ">
@@ -90,24 +93,21 @@ const Explore = () => {
         <div className="md:w-1/5 flex justify-center md:py-5 ">
           <div className="flex md:flex-col md:gap-4 gap-2 px-5">
             <Button variant="secondary" className="flex justify-between ">
-              <span className="mr-10 hidden md:block "> Filter</span>
               <FilterIcon />
+              <span className="ml-10 hidden md:block "> Filter</span>
             </Button>
+            <LocationFilter/>
             <Button variant="secondary" className="flex justify-between">
-              <span className="mr-10 hidden md:block"> Location</span>
-              <LocateIcon />
-            </Button>
-            <Button variant="secondary" className="flex justify-between">
-              <span className="mr-10 hidden md:block"> Category</span>
               <BookIcon />
+              <span className="ml-10 hidden md:block"> Category</span>
             </Button>
             <Button variant="secondary" className="flex justify-between">
               <span className="mr-10 hidden md:block"> Date</span>
               <TimerIcon />
             </Button>
             <Button variant="secondary" className="flex justify-between">
-              <span className="mr-10 hidden md:block"> Price</span>
               <DollarSign />
+              <span className="ml-10 hidden md:block"> Price</span>
             </Button>
           </div>
         </div>

@@ -6,8 +6,7 @@ export const getReviewsService = async () => {
 
 
     const reviews = await prisma.review.findMany(
-      // where: { eventId: id },
-      // include: { event: true },
+      
     );
     
     return reviews;

@@ -13,15 +13,17 @@ import { format } from 'date-fns';
 import {
   CalendarIcon,
   CircleDollarSign,
-  CircleMinus,
-  CirclePlus,
   EditIcon,
   Loader,
   LocateIcon,
+  Minus,
+  Plus,
   Share2,
   Ticket,
+  TicketPercent,
 } from 'lucide-react';
 
+import ReviewForm from '@/components/ReviewForm';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Card,
@@ -32,50 +34,45 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import useGetReward from '@/hooks/api/event/useGetReward';
+
 import useCreateTransaction from '@/hooks/api/transaction/useCreateTransaction';
 import { useAppSelector } from '@/redux/hooks';
+import { IFormCreateTransaction } from '@/types/ts.type';
 import { appConfig } from '@/utils/config';
 import { Avatar } from '@radix-ui/react-avatar';
+import { useFormik } from 'formik';
 import Image from 'next/image';
-import { notFound, usePathname } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { useState } from 'react';
 import SkeletonEventDetail from './components/SkeletonEventDetail';
-import { useFormik } from 'formik';
-import { IFormCreateTransaction } from '@/types/ts.type';
-import { axiosInstance } from '@/lib/axios';
+import useGetReview from '@/hooks/api/review/useGetReview';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
-  const pathname = usePathname();
   const { createTransaction, isLoadinger } = useCreateTransaction();
   const { id, points } = useAppSelector((state) => state.user);
   const { reward } = useGetReward(id);
   const { event, isLoading } = useGetEvent(Number(params.id));
   const [qty, setQty] = useState<number>(0);
-  const [total, setTotal] = useState<number>(0);
-
-  const handleSubmitData = async () => {
-    try {
-      const trans = await axiosInstance.post<IFormCreateTransaction>(
-        '/transactions',
-        {
-          qty: qty,
-          total: total,
-          eventId: event?.id,
-          userId: id,
-        },
-      );
-      console.log('transaction created', trans.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
+  const formik = useFormik<IFormCreateTransaction>({
+    initialValues: {
+      qty: 0,
+      total: 0,
+    },
+    onSubmit: (values) => {
+      console.log(values);
+      
+      createTransaction({ ...values, userId: id, eventId: 1 });
+    },
+  });
+  const { review } = useGetReview(id);
 
   const handleIncrement = () => {
     setQty((prevQty) => prevQty + 1);
     const newQty = qty + 1;
     const newTotal = (event?.price || 0) * newQty;
-    setQty(newQty);
-    setTotal(newTotal);
+    formik.setFieldValue('totalAmount', newTotal);
+    formik.setFieldValue('qty', newQty);
   };
 
   const handleDecrement = () => {
@@ -83,16 +80,9 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
       setQty((prevQty) => prevQty - 1);
       const newQty = qty - 1;
       const newTotal = (event?.price || 0) * (qty - 1);
-      setQty(newQty);
-      setTotal(newTotal);
+      formik.setFieldValue('totalAmount', newTotal);
+      formik.setFieldValue('qty', newQty);
     }
-  };
-
-  const formatRupiah = (number: any) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-    }).format(number);
   };
 
   if (isLoading) {
@@ -222,64 +212,105 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                       Buy Tickets
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-[500px] max-h-[500px]">
+                  <DialogContent className="rounded-md w-full max-w-md ">
                     <DialogHeader>
-                      <DialogTitle>Purchase Ticket</DialogTitle>
-                      <div className="text-pretty">
-                        Available Seats {event.availableSeats} -
-                        {formatRupiah(event.price)}
+                      <DialogTitle className=" bg-primary rounded-md">
+                        <h1 className="py-5 ">
+                          Order Summary
+                          <br />
+                          {event.title}
+                        </h1>
+                      </DialogTitle>
+                      <div className="text-left italic text-sm border bg-gray-100 ">
+                        <h1 className="font-semibold not-italic">
+                          Location Details:
+                        </h1>
+                        <p>{event.location},</p>
+                        <p>{event.address}</p>
+
+                        <p>
+                          {format(new Date(event.startDate), 'dd MMMM yyyy')}-{' '}
+                          {format(new Date(event.endDate), 'dd MMMM yyyy')}
+                        </p>
+                      </div>
+
+                      <div className="text-pretty flex justify-evenly py-2">
+                        <p>Available Seats :</p>
+                        {event.availableSeats}
                       </div>
                     </DialogHeader>
-                    <form>
+
+                    <form onSubmit={formik.handleSubmit}>
                       <div className="flex flex-col ">
-                        <div className="flex justify-between mx-10">
-                          <div className="">{event.title}</div>
-                          <div className="flex justify-between w-[145px] h-[30px] mb-3 items-center select-none">
+                        {/* price and title */}
+                        <div className="flex justify-between mx-2 items-center">
+                          <div className="flex flex-col">
+                            amount:
+                            <br />
+                            {qty} x {event.price}
+                          </div>
+
+                          {/* quantity of ticket */}
+                          <div className="flex justify-end w-[145px] h-[30px] mb-3 items-center select-none gap-5 mt-2">
                             <Button
                               type="button"
                               onClick={handleDecrement}
                               disabled={qty === 0}
+                              className="h-8"
                             >
-                              <CircleMinus />
+                              <Minus />
                             </Button>
                             <div className="text-lg font-semibold">{qty}</div>
                             <Button
                               onClick={handleIncrement}
                               type="button"
-                              className="cursor-pointer"
+                              className="cursor-pointer hover:text-green-700 hover:font-bold h-8"
                             >
-                              <CirclePlus />
+                              <Plus />
                             </Button>
                           </div>
                         </div>
+
+                        {/* voucher and rewards */}
                         <div className="flex justify-between md:mx-2 mx-10">
-                          <div className="md:w-[120px] md:h-[50px] w-[80px] h-[50px] border shadow-lg bg-white flex items-center hover:bg-primary hover:text-white">
-                            Voucher
+                          <div className="md:w-[120px] md:h-[45px] w-[80px] h-[50px] border shadow-lg bg-white flex items-center justify-center hover:bg-primary hover:text-white rounded-sm">
+                            <TicketPercent />
+
+                            <span>Voucher</span>
                           </div>
-                          <div className="md:w-[120px] md:h-[50px] w-[80px] h-[50px] border shadow-lg bg-white flex items-center hover:bg-primary hover:text-white">
+                          <div className="md:w-[120px] md:h-[45px] w-[80px] h-[50px] border shadow-lg bg-white flex items-center justify-center hover:bg-primary hover:text-white rounded-sm">
                             {reward?.title}
                           </div>
-                          <div className="md:w-[120px] md:h-[50px] w-[80px] h-[50px] border shadow-lg bg-white flex items-center justify-center gap-6 hover:bg-primary hover:text-white">
+                          <div className="md:w-[120px] md:h-[45px] w-[80px] h-[50px] border shadow-lg bg-white flex items-center justify-center gap-6 hover:bg-primary hover:text-white rounded-sm">
                             <CircleDollarSign />
                             <span>{points}</span>
                           </div>
                         </div>
                       </div>
+
                       <div className="flex justify-between items-center mt-4 select-none">
                         <div className="font-bold text-lg">
-                          RP.
-                          {qty} - {total}
+                          <div
+                            className=" flex justiy-between
+                        "
+                          >
+                            <p>total Ticket:</p>
+                            <p>{formik.values.qty}</p>
+                          </div>
+                          <div>
+                            <p>Total Price:</p>
+                            <p>RP.{formik.values.total}</p>
+                          </div>
                         </div>
                         <Button
                           disabled={isLoadinger}
-                          onClick={handleSubmitData}
                           type="submit"
                           className="bg-primary text-white hover:bg-primary-dark py-2 px-4 rounded-lg"
                         >
                           {isLoadinger && (
                             <Loader className="mr-2 h-4 w-4 animate-spin " />
                           )}
-                          {isLoadinger ? 'Processing...' : 'Pay Now'}
+                          {isLoadinger ? 'Processing...' : 'Purchase'}
                         </Button>
                       </div>
                     </form>
@@ -287,6 +318,19 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                 </Dialog>
               </CardFooter>
             </Card>
+          </div>
+        </div>
+        <div className=" md:justify-between md:mx-5 grid md:grid-cols-7">
+          <div className="md:mx-5 col-span-5">
+            <ReviewForm />
+
+            <div className="flex gap-4 items-center ">
+
+              <div className="my-3 text-xs text-justify md:mr-36 ">
+                <p className="my-2"> {review?.rating}</p>
+                <p className="my-2">{review?.comment}</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

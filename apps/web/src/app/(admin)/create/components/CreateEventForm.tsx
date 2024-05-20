@@ -101,9 +101,10 @@ const CreateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               >
                 <option>Choose a Location</option>
                 <option value="Jakarta">Jakarta</option>
+                <option value="Jakarta">Yogyakarta</option>
                 <option value="Surabaya">Surabaya</option>
                 <option value="Bandung">Bandung</option>
-                <option value="Batam">Batam</option>
+                <option value="Batam">Bali</option>
               </select>
             </div>
 

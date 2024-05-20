@@ -33,12 +33,12 @@ const Register = () => {
     },
   });
   return (
-    <main className=" container flex items-center justify-center h-screen">
-      <div className=" mx-auto px-4 md:py-8 py-24 mb-6  ">
-        <div className="md:mt-16 grid md:grid-cols-2 w-[700px]   ">
+    <main className=" container flex items-center justify-center h-screen w-full pt-6 overflow-hidden">
+      <div className=" mx-auto px-4 md:py-10 py-24 mb-6  ">
+        <div className="md:mt-16 grid md:grid-cols-2 w-[700px] ">
           {/* kiri */}
-          <div className="relative bg-cover bg-primary bg-center rounded-l-lg ">
-            <div className=" relative h-[25px] w-1/4  p-5 ">
+          <div className="relative bg-cover bg-primary bg-center rounded-l-lg pl-5 hidden md:block">
+            <div className=" relative h-[25px] w-1/4  p-5  ">
               <Image
                 src="/assets/images/eventure_logo.png"
                 alt="logonobg"
@@ -60,7 +60,7 @@ const Register = () => {
           </div>
 
           <div>
-            <div className="w-full text-black md:shadow-2xl  rounded-r-lg p-5">
+            <div className="w-full text-black md:shadow-2xl  rounded-r-lg p-3">
               <CardHeader className="space-y-2">
                 <CardTitle className="text-center text-2xl mt-4">
                   Register

@@ -72,7 +72,7 @@ export default class App {
     this.app.use('/api/auth', authRouter.getRouter());
     this.app.use('/api/events', eventRouter.getRouter());
     this.app.use('/api/users', userRouter.getRouter());
-    this.app.use('/api/review', reviewRouter.getRouter());
+    this.app.use('/api/reviews', reviewRouter.getRouter());
     this.app.use('/api/rewards', rewardRouter.getRouter());
     this.app.use('/api/transactions', transactionRouter.getRouter());
   }

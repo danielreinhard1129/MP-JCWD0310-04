@@ -6,9 +6,10 @@ import { Router } from 'express';
 export class EventRouter {
   private router: Router;
   private eventController: EventController;
+ 
 
   constructor() {
-    this.eventController = new EventController();
+    this.eventController = new EventController()
     this.router = Router();
     this.initializeRoutes();
   }
@@ -20,8 +21,15 @@ export class EventRouter {
       uploader('IMG', '/images').array('thumbnail', 1),
       this.eventController.createEventController,
     );
+    this.router.patch(
+      '/:id',
+      uploader('IMG', '/images').array('thumbnail', 1),
+      this.eventController.updateEventController,
+    );
     this.router.get('/', this.eventController.getEventsController);
     this.router.get('/:id', this.eventController.getEventController);
+    this.router.get('/category', this.eventController.getCategoryController);
+    this.router.get('/location', this.eventController.getLocationController);
   }
 
   getRouter(): Router {

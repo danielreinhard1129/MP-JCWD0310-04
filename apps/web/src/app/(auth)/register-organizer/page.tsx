@@ -3,17 +3,16 @@
 import FormInput from '@/components/FormInput';
 import { Button } from '@/components/ui/button';
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from '@/components/ui/card';
 import useRegister from '@/hooks/api/auth/useRegister';
 import { useFormik } from 'formik';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { validationSchemaRegister } from '../validationSchema';
-import Image from 'next/image';
 
 const Register = () => {
   const router = useRouter();
@@ -32,11 +31,11 @@ const Register = () => {
     },
   });
   return (
-    <main className=" container flex items-center justify-center h-screen">
-      <div className=" mx-auto px-4 md:py-8 py-24 mb-6  ">
+    <main className=" container flex items-center justify-center h-screen w-full pt-6 overflow-hidden">
+      <div className=" mx-auto px-4 md:py-10 py-24 mb-6  ">
         <div className="md:mt-16 grid md:grid-cols-2  md:w-[700px] ">
           {/* kiri */}
-          <div className="relative bg-cover bg-primary bg-center rounded-l-lg hidden md:block ">
+          <div className="relative bg-cover bg-primary bg-center rounded-l-lg pl-5 hidden md:block ">
             <div className=" relative h-[25px] w-1/4  p-5 ">
               <Image
                 src="/assets/images/eventure_logo.png"

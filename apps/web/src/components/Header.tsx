@@ -40,7 +40,7 @@ const Header = () => {
   // const isExplorePage = pathname === '/explore';
 
   return (
-    <section >
+    <section>
       <nav className="fixed top-0 left-0 right-0 z-10 mx-auto px-10  py-2 flex justify-between gap-6 items-center bg-primary w-full text-white">
         <div
           className=" relative w-1/4 z-20 cursor-pointer h-[50px]  "
@@ -60,7 +60,7 @@ const Header = () => {
                 className="cursor-pointer"
                 onClick={() => router.push('/explore')}
               >
-                Find Event
+                Explore Event
               </h1>
 
               <DropdownMenu>
@@ -130,7 +130,7 @@ const Header = () => {
                           variant="ghost"
                           className="w-full flex justify-between"
                         >
-                          <span>Find Event</span>
+                          <span>Explore Event</span>
                           <SearchIcon />
                         </Button>
                       </Link>
@@ -141,8 +141,11 @@ const Header = () => {
                           variant="ghost"
                           className="w-full flex justify-between"
                         >
-                          <span>History</span>
-                          <HistoryIcon />
+                          <span>points</span>
+                          <div className='flex gap-x-[34px] w-1/4 '>
+                            <CircleDollarSign />
+                            <span className='text-base'>{points}</span>
+                          </div>
                         </Button>
                       </Link>
                     </li>
@@ -158,7 +161,7 @@ const Header = () => {
                 className="font-bold cursor-pointer"
                 onClick={() => router.push('/explore')}
               >
-                Find Event
+                Explore Event
               </h1>
               <Button
                 variant="outline"

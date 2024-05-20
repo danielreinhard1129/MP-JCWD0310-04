@@ -3,9 +3,11 @@ import prisma from '@/prisma';
 export const getEventService = async (id: number) => {
   try {
     const event = await prisma.event.findFirst({
-      where: { id },
+      where: { id: id },
       include: {
         organizer: true,
+
+
       },
     });
 

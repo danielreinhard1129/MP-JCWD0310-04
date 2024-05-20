@@ -24,11 +24,11 @@ const Login = () => {
       },
     });
   return (
-    <main className=" container flex items-center justify-center h-screen">
-      <div className=" md:mx-auto md:px-4 md:py-8 py-24 mb-6  ">
-        <div className="md:mt-16 grid md:grid-cols-2 grid-cols-1 md:w-[700px]  ">
+    <main className=" container flex items-center justify-center h-screen overflow-hidden">
+      <div className=" md:mx-auto md:px-4 md:py-10 py-24 mb-6  ">
+        <div className="md:mt-16 grid md:grid-cols-2 md:w-[700px]  ">
           {/* kiri */}
-          <div className="relative bg-cover bg-primary bg-center md:rounded-l-lg hidden md:block ">
+          <div className="relative bg-cover bg-primary bg-center md:rounded-l-lg pl-5 hidden md:block ">
             <div className=" relative h-[25px] md:w-1/4 p-5 ">
               <Image
                 src="/assets/images/eventure_logo.png"
@@ -37,7 +37,7 @@ const Login = () => {
                 fill
               />
             </div>
-            <div className="absolute bottom-0 left-0 right-1 top-0 h-full w-full rounded-l-lg">
+            <div className="absolute bottom-0 left-0 right-1 top-0 h-full w-full rounded-l-lg p-3">
               <div className="text-white flex flex-col justify-center h-full w-full p-5 ">
                 <h2 className="my-6 text-5xl font-mono text-right ml-10 ">
                   Welcome Back!
@@ -53,9 +53,7 @@ const Login = () => {
           <div>
             <div className="w-full text-black md:shadow-2xl  rounded-r-lg p-5">
               <CardHeader className="space-y-4">
-                <CardTitle className="text-center text-3xl ">
-                  Login
-                </CardTitle>
+                <CardTitle className="text-center text-3xl ">Login</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit}>
@@ -84,18 +82,29 @@ const Login = () => {
                       handleChange={handleChange}
                     />
 
-                    <p
-                      className="cursor-pointer text-end text-xs"
-                      onClick={() => router.push('/forgot-password')}
-                    >
-                      Forgot Password ?
-                    </p>
-                    <p
-                      className="cursor-pointer text-end text-xs"
-                      onClick={() => router.push('/register-organizer')}
-                    >
-                      Register as Organizer
-                    </p>
+                    <div className='px-3'>
+                      <p
+                        className="cursor-pointer text-end text-xs py-1"
+                        onClick={() => router.push('/forgot-password')}
+                      >
+                        Forgot Password ?
+                      </p>
+                      <div className=" text-end text-xs flex gap-1 justify-end py-1">
+                        Don&apos;t have an account?
+                        <p
+                          className="cursor-pointer"
+                          onClick={() => router.push('/register')}
+                        >
+                          Register Here
+                        </p>
+                      </div>
+                      <p
+                        className="cursor-pointer text-end text-xs py-1"
+                        onClick={() => router.push('/register-organizer')}
+                      >
+                        Register as Organizer
+                      </p>
+                    </div>
                     <Button type="submit" className=" mt-3 w-full bg-blue-700">
                       Login
                     </Button>

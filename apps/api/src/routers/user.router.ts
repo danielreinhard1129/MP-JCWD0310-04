@@ -14,6 +14,7 @@ export class UserRouter {
   private initializeRoutes(): void {
     this.router.get('/', this.userController.getUsersController);
     this.router.get('/:id', this.userController.getUserController);
+    this.router.patch('/:id', this.userController.updateUserController);
   }
 
   getRouter(): Router {

@@ -4,7 +4,7 @@ export const getReviewService = async (id: number) => {
     try {
         const review = await prisma.review.findFirst({
             where: { id },
-            include: { event: true },
+            include: { event: true},
             
         });
 
