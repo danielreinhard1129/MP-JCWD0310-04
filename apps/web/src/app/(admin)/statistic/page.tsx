@@ -1,4 +1,4 @@
-import Chart from "../dashboard/components/Chart";
+import ChartByYear from '../dashboard/components/ChartByYears';
 
 const Statistic = () => {
   return (
@@ -7,10 +7,9 @@ const Statistic = () => {
         <h1>Statistic </h1>
       </div>
       <div>
-        <Chart/>
+        {/* <Chart/> */}
+        <ChartByYear />
       </div>
-
-      
     </section>
   );
 };

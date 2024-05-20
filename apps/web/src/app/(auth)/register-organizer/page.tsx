@@ -3,7 +3,6 @@
 import FormInput from '@/components/FormInput';
 import { Button } from '@/components/ui/button';
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -11,32 +10,34 @@ import {
 } from '@/components/ui/card';
 import useRegister from '@/hooks/api/auth/useRegister';
 import { useFormik } from 'formik';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { validationSchemaRegister } from '../validationSchema';
-import Image from 'next/image';
 
 const Register = () => {
   const router = useRouter();
   const { register } = useRegister();
-  const formik = useFormik({
-    initialValues: {
-      username: '',
-      email: '',
-      password: '',
-      referral: '',
-      role: 'organizer',
-    },
-    validationSchema: validationSchemaRegister,
-    onSubmit: (values) => {
-      register(values);
-    },
-  });
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
+    useFormik({
+      initialValues: {
+        username: '',
+        email: '',
+        password: '',
+        referralCode: '',
+        role: 'ORGANIZER',
+        point: 0,
+      },
+      validationSchema: validationSchemaRegister,
+      onSubmit: (values) => {
+        register(values);
+      },
+    });
   return (
-    <main className=" container flex items-center justify-center h-screen">
-      <div className=" mx-auto px-4 md:py-8 py-24 mb-6  ">
+    <main className=" container flex items-center justify-center h-screen w-full pt-6 overflow-hidden">
+      <div className=" mx-auto px-4 md:py-10 py-24 mb-6  ">
         <div className="md:mt-16 grid md:grid-cols-2  md:w-[700px] ">
           {/* kiri */}
-          <div className="relative bg-cover bg-primary bg-center rounded-l-lg hidden md:block ">
+          <div className="relative bg-cover bg-primary bg-center rounded-l-lg pl-5 hidden md:block ">
             <div className=" relative h-[25px] w-1/4  p-5 ">
               <Image
                 src="/assets/images/eventure_logo.png"
@@ -69,58 +70,53 @@ const Register = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={handleSubmit}>
                   <div className="grid w-full items-center gap-4">
                     <FormInput
                       name="username"
-                      type="text"
                       label="Username"
-                      placeholder="Type your Username here"
-                      value={formik.values.username}
-                      error={formik.errors.username}
-                      isError={
-                        !!formik.touched.username && !!formik.errors.username
-                      }
-                      handleBlur={formik.handleBlur}
-                      handleChange={formik.handleChange}
+                      error={errors.username}
+                      isError={!!touched.username && !!errors.username}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      placeholder="Username"
+                      type="text"
+                      value={values.username}
                     />
                     <FormInput
                       name="email"
-                      type="email"
                       label="Email"
-                      placeholder="Type your email here"
-                      value={formik.values.email}
-                      error={formik.errors.email}
-                      isError={!!formik.touched.email && !!formik.errors.email}
-                      handleBlur={formik.handleBlur}
-                      handleChange={formik.handleChange}
+                      error={errors.email}
+                      isError={!!touched.email && !!errors.email}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      placeholder="Email"
+                      type="text"
+                      value={values.email}
                     />
                     <FormInput
                       name="password"
+                      label="password"
+                      error={errors.password}
+                      isError={!!touched.password && !!errors.password}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      placeholder="password"
                       type="password"
-                      label="Password"
-                      placeholder="Type your Password here"
-                      value={formik.values.password}
-                      error={formik.errors.password}
-                      isError={
-                        !!formik.touched.password && !!formik.errors.password
-                      }
-                      handleBlur={formik.handleBlur}
-                      handleChange={formik.handleChange}
+                      value={values.password}
                     />
                     <FormInput
-                      name="referral"
+                      name="referralCode"
+                      label="referralCode"
+                      error={errors.referralCode}
+                      isError={!!touched.referralCode && !!errors.referralCode}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      placeholder="referralCode"
                       type="text"
-                      label="Referral"
-                      placeholder="Referral"
-                      value={formik.values.referral}
-                      error={formik.errors.referral}
-                      isError={
-                        !!formik.touched.referral && !!formik.errors.referral
-                      }
-                      handleBlur={formik.handleBlur}
-                      handleChange={formik.handleChange}
+                      value={values.referralCode}
                     />
+
                     <Button type="submit" className=" w-full bg-blue-700">
                       Register
                     </Button>

@@ -6,29 +6,34 @@ import { resetPasswordService } from '@/services/auth/reset-password.service';
 import { NextFunction, Request, Response } from 'express';
 
 export class AuthController {
+  // REGISTER
   async registerController(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await registerService(req.body);
+
       res.status(200).send(result);
     } catch (error) {
       next(error);
     }
   }
 
+  // LOGIN
   async loginController(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await loginService(req.body);
+
       res.status(200).send(result);
     } catch (error) {
       next(error);
     }
   }
 
+  // KEEP LOGIN
   async keepLoginController(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = Number(req.body.user.id);
+      const id = req.body.user.id;
 
-      const result = await KeepLoginService(userId);
+      const result = await KeepLoginService(Number(id));
 
       return res.status(200).send(result);
     } catch (error) {
@@ -36,19 +41,22 @@ export class AuthController {
     }
   }
 
+  // FORGOT-PASSWORD
   async forgotPasswordController(
     req: Request,
     res: Response,
     next: NextFunction,
   ) {
     try {
-      const result = await forgotPasswordService(req.body.email);
-      res.status(200).send(result);
+      const result = await forgotPasswordService(req.body);
+
+      return res.status(200).send(result);
     } catch (error) {
       next(error);
     }
   }
 
+  // RESET PASSWORD
   async resetPasswordController(
     req: Request,
     res: Response,
@@ -57,9 +65,9 @@ export class AuthController {
     try {
       const userId = Number(req.body.user.id);
       const password = req.body.password;
-
       const result = await resetPasswordService(userId, password);
-      res.status(200).send(result);
+
+      return res.status(200).send(result);
     } catch (error) {
       next(error);
     }

@@ -2,10 +2,10 @@
 
 import useGetEvents from '@/hooks/api/event/useGetEvents';
 import { appConfig } from '@/utils/config';
+import { debounce } from 'lodash';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import AsyncSelect from 'react-select/async';
-import { debounce } from 'lodash';
 
 interface EventOption {
   value: number;

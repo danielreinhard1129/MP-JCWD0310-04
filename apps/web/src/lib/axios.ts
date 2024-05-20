@@ -1,5 +1,5 @@
-import axios, { AxiosInstance } from 'axios';
 import { appConfig } from '@/utils/config';
+import axios, { AxiosInstance } from 'axios';
 
 const { baseURL } = appConfig;
 

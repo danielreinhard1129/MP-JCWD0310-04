@@ -14,13 +14,17 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import AuthGuard from '@/hoc/AuthGuard';
 import useGetUser from '@/hooks/api/user/useGetUser';
 import { useAppSelector } from '@/redux/hooks';
-import { notFound } from 'next/navigation';
 
 const AccountInfo = () => {
-  const { id } = useAppSelector((state) => state.user);
-  const { user } = useGetUser(Number(id));
+  const { id, username, email, referralCode } = useAppSelector(
+    (state) => state.user,
+  );
+  // const { user } = useGetUser(Number(id));
+  // console.log(id);
+  // console.log(user);
 
   // if (!user) {
   //   return notFound();
@@ -45,15 +49,15 @@ const AccountInfo = () => {
             <div className="grid gap-7 md:py-1 md:w-auto">
               <div className="flex items-center justify-between">
                 <Label className="w-28 text-left mr-4">Username</Label>
-                <Input type="text" value={`: ${user?.username}`} />
+                <Input type="text" value={`: ${username}`} />
               </div>
               <div className="flex items-center justify-between ">
                 <Label className="w-28 text-left mr-4">Email:</Label>
-                <Input type="text" value={`: ${user?.email}`} />
+                <Input type="text" value={`: ${email}`} />
               </div>
               <div className="flex items-center justify-between ">
                 <Label className="w-28 text-left mr-4">Referral</Label>
-                <Input type="text" value={`: ${user?.referral}`} />
+                <Input type="text" value={`: ${referralCode}`} />
               </div>
             </div>
           </div>
@@ -101,4 +105,4 @@ const AccountInfo = () => {
   );
 };
 
-export default AccountInfo;
+export default AuthGuard(AccountInfo);

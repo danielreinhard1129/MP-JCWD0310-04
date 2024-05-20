@@ -1,25 +1,27 @@
 'use client';
-import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { useAppSelector } from '@/redux/hooks';
 import {
   ArrowUpRight,
   CircleCheck,
   CircleX,
   PlusSquareIcon,
 } from 'lucide-react';
-import Chart from './components/Chart';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableHead,
-  TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
+import ChartByYear from './components/ChartByYears';
 
 const Dashboard = () => {
+  const { username } = useAppSelector((state) => state.user);
+  const initials = username.substring(0, 2);
   return (
     <section className="container mx-auto md:max-w-6xl md:px-4 md:pr-2 rounded-lg">
       <div className="text-4xl font-bold py-5">
@@ -29,18 +31,16 @@ const Dashboard = () => {
       <div className="grid gap-4">
         {/* Profile and Button Section */}
         <div className="grid  md:grid-cols-2 gap-4">
-          <div className="bg-slate-200 border border-b-gray-200 rounded-md p-4 flex items-center space-x-4">
+          <div className="bg-slate-200 border border-b-gray-200 rounded-md p-4 flex items-center justify-between space-x-4">
             <div>
-              <h2 className="text-3xl font-semibold">
-                Hello, Event Organizer...
-              </h2>
+              <h2 className="text-3xl font-semibold">Hello, {username}...</h2>
               <p className="text-lg italic font-medium">
                 It &apos;s good to see you again
               </p>
             </div>
             <Avatar className="cursor-pointer w-20 h-20">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage src="" />
+              <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
           </div>
 
@@ -49,10 +49,10 @@ const Dashboard = () => {
               <PlusSquareIcon />
               <span className="text-xl">Create Event</span>
             </Button>
-            <Button variant="secondary" className="flex items-center gap-4">
+            {/* <Button variant="secondary" className="flex items-center gap-4">
               <PlusSquareIcon />
               <span className="text-xl ">Delete Event</span>
-            </Button>
+            </Button> */}
           </div>
         </div>
 
@@ -60,7 +60,7 @@ const Dashboard = () => {
         <div className="grid md:grid-cols-2 gap-4 ">
           <div className="bg-white border rounded-md p-4">
             <h1 className="text-xl font-semibold mb-4">Statistics</h1>
-            <Chart />
+            <ChartByYear />
             <Button className="bg-blue-700 mt-auto text-xl flex items-center justify-center gap-2">
               View Details
               <ArrowUpRight size={24} />

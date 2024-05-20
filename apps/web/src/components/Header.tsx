@@ -1,15 +1,6 @@
 'use client';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import {
-  HistoryIcon,
-  MenuIcon,
-  SearchIcon,
-  UserIcon,
-  LogOut,
-  Settings,
-  CircleDollarSign,
-} from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,19 +9,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { usePathname, useRouter } from 'next/navigation';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { logoutAction } from '@/redux/slices/userSlice';
+import {
+  CircleDollarSign,
+  HistoryIcon,
+  LogOut,
+  MenuIcon,
+  SearchIcon,
+  UserIcon,
+} from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Header = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { id } = useAppSelector((state) => state.user);
-  const { points } = useAppSelector((state) => state.user);
+  const { point } = useAppSelector((state) => state.user);
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -40,7 +39,7 @@ const Header = () => {
   // const isExplorePage = pathname === '/explore';
 
   return (
-    <section >
+    <section>
       <nav className="fixed top-0 left-0 right-0 z-10 mx-auto px-10  py-2 flex justify-between gap-6 items-center bg-primary w-full text-white">
         <div
           className=" relative w-1/4 z-20 cursor-pointer h-[50px]  "
@@ -75,7 +74,7 @@ const Header = () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <CircleDollarSign className="mr-2 h-4 w-4" />
-                    <span>{points}</span>
+                    <span>{point}</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => router.push('/profile')}>
                     <UserIcon className="mr-2 h-4 w-4" />
@@ -153,20 +152,20 @@ const Header = () => {
           </>
         ) : (
           <>
-            <div className="flex gap-10 items-center ">
+            <div className="flex md:gap-10 gap-4 items-center ">
               <h1
                 className="font-bold cursor-pointer"
                 onClick={() => router.push('/explore')}
               >
                 Find Event
               </h1>
-              <Button
+              {/* <Button
                 variant="outline"
                 className="text-primary font-bold cursor-pointer"
                 onClick={() => router.push('/register')}
               >
                 Register
-              </Button>
+              </Button> */}
               <Button
                 variant="outline"
                 className="text-primary font-bold cursor-pointer"

@@ -1,12 +1,12 @@
 'use client';
 
+import { useToast } from '@/components/ui/use-toast';
 import { axiosInstance } from '@/lib/axios';
 import { useAppDispatch } from '@/redux/hooks';
 import { loginAction } from '@/redux/slices/userSlice';
 import { User } from '@/types/user.type';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@/components/ui/use-toast';
 
 interface LoginArgs extends Pick<User, 'email'> {
   password: string;
@@ -35,7 +35,7 @@ const useLogin = () => {
         toast({
           description: 'login as Organizer success',
         });
-        router.replace('/dashboard');
+        router.replace('/event-list');
       } else {
         toast({
           description: 'login as Customer success',

@@ -1,7 +1,7 @@
-import { createReviewService } from "@/services/review/create-review.service";
-import { getReviewService } from "@/services/review/get-review.service";
-import { getReviewsService } from "@/services/review/get-reviews.service";
-import { NextFunction, Request, Response } from "express";
+import { createReviewService } from '@/services/review/create-review.service';
+import { getReviewService } from '@/services/review/get-review.service';
+import { getReviewsService } from '@/services/review/get-reviews.service';
+import { NextFunction, Request, Response } from 'express';
 
 export class ReviewController {
   async getReviewController(req: Request, res: Response, next: NextFunction) {

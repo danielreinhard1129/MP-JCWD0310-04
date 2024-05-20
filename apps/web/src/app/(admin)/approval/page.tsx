@@ -1,56 +1,92 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client';
-import { Badge } from '@/components/ui/badge';
+
+import Pagination from '@/components/Pagination';
+import TableTransactions from '@/components/TableTransactions';
 import {
   Table,
-  TableBody,
-  TableCell,
+  TableCaption,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { CircleCheck, CircleX } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import AuthGuardAdmin from '@/hoc/AuthGuard';
+import useGetTransactions from '@/hooks/api/tx/useGetTransactions';
+import { useAppSelector } from '@/redux/hooks';
+import { TransactionStatus } from '@/types/transaction.type';
+import { useState } from 'react';
 
-const Approval = () => {
+const page = () => {
+  const { id } = useAppSelector((state) => state.user);
+  const [page, setPage] = useState<number>(1);
+  const { data: transactions, meta } = useGetTransactions({
+    id: id,
+    page,
+    take: 5,
+    status: TransactionStatus.PENDING,
+  });
+
+  const handleChangePaginate = ({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  };
+
   return (
     <section className="container h-screen w-full ">
       <div className="text-4xl font-bold p-5 mt-10">
-        <h1>Transaction and Approval </h1>
+        <h1>Transactions And Approve</h1>
       </div>
-      <div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>No.</TableHead>
-              <TableHead>Name User</TableHead>
-              <TableHead>Transaction Id</TableHead>
-              <TableHead>Event Id</TableHead>
-              <TableHead>Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {[1, 2, 3].map((id) => (
-              <TableRow key={id}>
-                <TableCell>{id}</TableCell>
-                <TableCell className="font-medium">User Name</TableCell>
-                <TableCell>Transaction</TableCell>
-                <TableCell>Event name</TableCell>
-                <TableCell>
-                  <Badge className="bg-green-100 text-green-800 gap-1">
-                    <CircleCheck />
-                    Approve
-                  </Badge>
-                  <Badge className="bg-red-300 text-red-800 gap-1">
-                    <CircleX />
-                    Cancelled
-                  </Badge>
-                </TableCell>
+      <Tabs defaultValue="account" className="w-full">
+        <TabsList>
+          <TabsTrigger value="pending">Nedd approval</TabsTrigger>
+          <TabsTrigger value="history">Transaction List</TabsTrigger>
+        </TabsList>
+        <TabsContent value="pending">
+          Make changes to your account here.
+        </TabsContent>
+        <TabsContent value="history" className="">
+          {/*TABLE*/}
+          <Table>
+            <TableCaption>A list of your recent invoices.</TableCaption>
+            <TableHeader className="">
+              <TableRow>
+                <TableHead className="">Invoice</TableHead>
+                <TableHead>Event Title</TableHead>
+                <TableHead>Buyer</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead className="">Status</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            {transactions.map((transaction, key) => {
+              return (
+                <TableTransactions
+                  key={key}
+                  invoice={transaction.invoice}
+                  createdAt={new Date()}
+                  status={String(transaction.status)}
+                  total={transaction.total}
+                  transactionId={transaction.id}
+                  userId={transaction.userId}
+                  eventId={transaction.eventId}
+                  eventTitle={transaction.event.title}
+                  userName={transaction.user.username}
+                  qty={transaction.qty}
+                />
+              );
+            })}
+          </Table>
+          <div className="mx-auto w-fit">
+            <Pagination
+              total={meta?.total || 0}
+              take={meta?.take || 0}
+              onChangePage={handleChangePaginate}
+            />
+          </div>
+        </TabsContent>
+      </Tabs>
     </section>
   );
 };
 
-export default Approval;
+export default AuthGuardAdmin(page);

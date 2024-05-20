@@ -45,27 +45,27 @@ const ResetPassword = () => {
                 <div className="grid w-full items-center gap-4">
                   <FormInput
                     name="password"
-                    type="password"
-                    label="Password"
-                    placeholder="Type your password here"
-                    value={values.password}
+                    label="password"
                     error={errors.password}
                     isError={!!touched.password && !!errors.password}
-                    handleBlur={handleBlur}
-                    handleChange={handleChange}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    placeholder="password"
+                    type="password"
+                    value={values.password}
                   />
                   <FormInput
                     name="confirmPassword"
-                    type="password"
-                    label="Confirm Password"
-                    placeholder="Confirm Password"
-                    value={values.confirmPassword}
-                    error={values.confirmPassword}
+                    label="confirm Password"
+                    error={errors.confirmPassword}
                     isError={
                       !!touched.confirmPassword && !!errors.confirmPassword
                     }
-                    handleChange={handleChange}
-                    handleBlur={handleBlur}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    placeholder="confirm Password"
+                    type="password"
+                    value={values.confirmPassword}
                   />
                 </div>
                 <Button

@@ -1,3 +1,5 @@
+'use client';
+
 import { axiosInstance } from '@/lib/axios';
 import { Event } from '@/types/event.type';
 import { AxiosError } from 'axios';
@@ -10,10 +12,10 @@ const useGetEvent = (id: number) => {
   const getEvent = async () => {
     try {
       const { data } = await axiosInstance.get<Event>(`/events/${id}`);
+
       setData(data);
     } catch (error) {
       if (error instanceof AxiosError) {
-        // ubah ke toast
         console.log(error);
       }
     } finally {
@@ -24,6 +26,7 @@ const useGetEvent = (id: number) => {
   useEffect(() => {
     getEvent();
   }, []);
+
   return { event: data, isLoading, refetch: getEvent };
 };
 

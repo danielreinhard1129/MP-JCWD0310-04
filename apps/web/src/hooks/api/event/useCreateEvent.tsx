@@ -1,47 +1,77 @@
 'use client';
 
-import { useToast } from '@/components/ui/use-toast';
 import { axiosInstance } from '@/lib/axios';
-import { Event, IFormCreateEvent } from '@/types/event.type';
+import { IFormEvent } from '@/types/event.type';
+import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { FileWithPath } from 'react-dropzone';
 
 const useCreateEvent = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { toast } = useToast();
-  const createEvent = async (payload: IFormCreateEvent) => {
-    setIsLoading(true);
+  const createEvent = async (payload: IFormEvent) => {
     try {
-      const createEventForm = new FormData();
-      // console.log(createEvent);
+      const {
+        title,
+        description,
+        thumbnail_url,
+        userId,
+        limit,
+        start_date,
+        end_date,
+        time,
+        location,
+        address,
+        category,
+        price,
+        voucherAmount,
+        voucherCode,
+        voucherExpDate,
+        voucherLimit,
+      } = payload;
 
-      Object.entries(payload).forEach(([key, value]) => {
-        if (key === 'thumbnail') {
-          value.forEach((file: FileWithPath) => {
-            createEventForm.append(key, file);
-          });
-          // } else if (key === 'ticketTypes') {
-          //   // Append ticketTypes as JSON string
-          //   createEventForm.append(key, JSON.stringify(value));
-        } else {
-          createEventForm.append(key, String(value));
-        }
+      const createEventForm = new FormData();
+
+      for (const [key, value] of Object.entries(payload)) {
+        console.log(key, value);
+      }
+
+      const timeToString = String(time);
+
+      createEventForm.append('title', title);
+      createEventForm.append('description', description);
+      createEventForm.append('limit', String(limit));
+      createEventForm.append('userId', String(userId));
+      createEventForm.append('start_date', new Date(start_date).toISOString());
+      createEventForm.append('end_date', new Date(end_date || 0).toISOString());
+      createEventForm.append('time', timeToString);
+      createEventForm.append('location', location);
+      createEventForm.append('address', String(address));
+      createEventForm.append('category', category);
+      createEventForm.append('price', String(price));
+      createEventForm.append('voucherAmount', String(voucherAmount));
+      createEventForm.append('voucherLimit', String(voucherLimit));
+      createEventForm.append('voucherCode', String(voucherCode));
+      createEventForm.append(
+        'voucherExpDate',
+        new Date(voucherExpDate || 0).toISOString(),
+      );
+
+      thumbnail_url.forEach((file: FileWithPath) => {
+        createEventForm.append('thumbnail_url', file);
       });
 
       await axiosInstance.post<Event>('/events', createEventForm);
-      toast({
-        description: 'create event success',
-      });
-      router.push('/dashboard');
+
+      router.push('/');
     } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
+      if (error instanceof AxiosError) {
+        console.log('Axios error:', error);
+      } else {
+        console.log('Other error', error);
+      }
     }
   };
-  return { createEvent, isLoading };
+  return { createEvent };
 };
 
 export default useCreateEvent;

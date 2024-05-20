@@ -1,15 +1,7 @@
-'use client'
-import React from 'react'
-
-
-
+'use client';
 
 const Profile = () => {
-  return (
-    <div>
-        profile
-    </div>
-  )
-}
+  return <div>profile</div>;
+};
 
-export default Profile
+export default Profile;

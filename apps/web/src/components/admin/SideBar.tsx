@@ -1,6 +1,6 @@
 'use client';
 
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useAppDispatch } from '@/redux/hooks';
 import { logoutAction } from '@/redux/slices/userSlice';
 import {
   BarChart2,
@@ -9,7 +9,6 @@ import {
   LogOutIcon,
   SquareCheckBig,
   SquareGanttChart,
-  User2Icon,
 } from 'lucide-react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -19,6 +18,7 @@ const SideBar = () => {
   const logout = () => {
     localStorage.removeItem('token');
     dispatch(logoutAction());
+    router.push('/');
   };
   const menuItems = [
     { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard /> },
@@ -26,7 +26,7 @@ const SideBar = () => {
     { path: '/event-list', label: 'Event List', icon: <LayoutList /> },
     { path: '/approval', label: 'Approval', icon: <SquareCheckBig /> },
     { path: '/create', label: 'Create Event', icon: <SquareGanttChart /> },
-    { path: '/profile', label: 'Profile', icon: <User2Icon /> },
+    // { path: '/profile-organizer', label: 'Profile', icon: <User2Icon /> },
   ];
   const getMenuItemClass = (path: string) =>
     pathname === path

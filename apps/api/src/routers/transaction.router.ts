@@ -1,4 +1,5 @@
-import { TransactionController } from '@/controllers/transaction.controller';
+import { TransactionController } from '@/controllers/tx.controller';
+import { uploader } from '@/lib/uploader';
 import { Router } from 'express';
 
 export class TransactionRouter {
@@ -12,10 +13,23 @@ export class TransactionRouter {
   }
 
   private initializeRoutes(): void {
-    this.router.get('/', this.transactionController.getTransactionController);
+    this.router.get(
+      '/organizer',
+      this.transactionController.getTransactionsController,
+    );
     this.router.post(
       '/',
-      this.transactionController.createTransactionController,
+      uploader('IMG', '/txProof').array('paymentProof', 1),
+      this.transactionController.createTransaction,
+    );
+    this.router.get(
+      '/:id',
+      this.transactionController.getTransactionController,
+    );
+    this.router.patch(
+      '/:id',
+      uploader('IMG', '/txProof').array('paymentProof', 1),
+      this.transactionController.updateTransactionController,
     );
   }
 

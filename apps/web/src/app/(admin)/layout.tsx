@@ -1,3 +1,4 @@
+'use client';
 import Sidebar from '@/components/admin/SideBar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

@@ -8,7 +8,7 @@ interface GetEventsQuery extends PaginationQueryParams {
 
 export const getEventsService = async (query: GetEventsQuery) => {
   try {
-    const { page, sortBy, sortOrder, take, search } = query;
+    const { page, search, sortBy, sortOrder, take } = query;
 
     const whereClause: Prisma.EventWhereInput = {
       title: { contains: search },
@@ -21,9 +21,7 @@ export const getEventsService = async (query: GetEventsQuery) => {
       orderBy: {
         [sortBy]: sortOrder,
       },
-      include: {
-        organizer: true,
-      },
+      include: { user: true },
     });
 
     const count = await prisma.event.count({ where: whereClause });
