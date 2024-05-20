@@ -1,7 +1,7 @@
 import prisma from '@/prisma';
 import { Transaction } from '@prisma/client';
-import { join } from 'path';
 import fs from 'fs';
+import { join } from 'path';
 
 const defaultDir = '../../../public/txProof';
 

@@ -1,24 +1,23 @@
+import cors from 'cors';
 import express, {
-  json,
-  urlencoded,
   Express,
+  NextFunction,
   Request,
   Response,
-  NextFunction,
+  json,
   static as static_,
+  urlencoded,
 } from 'express';
-import cors from 'cors';
+import { join } from 'path';
 import { PORT } from './config';
 import { AuthRouter } from './routers/auth.router';
-import { EventRouter } from './routers/event.router';
-import { join } from 'path';
-import { UserRouter } from './routers/user.router';
-import { ReviewRouter } from './routers/review.router';
 import { CouponRouter } from './routers/coupon.router';
+import { EventRouter } from './routers/event.router';
+import { ReviewRouter } from './routers/review.router';
 import { TransactionRouter } from './routers/transaction.router';
 
 export default class App {
-  private app: Express;
+  readonly app: Express;
 
   constructor() {
     this.app = express();
@@ -48,7 +47,6 @@ export default class App {
     this.app.use(
       (err: Error, req: Request, res: Response, next: NextFunction) => {
         if (req.path.includes('/api/')) {
-          console.error('Error : ', err.stack);
           res.status(500).send(err.message);
         } else {
           next();
@@ -60,21 +58,19 @@ export default class App {
   private routes(): void {
     const authRouter = new AuthRouter();
     const eventRouter = new EventRouter();
-    const userRouter = new UserRouter();
-    const reviewRouter = new ReviewRouter();
-    const couponRouter = new CouponRouter();
     const transactionRouter = new TransactionRouter();
+    const couponRouter = new CouponRouter();
+    const reviewRouter = new ReviewRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
-      res.send(`Hello, Purwadhika Student !`);
+      res.send(`Hello, Welcome to Purwapora API !`);
     });
 
     this.app.use('/api/auth', authRouter.getRouter());
     this.app.use('/api/events', eventRouter.getRouter());
-    this.app.use('/api/users', userRouter.getRouter());
-    this.app.use('/api/review', reviewRouter.getRouter());
+    this.app.use('/api/transaction', transactionRouter.getRouter());
     this.app.use('/api/coupons', couponRouter.getRouter());
-    this.app.use('/api/transactions', transactionRouter.getRouter());
+    this.app.use('/api/reviews', reviewRouter.getRouter());
   }
 
   public start(): void {

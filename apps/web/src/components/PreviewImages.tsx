@@ -1,10 +1,10 @@
 'use client';
 
 import { appConfig } from '@/utils/config';
+import { Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { FC, useMemo } from 'react';
 import { Button } from './ui/button';
-import { Trash2 } from 'lucide-react';
 
 interface PreviewImagesProps {
   fileImages?: File[];
@@ -36,7 +36,7 @@ const PreviewImages: FC<PreviewImagesProps> = ({
             <Image
               src={images ? `${appConfig.baseURL}/${image}` : image}
               alt="thumbnail"
-              style={{ objectFit: 'contain' }}
+              objectFit="cover"
               fill
             />
 

@@ -1,25 +1,23 @@
 'use client';
-import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { useAppSelector } from '@/redux/hooks';
 import {
   ArrowUpRight,
   CircleCheck,
   CircleX,
   PlusSquareIcon,
 } from 'lucide-react';
-import Chart from './components/Chart';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableHead,
-  TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import ChartByYear from './components/ChartByYears';
-import { useAppSelector } from '@/redux/hooks';
 
 const Dashboard = () => {
   const { username } = useAppSelector((state) => state.user);

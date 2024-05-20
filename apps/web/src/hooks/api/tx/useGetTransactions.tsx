@@ -2,7 +2,7 @@
 
 import { axiosInstance } from '@/lib/axios';
 import { IPaginationMeta, IPaginationQueries } from '@/types/pagination.type';
-import { Transaction, TransactionStatus } from '@/types/ts.type';
+import { Transaction, TransactionStatus } from '@/types/transaction.type';
 
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
@@ -14,17 +14,17 @@ interface IGetTransactionsQuery extends IPaginationQueries {
 }
 
 const useGetTransactionsByOrganizer = (queries: IGetTransactionsQuery) => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [data, setData] = useState<Transaction[]>([]);
   const [meta, setMeta] = useState<IPaginationMeta | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getTransactions = async () => {
     try {
-      const { data } = await axiosInstance.get('/transactions/organizer', {
+      const { data } = await axiosInstance.get('/transaction/organizer', {
         params: queries,
       });
 
-      setTransactions(data.data);
+      setData(data.data);
       setMeta(data.meta);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -39,7 +39,7 @@ const useGetTransactionsByOrganizer = (queries: IGetTransactionsQuery) => {
     getTransactions();
   }, [queries?.page, queries?.search, queries.id]);
 
-  return { transactions, isLoading, meta, refetch: getTransactions };
+  return { data, isLoading, meta, refetch: getTransactions };
 };
 
 export default useGetTransactionsByOrganizer;

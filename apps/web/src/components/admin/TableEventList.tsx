@@ -57,7 +57,7 @@
 //             <TableHead>is Free/ not</TableHead>
 //             <TableHead>ticket Types</TableHead>
 //             <TableHead>Price</TableHead>
-//           </TableRow> 
+//           </TableRow>
 //         </TableHeader>
 //         <TableBody>
 //           <Link href={`${eventId}`}>

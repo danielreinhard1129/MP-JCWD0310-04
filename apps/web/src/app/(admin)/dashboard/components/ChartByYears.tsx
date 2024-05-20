@@ -1,20 +1,19 @@
 'use client';
 
-import React from 'react';
+import useGetEventsByOrganizer from '@/hooks/api/event/useGetEventsByOrganizer';
+import { useAppSelector } from '@/redux/hooks';
+import { faker } from '@faker-js/faker';
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LineElement,
   LinearScale,
   PointElement,
-  LineElement,
   Title,
   Tooltip,
-  Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
-import { useAppSelector } from '@/redux/hooks';
-import useGetEventsByOrganizer from '@/hooks/api/event/useGetEventsByOrganizer';
 
 ChartJS.register(
   CategoryScale,
@@ -36,7 +35,7 @@ const ChartByYear = () => {
 
   if (event) {
     Object.keys(event).forEach((key: any) => {
-      const date = new Date(event[key].startDate);
+      const date = new Date(event[key].start_date);
       const year = date.getFullYear();
       const yearIndex = years.indexOf(year);
       if (yearIndex !== -1) {

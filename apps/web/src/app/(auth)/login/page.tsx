@@ -2,12 +2,12 @@
 
 import FormInput from '@/components/FormInput';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import useLogin from '@/hooks/api/auth/useLogin';
 import { useFormik } from 'formik';
-import { validationSchemaLogin } from '../validationSchema';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { validationSchemaLogin } from '../validationSchema';
 
 const Login = () => {
   const router = useRouter();
@@ -24,11 +24,11 @@ const Login = () => {
       },
     });
   return (
-    <main className=" container flex items-center justify-center h-screen">
-      <div className=" md:mx-auto md:px-4 md:py-8 py-24 mb-6  ">
-        <div className="md:mt-16 grid md:grid-cols-2 grid-cols-1 md:w-[700px]  ">
+    <main className=" container flex items-center justify-center h-screen overflow-hidden">
+      <div className=" md:mx-auto md:px-4 md:py-10 py-24 mb-6  ">
+        <div className="md:mt-16 grid md:grid-cols-2 md:w-[700px]  ">
           {/* kiri */}
-          <div className="relative bg-cover bg-primary bg-center md:rounded-l-lg hidden md:block ">
+          <div className="relative bg-cover bg-primary bg-center md:rounded-l-lg pl-5 hidden md:block ">
             <div className=" relative h-[25px] md:w-1/4 p-5 ">
               <Image
                 src="/assets/images/eventure_logo.png"
@@ -37,7 +37,7 @@ const Login = () => {
                 fill
               />
             </div>
-            <div className="absolute bottom-0 left-0 right-1 top-0 h-full w-full rounded-l-lg">
+            <div className="absolute bottom-0 left-0 right-1 top-0 h-full w-full rounded-l-lg p-3">
               <div className="text-white flex flex-col justify-center h-full w-full p-5 ">
                 <h2 className="my-6 text-5xl font-mono text-right ml-10 ">
                   Welcome Back!
@@ -60,26 +60,26 @@ const Login = () => {
                   <div className="grid w-full items-center gap-4 ">
                     <FormInput
                       name="email"
-                      type="email"
                       label="Email"
-                      placeholder="Type your email here"
-                      value={values.email}
                       error={errors.email}
                       isError={!!touched.email && !!errors.email}
-                      handleBlur={handleBlur}
-                      handleChange={handleChange}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      placeholder="Email"
+                      type="text"
+                      value={values.email}
                     />
 
                     <FormInput
                       name="password"
-                      type="password"
-                      label="Password"
-                      placeholder="Type your Password here"
-                      value={values.password}
+                      label="password"
                       error={errors.password}
                       isError={!!touched.password && !!errors.password}
-                      handleBlur={handleBlur}
-                      handleChange={handleChange}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      placeholder="password"
+                      type="password"
+                      value={values.password}
                     />
 
                     <div className="flex justify-between gap-6">

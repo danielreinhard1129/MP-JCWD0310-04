@@ -1,52 +1,56 @@
 'use client';
 
-import { FormikHandlers } from 'formik';
-import React, { HTMLInputTypeAttribute } from 'react';
+import { FormikErrors, FormikHandlers } from 'formik';
+import { HTMLInputTypeAttribute } from 'react';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
 interface FormInputProps {
   name: string;
-  label: string;
-  type: string | HTMLInputTypeAttribute;
-  value: string | number | Date;
   placeholder: string;
+  type: HTMLInputTypeAttribute;
+  onChange: FormikHandlers['handleChange'];
+  onBlur: FormikHandlers['handleBlur'];
+  value: string | number | Date;
   isError: boolean;
-  error: string | undefined;
-  handleChange: FormikHandlers['handleChange'];
-  handleBlur: FormikHandlers['handleBlur'];
+  label: string;
+  error: string | FormikErrors<Date> | undefined;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
   name,
-  label,
-  type,
-  isError,
   placeholder,
+  type,
+  onChange,
+  onBlur,
   value,
+  label,
+  isError,
   error,
-  handleChange,
-  handleBlur,
 }) => {
-  const displayValue =
-    typeof value === 'object' && value instanceof Date
-      ? value.toISOString() // Jika tipe data adalah Date, ubah menjadi string format tanggal
-      : value; // Jika bukan tipe data Date, biarkan nilai tetap sama
   return (
     <div className="flex flex-col space-y-1.5">
-      <Label htmlFor={name} className={isError ? 'text-red-500' : 'text-black'}>
+      <Label htmlFor={label} className={isError ? 'text-red-500' : ''}>
         {label}
       </Label>
       <Input
         name={name}
-        type={type}
         placeholder={placeholder}
-        onBlur={handleBlur}
-        onChange={handleChange}
-        value={displayValue}
-        className={isError ? 'border-red-500' : ''}
+        type={type}
+        onChange={onChange}
+        onBlur={onBlur}
+        value={
+          typeof value === 'string' || typeof value === 'number'
+            ? value
+            : value.toISOString()
+        }
+        className="rounded-md border"
       />
-      {isError ? <div className="text-xs text-red-500">{error}</div> : null}
+      {isError ? (
+        <div className="text-xs text-red-500">
+          {typeof error === 'string' ? error : JSON.stringify(error)}
+        </div>
+      ) : null}
     </div>
   );
 };

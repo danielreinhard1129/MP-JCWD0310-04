@@ -12,8 +12,8 @@ export class CouponRouter {
   }
 
   private initializeRoutes(): void {
-    // this.router.get('/', this.rewardController.getRewardsController);
-    this.router.get('/:id', this.couponController.getCouponController);
+    this.router.get('/:id', this.couponController.getCoupon);
+    this.router.post('/:id', this.couponController.useCoupon);
   }
 
   getRouter(): Router {

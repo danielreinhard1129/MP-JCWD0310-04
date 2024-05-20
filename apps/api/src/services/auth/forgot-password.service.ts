@@ -1,14 +1,15 @@
 import { JWT_SECRET, NEXT_BASE_URL } from '@/config';
 import { transporter } from '@/lib/nodemailer';
-import prisma from '@/prisma';
+import { User } from '@prisma/client';
 import { sign } from 'jsonwebtoken';
+import prisma from '../../prisma';
 
-export const forgotPasswordService = async (email: string) => {
+export const forgotPasswordService = async (body: Pick<User, 'email'>) => {
   try {
+    const { email } = body;
     const user = await prisma.user.findFirst({
       where: { email },
     });
-
     if (!user) {
       throw new Error('invalid email address');
     }
@@ -22,12 +23,12 @@ export const forgotPasswordService = async (email: string) => {
     await transporter.sendMail({
       from: 'Admin',
       to: email,
-      subject: 'Link Reset Password',
-      html: `<a href="${link}" target="_blank">Reset Password Here </a>`,
+      subject: 'link reset password',
+      html: `<a href="${link}" target="_blank">Reset Password Here</a>`,
     });
 
     return {
-      message: 'email reset password has been sent',
+      message: 'email has been sent',
     };
   } catch (error) {
     throw error;

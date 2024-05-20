@@ -1,12 +1,14 @@
 import { createEventService } from '@/services/event/create-event.service';
 import { getEventService } from '@/services/event/get-event.service';
+import { getEventsByParamsService } from '@/services/event/get-events-by-params.service';
 import { getEventsService } from '@/services/event/get-events.service';
-import { NextFunction, Request, Response } from 'express';
-import { getEventsByOrganizerService } from '@/services/event/get-eventByOrganizer.service';
+import { getEventsByOrganizerService } from '@/services/event/get-eventsByOrganizer.service';
 import { updateEventService } from '@/services/event/update-event.service';
+import { NextFunction, Request, Response } from 'express';
 
 export class EventController {
-  async createEventController(req: Request, res: Response, next: NextFunction) {
+  //CREATE EVENT
+  async createEvent(req: Request, res: Response, next: NextFunction) {
     try {
       const files = req.files as Express.Multer.File[];
 
@@ -21,6 +23,8 @@ export class EventController {
       next(error);
     }
   }
+
+  // GET EVENT
   async getEventController(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
@@ -32,23 +36,7 @@ export class EventController {
     }
   }
 
-  async getEventsController(req: Request, res: Response, next: NextFunction) {
-    try {
-      const query = {
-        take: parseInt(req.query.take as string) || 10,
-        page: parseInt(req.query.page as string) || 1,
-        sortBy: (req.query.sortBy as string) || 'createdAt',
-        sortOrder: (req.query.sortOrder as string) || 'desc',
-        search: (req.query.search as string) || '',
-      };
-      const result = await getEventsService(query);
-
-      return res.status(200).send(result);
-    } catch (error) {
-      next(error);
-    }
-  }
-
+  //GET EVENTS BY ORGANIZER
   async getEventsByOrganizerController(
     req: Request,
     res: Response,
@@ -59,7 +47,7 @@ export class EventController {
         id: parseInt(req.query.id as string),
         take: parseInt(req.query.take as string) || 8,
         page: parseInt(req.query.page as string) || 1,
-        sortBy: parseInt(req.query.sortBy as string) || 'startDate',
+        sortBy: parseInt(req.query.sortBy as string) || 'start_date',
         sortOrder: parseInt(req.query.sortOrder as string) || 'desc',
         search: req.query.search as string,
       };
@@ -71,6 +59,50 @@ export class EventController {
     }
   }
 
+  // GET EVENTS BY PARAMS
+  async getEventsByParamsController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const query = {
+        take: parseInt(req.query.take as string) || 8,
+        page: parseInt(req.query.page as string) || 1,
+        sortBy: parseInt(req.query.sortBy as string) || 'start_date',
+        sortOrder: parseInt(req.query.sortOrder as string) || 'desc',
+        category: req.query.category as string,
+        location: req.query.location as string,
+      };
+      const result = await getEventsByParamsService(query);
+
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  //GET EVENTS
+
+  async getEventsController(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = {
+        take: parseInt(req.query.take as string) || 8,
+        page: parseInt(req.query.page as string) || 1,
+        sortBy: parseInt(req.query.sortBy as string) || 'start_date',
+        sortOrder: parseInt(req.query.sortOrder as string) || 'desc',
+        search: req.query.search as string,
+      };
+
+      const result = await getEventsService(query);
+
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  //UPDATE EVENT
   async updateEventsController(
     req: Request,
     res: Response,

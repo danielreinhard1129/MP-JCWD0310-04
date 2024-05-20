@@ -2,40 +2,44 @@ import { User } from './user.type';
 import { Voucher } from './voucher.type';
 
 export interface Event {
+  date: string | number | Date;
   id: number;
   title: string;
+  start_date: Date;
+  end_date: Date;
   description: string;
-  category: string;
-  thumbnail: string;
-  location: string;
-  address: string;
-  isAvailable: boolean;
-  availableSeats: number;
-  startDate: Date;
-  endDate: Date;
-  price: number;
+  thumbnail_url: string;
+  seat: number;
   booked: number;
+  limit: number;
+  isAvailable: boolean;
+  deletedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
-  organizerId: number;
-
-  organizer: User;
-  voucher: Voucher;
-}
-
-export interface IFormCreateEvent {
-  title: string;
-  description: string;
-  thumbnail: File[];
+  time: string;
   location: string;
-  organizerId?: number;
-  availableSeats: number;
+  address: string | null;
   category: string;
   price: number;
-  booked: number;
-  address: string;
-  startDate: Date;
-  endDate: Date;
+  userId: number;
+
+  Voucher: Voucher;
+  user: User;
+}
+
+export interface IFormEvent {
+  title: string;
+  description: string;
+  thumbnail_url: File[];
+  limit: number;
+  start_date: Date;
+  end_date: Date | null;
+  time: string;
+  location: string;
+  address: string | null;
+  userId?: number;
+  category: string;
+  price: number;
   voucherCode: string | null;
   voucherAmount: number | null;
   voucherLimit: number | null;

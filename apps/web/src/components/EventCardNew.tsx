@@ -54,7 +54,7 @@ const EventCardNew: FC<EventCardProps> = ({
               alt="Thumbnail"
               style={{ objectFit: 'cover' }}
               fill
-              className='bg-center'
+              className="bg-center"
             />
           </div>
         </CardHeader>

@@ -1,3 +1,18 @@
+// import prisma from '@/prisma';
+
+// export const getEventsService = async (id: string) => {
+//   try {
+//     const events = await prisma.event.findMany({
+//       where: { userId: Number(id) },
+//       include: { user: true },
+//     });
+
+//     return events;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
 import prisma from '@/prisma';
 import { PaginationQueryParams } from '@/types/pagination.type';
 import { Prisma } from '@prisma/client';
@@ -13,7 +28,7 @@ export const getEventsByOrganizerService = async (query: GetEventsQuery) => {
 
     const whereClause: Prisma.EventWhereInput = {
       title: { contains: search },
-      organizerId: Number(id),
+      userId: Number(id),
     };
 
     const events = await prisma.event.findMany({
@@ -23,7 +38,7 @@ export const getEventsByOrganizerService = async (query: GetEventsQuery) => {
       orderBy: {
         [sortBy]: sortOrder,
       },
-      include: { organizer: true },
+      include: { user: true },
     });
 
     const count = await prisma.event.count({ where: whereClause });

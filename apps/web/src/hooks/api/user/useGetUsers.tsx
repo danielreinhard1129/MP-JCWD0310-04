@@ -1,4 +1,3 @@
-import { Category } from '@/types/location.type';
 import { User } from '@/types/user.type';
 import axios, { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';

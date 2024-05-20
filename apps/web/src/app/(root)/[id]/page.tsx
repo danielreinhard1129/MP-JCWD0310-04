@@ -1,27 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import useGetEvent from '@/hooks/api/event/useGetEvent';
 import { format } from 'date-fns';
-import {
-  CalendarIcon,
-  CircleDollarSign,
-  CircleMinus,
-  CirclePlus,
-  EditIcon,
-  Loader,
-  LocateIcon,
-  Share2,
-  Ticket,
-} from 'lucide-react';
+import { CalendarIcon, EditIcon, LocateIcon, Share2 } from 'lucide-react';
 
+import ReviewForm from '@/components/ReviewForm';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Card,
@@ -31,70 +15,31 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import useGetReward from '@/hooks/api/event/useGetCoupon';
-import useCreateTransaction from '@/hooks/api/transaction/useCreateTransaction';
+import useGetEvents from '@/hooks/api/event/useGetEvents';
+import useGetReview from '@/hooks/api/review/useGetReview';
 import { useAppSelector } from '@/redux/hooks';
 import { appConfig } from '@/utils/config';
 import { Avatar } from '@radix-ui/react-avatar';
 import Image from 'next/image';
-import { notFound, usePathname } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import ModalOrderConfirmation from './components/ModalOrderConfirmation';
+import OrderCard from './components/OrderCard';
 import SkeletonEventDetail from './components/SkeletonEventDetail';
-import { useFormik } from 'formik';
-import { IFormCreateTransaction } from '@/types/ts.type';
-import { axiosInstance } from '@/lib/axios';
-import useGetCoupon from '@/hooks/api/event/useGetCoupon';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
-  const pathname = usePathname();
-  const { createTransaction, isLoadinger } = useCreateTransaction();
-  const { id, points } = useAppSelector((state) => state.user);
-  // const { coupon } = useGetCoupon(id);
+  const { id, role, point } = useAppSelector((state) => state.user);
   const { event, isLoading } = useGetEvent(Number(params.id));
-  const [qty, setQty] = useState<number>(0);
-  const [total, setTotal] = useState<number>(0);
-
-  const handleSubmitData = async () => {
-    try {
-      const trans = await axiosInstance.post<IFormCreateTransaction>(
-        '/transactions',
-        {
-          qty: qty,
-          total: total,
-          eventId: event?.id,
-          userId: id,
-        },
-      );
-      console.log('transaction created', trans.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleIncrement = () => {
-    setQty((prevQty) => prevQty + 1);
-    const newQty = qty + 1;
-    const newTotal = (event?.price || 0) * newQty;
-    setQty(newQty);
-    setTotal(newTotal);
-  };
-
-  const handleDecrement = () => {
-    if (qty > 0) {
-      setQty((prevQty) => prevQty - 1);
-      const newQty = qty - 1;
-      const newTotal = (event?.price || 0) * (qty - 1);
-      setQty(newQty);
-      setTotal(newTotal);
-    }
-  };
-
-  const formatRupiah = (number: any) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-    }).format(number);
-  };
+  const router = useRouter();
+  const [page, setPage] = useState(1);
+  const { data: events } = useGetEvents({
+    page,
+    take: 4,
+  });
+  const [open, setOpen] = useState(false);
+  const excludedEvent = event?.id;
+  const filteredEvent = events.filter((event) => event.id !== excludedEvent);
+  const { review } = useGetReview(id);
 
   if (isLoading) {
     return (
@@ -115,7 +60,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
         <div className="relative h-[400px] overflow-hidden ">
           <Image
             fill
-            src={`${appConfig.baseURL}/assets${event.thumbnail}`}
+            src={`${appConfig.baseURL}/assets${event.thumbnail_url}`}
             alt="thumbnail image"
             className="w-full h-full"
             style={{ objectFit: 'cover' }}
@@ -126,7 +71,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             <div>
               <h1 className="text-4xl font-semibold">{event.title}</h1>
               <p className="text-sm">
-                {format(new Date(event.startDate), 'dd MMMM yyyy')}
+                {format(new Date(event.start_date), 'dd MMMM yyyy')}
               </p>
             </div>
             <div className="flex gap-2">
@@ -166,7 +111,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
               <div className="flex  flex-col">
                 <h2 className="  text-base font-bold text-black">Hosted By:</h2>
                 <p className="text-sm font-semibold text-black">
-                  {event.organizer.username}
+                  {event.user.username}
                 </p>
               </div>
             </div>
@@ -178,17 +123,14 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                 <CardTitle className="flex items-center gap-4 justify-start px-4">
                   <CalendarIcon className="w-8 h-8" />
                   <span>
-                    {format(event.startDate, 'hh MMM yyyy')} -
-                    {format(event.endDate, 'hh MMM yyyy')}
+                    {format(event.start_date, 'hh MMM yyyy')} -
+                    {format(event.end_date, 'hh MMM yyyy')}
                   </span>
                 </CardTitle>
                 <CardDescription className="px-4">
                   <div className="flex items-center text-base text-white py-2">
                     <p>Time:</p>
-                    <p className="ml-1">
-                      {format(new Date(event.startDate), 'HH:mm')} -{' '}
-                      {format(new Date(event.endDate), 'HH:mm')}
-                    </p>
+                    <p className="ml-1">{event.time}</p>
                   </div>
                   <p className=" text-sm text-white font-medium flex items-center gap-1">
                     <LocateIcon size={15} />
@@ -203,7 +145,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                 <div className="grid grid-cols-2 gap-2 text-sm text-gray-700">
                   <div className="">
                     <p>Available Seat:</p>
-                    <p>{event.availableSeats}</p>
+                    {/* <p>{event.limit}</p> */}
                   </div>
                   <div>
                     <p>Booked:</p>
@@ -216,81 +158,36 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                 </div>
               </CardContent>
               <CardFooter className="bg-[#E8EDFB] py-4 px-6 flex flex-col justify-center items-center">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button className="bg-primary text-white hover:bg-primary-dark rounded-lg w-[225px] gap-4">
-                      <Ticket size="24px" />
-                      Buy Tickets
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-[500px] max-h-[500px]">
-                    <DialogHeader>
-                      <DialogTitle>Purchase Ticket</DialogTitle>
-                      <div className="text-pretty">
-                        Available Seats {event.availableSeats} -
-                        {formatRupiah(event.price)}
-                      </div>
-                    </DialogHeader>
-                    <form>
-                      <div className="flex flex-col ">
-                        <div className="flex justify-between mx-10">
-                          <div className="">{event.title}</div>
-                          <div className="flex justify-between w-[145px] h-[30px] mb-3 items-center select-none">
-                            <Button
-                              type="button"
-                              onClick={handleDecrement}
-                              disabled={qty === 0}
-                            >
-                              <CircleMinus />
-                            </Button>
-                            <div className="text-lg font-semibold">{qty}</div>
-                            <Button
-                              onClick={handleIncrement}
-                              type="button"
-                              className="cursor-pointer"
-                            >
-                              <CirclePlus />
-                            </Button>
-                          </div>
-                        </div>
-                        <div className="flex justify-between md:mx-2 mx-10">
-                          <div className="md:w-[120px] md:h-[50px] w-[80px] h-[50px] border shadow-lg bg-white flex items-center hover:bg-primary hover:text-white">
-                            Voucher
-                          </div>
-                          <div className="md:w-[120px] md:h-[50px] w-[80px] h-[50px] border shadow-lg bg-white flex items-center hover:bg-primary hover:text-white">
-                            {/* {coupon.fsahfjds} */}
-                          </div>
-                          <div className="md:w-[120px] md:h-[50px] w-[80px] h-[50px] border shadow-lg bg-white flex items-center justify-center gap-6 hover:bg-primary hover:text-white">
-                            <CircleDollarSign />
-                            <span>{points}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center mt-4 select-none">
-                        <div className="font-bold text-lg">
-                          RP.
-                          {qty} - {total}
-                        </div>
-                        <Button
-                          disabled={isLoadinger}
-                          onClick={handleSubmitData}
-                          type="submit"
-                          className="bg-primary text-white hover:bg-primary-dark py-2 px-4 rounded-lg"
-                        >
-                          {isLoadinger && (
-                            <Loader className="mr-2 h-4 w-4 animate-spin " />
-                          )}
-                          {isLoadinger ? 'Processing...' : 'Pay Now'}
-                        </Button>
-                      </div>
-                    </form>
-                  </DialogContent>
-                </Dialog>
+                <div className="flex items-center gap-4">
+                  <OrderCard
+                    price={event.price}
+                    setOpen={() => setOpen(true)}
+                  />
+                </div>
               </CardFooter>
             </Card>
           </div>
         </div>
+        <div className=" md:justify-between md:mx-5 grid md:grid-cols-7">
+          <div className="md:mx-5 col-span-5">
+            <ReviewForm />
+
+            <div className="flex gap-4 items-center ">
+              <div className="my-3 text-xs text-justify md:mr-36 ">
+                <p className="my-2"> {review?.rating}</p>
+                <p className="my-2">{review?.comment}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
+      <ModalOrderConfirmation
+        open={open}
+        price={event.price}
+        point={point}
+        setOpen={setOpen}
+        // onTransactionDetails={() => router.push(`/transaction-details`)}
+      />
     </main>
   );
 };

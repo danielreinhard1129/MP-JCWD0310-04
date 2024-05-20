@@ -2,14 +2,16 @@ import prisma from '@/prisma';
 
 export const getCouponService = async (id: number) => {
   try {
-    const reward = await prisma.coupon.findFirst({
-      where: { userId: id },
-      include: {
-        user: true,
-      },
+    const coupon = await prisma.coupon.findFirst({
+      where: { id },
+      include: { user: true },
     });
 
-    return reward;
+    if (!coupon) {
+      throw new Error('coupon not found');
+    }
+
+    return coupon;
   } catch (error) {
     throw error;
   }

@@ -1,5 +1,7 @@
+'use client';
+
 import { axiosInstance } from '@/lib/axios';
-import { Transaction } from '@/types/ts.type';
+import { Transaction } from '@/types/transaction.type';
 
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
@@ -11,7 +13,7 @@ const useGetTransaction = (id: number) => {
   const getTransaction = async () => {
     try {
       const { data } = await axiosInstance.get<Transaction>(
-        `/transactions/${id}`,
+        `/transaction/${id}`,
       );
 
       setData(data);

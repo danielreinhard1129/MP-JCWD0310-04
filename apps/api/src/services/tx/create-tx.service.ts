@@ -1,7 +1,7 @@
 import { NEXT_BASE_URL } from '@/config';
 import { transporter } from '@/lib/nodemailer';
 import prisma from '@/prisma';
-import { JWT_SECRET } from '@/config';
+import { appConfig } from '@/utils/config';
 import { Transaction } from '@prisma/client';
 import { sign } from 'jsonwebtoken';
 import { scheduleJob } from 'node-schedule';
@@ -33,7 +33,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
 
     const userEmail = user.email;
 
-    const token = sign({ id: user.id }, JWT_SECRET, {
+    const token = sign({ id: user.id }, appConfig.jwtSecretKey, {
       expiresIn: '30m',
     });
 
@@ -50,9 +50,24 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
 
     const totalPrice = event.price * qty;
 
+    let point = null;
+
+    if (String(isPointUse) === 'true') {
+      point = await prisma.user.findFirst({
+        where: { id: Number(userId) },
+      });
+
+      await prisma.user.update({
+        where: { id: Number(userId) },
+        data: {
+          point: 0,
+        },
+      });
+    }
+
     let coupon = null;
 
-    if (isUseCoupon) {
+    if (String(isUseCoupon) === 'true') {
       coupon = await prisma.userCoupon.findFirst({
         where: { id: Number(userCouponId) },
         include: { coupon: true },
@@ -70,7 +85,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
 
     let voucher = null;
 
-    if (isUseVoucher) {
+    if (String(isUseVoucher) === 'true') {
       voucher = await prisma.userVoucher.findFirst({
         where: { id: Number(userVoucherId) },
         include: { voucher: true },
@@ -89,7 +104,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
     const totalDiscount =
       totalPrice - Number(couponAmount) - Number(voucherAmount);
 
-    const total = totalDiscount - user.points;
+    const total = totalDiscount - user.point;
 
     const newTransaction = await prisma.transaction.create({
       data: {
@@ -110,18 +125,18 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
       },
     });
 
-    if (user.points - totalDiscount >= 0) {
+    if (user.point - totalDiscount >= 0) {
       await prisma.user.update({
-        where: { id: userId },
+        where: { id: Number(userId) },
         data: {
-          points: user.points - totalDiscount,
+          point: user.point - totalDiscount,
         },
       });
-    } else if (user.points - totalDiscount < 0) {
+    } else if (user.point - totalDiscount < 0) {
       await prisma.user.update({
-        where: { id: userId },
+        where: { id: Number(userId) },
         data: {
-          points: 0,
+          point: 0,
         },
       });
     }
@@ -132,14 +147,14 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
         data: { status: 'COMPLETE' },
       });
       await prisma.event.update({
-        where: { id: eventId },
-        data: { availableSeats: event.availableSeats - 1 },
+        where: { id: Number(eventId) },
+        data: { limit: event.limit - 1 },
       });
       await transporter.sendMail({
         from: 'Admin',
         to: userEmail,
         subject: 'Thanks for ordering',
-        html: `<p>Thanks brok!</p>`,
+        html: `<p>Thanks!</p>`,
       });
     } else {
       await transporter.sendMail({
@@ -165,7 +180,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
         });
         await prisma.user.update({
           where: { id: newTransaction.userId },
-          data: { points: user.points },
+          data: { point: user.point },
         });
         if (isUseVoucher) {
           await prisma.userVoucher.update({
@@ -182,22 +197,14 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
               isUse: false,
             },
           });
-          if (isUseVoucher) {
-            await prisma.userVoucher.update({
-              where: { id: Number(userVoucherId) },
-              data: {
-                isUse: false,
-              },
-            });
-          }
-          if (isUseCoupon) {
-            await prisma.userCoupon.update({
-              where: { id: Number(userCouponId) },
-              data: {
-                isUse: false,
-              },
-            });
-          }
+        }
+        if (isUseCoupon) {
+          await prisma.userCoupon.update({
+            where: { id: Number(userCouponId) },
+            data: {
+              isUse: false,
+            },
+          });
         }
         await transporter.sendMail({
           from: 'Admin',
@@ -229,7 +236,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
         });
         await prisma.user.update({
           where: { id: newTransaction.userId },
-          data: { points: user.points },
+          data: { point: user.point },
         });
         if (isUseVoucher) {
           await prisma.userVoucher.update({

@@ -1,15 +1,6 @@
 'use client';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import {
-  HistoryIcon,
-  MenuIcon,
-  SearchIcon,
-  UserIcon,
-  LogOut,
-  Settings,
-  CircleDollarSign,
-} from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,19 +9,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { usePathname, useRouter } from 'next/navigation';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { logoutAction } from '@/redux/slices/userSlice';
+import {
+  CircleDollarSign,
+  HistoryIcon,
+  LogOut,
+  MenuIcon,
+  SearchIcon,
+  UserIcon,
+} from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Header = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { id } = useAppSelector((state) => state.user);
-  const { points } = useAppSelector((state) => state.user);
+  const { point } = useAppSelector((state) => state.user);
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -75,7 +74,7 @@ const Header = () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <CircleDollarSign className="mr-2 h-4 w-4" />
-                    <span>{points}</span>
+                    <span>{point}</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => router.push('/profile')}>
                     <UserIcon className="mr-2 h-4 w-4" />

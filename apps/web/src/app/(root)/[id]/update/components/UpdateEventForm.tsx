@@ -7,7 +7,7 @@ import FormTextArea from '@/components/FormTextArea';
 import PreviewImages from '@/components/PreviewImages';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { IFormCreateEvent } from '@/types/event.type';
+import { IFormEvent } from '@/types/event.type';
 import { useFormikContext } from 'formik';
 import { Loader2 } from 'lucide-react';
 import { FC } from 'react';
@@ -25,7 +25,7 @@ const UpdateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
     values,
     errors,
     touched,
-  } = useFormikContext<IFormCreateEvent>();
+  } = useFormikContext<IFormEvent>();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -41,22 +41,22 @@ const UpdateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               <div className="flex-1">
                 <FormInput
                   name="title"
-                  type="text"
                   label=""
-                  placeholder="Title"
-                  value={values.title}
                   error={errors.title}
                   isError={!!touched.title && !!errors.title}
-                  handleChange={handleChange}
-                  handleBlur={handleBlur}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  placeholder="Title"
+                  type="text"
+                  value={values.title}
                 />
               </div>
             </div>
 
             {/* category */}
             <div className="flex items-center mt-4 mb-8">
-              <Label className="w-28 text-left mr-4">Category</Label>
-              <select
+              {/* <Label className="w-28 text-left mr-4">Category</Label> */}
+              {/* <select
                 id="categories"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 flex-1"
                 name="category"
@@ -67,22 +67,36 @@ const UpdateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 <option value="Festival">Festival</option>
                 <option value="Theater Musical">Theater Musical</option>
                 <option value="Concert">Concert</option>
-              </select>
+              </select> */}
+              <FormInput
+                name="category"
+                label="Category"
+                error={errors.category}
+                isError={!!touched.category && !!errors.category}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                placeholder="Category"
+                type="text"
+                value={values.category}
+              />
             </div>
 
             <PreviewImages
-              fileImages={values.thumbnail}
+              fileImages={values.thumbnail_url}
               onRemoveImage={(idx: number) =>
-                setFieldValue('thumbnail', values.thumbnail.toSpliced(idx, 1))
+                setFieldValue(
+                  'thumbnail_url',
+                  values.thumbnail_url?.toSpliced(idx, 1),
+                )
               }
             />
 
             <Dropzone
-              isError={Boolean(errors.thumbnail)}
+              isError={Boolean(errors.thumbnail_url)}
               label="Thumbnail"
               onDrop={(files) =>
-                setFieldValue('thumbnail', [
-                  ...values.thumbnail,
+                setFieldValue('thumbnail_url', [
+                  ...values.thumbnail_url,
                   ...files.map((file) => file),
                 ])
               }
@@ -90,8 +104,8 @@ const UpdateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
 
             {/* Location */}
             <div className="flex items-center mt-4 mb-8">
-              <Label className="w-28 text-left mr-4">Location</Label>
-              <select
+              {/* <Label className="w-28 text-left mr-4">Location</Label> */}
+              {/* <select
                 id="locations"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 flex-1"
                 name="location"
@@ -102,7 +116,18 @@ const UpdateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
                 <option value="Surabaya">Surabaya</option>
                 <option value="Bandung">Bandung</option>
                 <option value="Batam">Batam</option>
-              </select>
+              </select> */}
+              <FormInput
+                name="location"
+                label="Location"
+                error={errors.location}
+                isError={!!touched.location && !!errors.location}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                placeholder="Location"
+                type="text"
+                value={values.location}
+              />
             </div>
 
             <div className="flex items-center mt-4">
@@ -110,14 +135,14 @@ const UpdateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
               <div className="flex-1">
                 <FormInput
                   name="address"
-                  label=""
+                  label="Address (optional)"
                   error={errors.address}
                   isError={!!touched.address && !!errors.address}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
-                  placeholder="address"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  placeholder="Address"
                   type="text"
-                  value={values.address}
+                  value={String(values.address)}
                 />
               </div>
             </div>
@@ -146,27 +171,39 @@ const UpdateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
 
             <div className="flex md:gap-5 gap-3 justify-start mt-6">
               <FormInput
-                name="startDate"
+                name="start_date"
                 label="Start Date"
-                type="datetime-local"
+                error={errors.start_date}
+                isError={!!touched.start_date && !!errors.start_date}
+                onBlur={handleBlur}
+                onChange={handleChange}
                 placeholder="Start Date"
-                value={values.startDate}
-                error={errors.startDate as string}
-                isError={!!touched.startDate && !!errors.startDate}
-                handleBlur={handleBlur}
-                handleChange={handleChange}
+                type="date"
+                value={values.start_date}
               />
 
               <FormInput
-                name="endDate"
+                name="end_date"
                 label="End Date"
-                type="datetime-local"
+                error={errors.end_date}
+                isError={!!touched.end_date && !!errors.end_date}
+                onBlur={handleBlur}
+                onChange={handleChange}
                 placeholder="End Date"
-                value={values.endDate}
-                error={errors.endDate as string}
-                isError={!!touched.endDate && !!errors.endDate}
-                handleBlur={handleBlur}
-                handleChange={handleChange}
+                type="date"
+                value={values.end_date || 0}
+              />
+
+              <FormInput
+                name="time"
+                label="Time"
+                error={errors.time}
+                isError={!!touched.time && !!errors.time}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                placeholder="Time"
+                type="time"
+                value={values.time}
               />
             </div>
             <h2 className="text-2xl font-mono mt-5">
@@ -176,15 +213,15 @@ const UpdateEventForm: FC<EventCreateFormProps> = ({ isLoading }) => {
             </h2>
             <div className="flex items-center gap-5 mt-4">
               <FormInput
-                name="availableSeats"
-                label="availableSeats"
-                error={errors.availableSeats}
-                isError={!!touched.availableSeats && !!errors.availableSeats}
-                handleBlur={handleBlur}
-                handleChange={handleChange}
-                placeholder="availableSeats"
+                name="limit"
+                label="Total Ticket"
+                error={errors.limit}
+                isError={!!touched.limit && !!errors.limit}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                placeholder="Limit"
                 type="number"
-                value={values.availableSeats}
+                value={values.limit}
               />
 
               <FormInputCurrency

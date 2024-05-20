@@ -1,6 +1,6 @@
 'use client';
 
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useAppDispatch } from '@/redux/hooks';
 import { logoutAction } from '@/redux/slices/userSlice';
 import {
   BarChart2,
@@ -9,7 +9,6 @@ import {
   LogOutIcon,
   SquareCheckBig,
   SquareGanttChart,
-  User2Icon,
 } from 'lucide-react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -22,7 +21,7 @@ const SideBar = () => {
     router.push('/');
   };
   const menuItems = [
-    // { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard /> },
+    { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard /> },
     { path: '/statistic', label: 'Statistic', icon: <BarChart2 /> },
     { path: '/event-list', label: 'Event List', icon: <LayoutList /> },
     { path: '/approval', label: 'Approval', icon: <SquareCheckBig /> },

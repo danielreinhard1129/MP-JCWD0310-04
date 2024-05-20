@@ -35,14 +35,14 @@ const ForgotPassword = () => {
                 <div className="grid w-full items-center gap-4">
                   <FormInput
                     name="email"
-                    type="email"
                     label="Email"
-                    placeholder="Type your email here"
-                    value={values.email}
                     error={errors.email}
                     isError={!!touched.email && !!errors.email}
-                    handleBlur={handleBlur}
-                    handleChange={handleChange}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    placeholder="Email"
+                    type="text"
+                    value={values.email}
                   />
                 </div>
                 <Button

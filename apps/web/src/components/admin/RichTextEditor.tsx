@@ -1,9 +1,9 @@
 'use client';
 
 import { FC } from 'react';
-import { Label } from '../ui/label';
-import QuillEditor from "react-quill"
+import QuillEditor from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { Label } from '../ui/label';
 
 interface RichTextEditorProps {
   onChange: (value: string) => void;

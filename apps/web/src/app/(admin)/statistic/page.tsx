@@ -1,4 +1,3 @@
-import Chart from '../dashboard/components/Chart';
 import ChartByYear from '../dashboard/components/ChartByYears';
 
 const Statistic = () => {

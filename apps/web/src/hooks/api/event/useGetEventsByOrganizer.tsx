@@ -3,7 +3,7 @@
 import { axiosInstance } from '@/lib/axios';
 import { Event } from '@/types/event.type';
 import { IPaginationMeta, IPaginationQueries } from '@/types/pagination.type';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
 interface IGetEventsQuery extends IPaginationQueries {
@@ -18,12 +18,9 @@ const useGetEventsByOrganizer = (queries: IGetEventsQuery) => {
 
   const getEvents = async () => {
     try {
-      const { data } = await axios.get(
-        'http://localhost:8000/api/events/organizer',
-        {
-          params: queries,
-        },
-      );
+      const { data } = await axiosInstance.get('/events/organizer', {
+        params: queries,
+      });
 
       setData(data.data);
       setMeta(data.meta);

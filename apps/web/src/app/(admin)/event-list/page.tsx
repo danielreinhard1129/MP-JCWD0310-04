@@ -1,40 +1,29 @@
 'use client';
-import { BadgePlus, ImageUp } from 'lucide-react';
-import { FileStack } from 'lucide-react';
 import {
   Table,
   TableBody,
   TableCell,
-  TableHeader,
   TableHead,
+  TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { ImageUp } from 'lucide-react';
 // import useGetEvents from '@/hooks/api/event/useGetEvents';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import Pagination from '@/components/Pagination';
+import { Button } from '@/components/ui/button';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import Image from 'next/image';
-import { appConfig } from '@/utils/config';
-import { format } from 'date-fns';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { DeleteIcon, EditIcon } from 'lucide-react';
-import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu';
-import { useState } from 'react';
 import useGetEventsByOrganizer from '@/hooks/api/event/useGetEventsByOrganizer';
 import { useAppSelector } from '@/redux/hooks';
+import { appConfig } from '@/utils/config';
+import { format } from 'date-fns';
+import { EditIcon } from 'lucide-react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import Pagination from '@/components/Pagination';
+import { useState } from 'react';
 
 const EventList = () => {
   const { id } = useAppSelector((state) => state.user);
@@ -108,7 +97,9 @@ const EventList = () => {
                       </PopoverTrigger>
                       <PopoverContent className="w-80 h-80">
                         <Image
-                          src={appConfig.baseURL + `/assets${event.thumbnail}`}
+                          src={
+                            appConfig.baseURL + `/assets${event.thumbnail_url}`
+                          }
                           alt="Thumbnail"
                           style={{ objectFit: 'contain' }}
                           fill
@@ -119,15 +110,12 @@ const EventList = () => {
                   <TableCell>{event.location}</TableCell>
                   <TableCell>{event.category}</TableCell>
                   <TableCell>
-                    {format(event.startDate, 'hh MMM yyyy')}-{' '}
-                    {format(event.endDate, 'hh MMM yyyy')}
+                    {format(new Date(event.start_date), 'dd-MMM-yyyy')} -{' '}
+                    {format(new Date(event.end_date), 'dd-MMM-yyyy')}{' '}
                   </TableCell>
-                  <TableCell>
-                    {format(new Date(event.startDate), 'HH:mm')} -{' '}
-                    {format(new Date(event.endDate), 'HH:mm')}{' '}
-                  </TableCell>
-                  <TableCell>{event.availableSeats}</TableCell>
-                  <TableCell>{event.booked}</TableCell>
+                  <TableCell>{event.time}</TableCell>
+                  <TableCell>{event.limit}</TableCell>
+                  {/* <TableCell>{event.booked}</TableCell> */}
                   <TableCell>
                     {event.price === 0 ? 'Free' : formatRupiah(event.price)}
                   </TableCell>
@@ -135,7 +123,7 @@ const EventList = () => {
                     <Button variant="outline">
                       <div
                         className="cursor-pointer flex text-yellow-500 hover:text-yellow-600"
-                        onClick={() => router.push(`/edit/${event.id}`)}
+                        onClick={() => router.push(`/${event.id}/update`)}
                       >
                         <EditIcon className="ml-3 mr-4 h-5 w-5" />
                         <span className="text-sm">Edit</span>

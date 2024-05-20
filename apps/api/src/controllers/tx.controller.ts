@@ -1,8 +1,7 @@
-import { createTransactionService } from '@/services/transaction/create-transaction.service';
-import { getTransactionService } from '@/services/transaction/get-transaction.service';
-import { getTransactionsService } from '@/services/transaction/get-transactions.service';
-import { updateTransactionStatusService } from '@/services/transaction/update-transaction-status.service';
-import { updateTransactionService } from '@/services/transaction/update-transaction.service';
+import { createTransactionService } from '@/services/tx/create-tx.service';
+import { getTransactionService } from '@/services/tx/get-tx.service';
+import { getTransactionsService } from '@/services/tx/get-txs.service';
+import { updateTransactionService } from '@/services/tx/update-tx.service';
 import { TransactionStatus } from '@/types/transactionStatus.type';
 import { NextFunction, Request, Response } from 'express';
 
@@ -44,22 +43,6 @@ export class TransactionController {
         Number(req.params.id),
         req.body,
         files[0],
-      );
-
-      return res.status(200).send(result);
-    } catch (error) {
-      next(error);
-    }
-  }
-  async updateTransactionStatusController(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const result = await updateTransactionStatusService(
-        Number(req.params.id),
-        req.body,
       );
 
       return res.status(200).send(result);

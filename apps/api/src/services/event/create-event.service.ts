@@ -2,28 +2,36 @@ import prisma from '@/prisma';
 import { Event } from '@prisma/client';
 
 interface CreateEventBody
-  extends Omit<Event, 'thumbnail' | 'updatedAt' | 'createdAt'> {
-  // isFree: string;
+  extends Omit<Event, 'id' | 'deletedAt' | 'createdAt' | 'updatedAt'> {
+  voucherCode: string;
+  voucherLimit: number;
+  voucherAmount: number;
+  voucherExpDate: Date;
 }
+
 export const createEventService = async (
   body: CreateEventBody,
   file: Express.Multer.File,
 ) => {
   try {
     const {
-      // Event
       title,
-      description,
-      location,
+      userId,
+      limit,
+      price,
       address,
       category,
-      availableSeats,
-      startDate,
-      endDate,
-      // isFree,
-      price,
-      booked,
-      organizerId,
+      description,
+      end_date,
+      isAvailable,
+      location,
+      start_date,
+      thumbnail_url,
+      time,
+      voucherAmount,
+      voucherCode,
+      voucherExpDate,
+      voucherLimit,
     } = body;
 
     const existingTitle = await prisma.event.findFirst({
@@ -31,82 +39,54 @@ export const createEventService = async (
     });
 
     if (existingTitle) {
-      throw new Error('Title already in use');
+      throw new Error('title already in use');
     }
+
     const user = await prisma.user.findFirst({
-      where: { id: Number(organizerId) },
+      where: { id: Number(userId) },
     });
 
     if (!user) {
-      throw new Error('organizer not found');
+      throw new Error('user not found');
     }
 
-    // const isFreeValue = isFree === 'true';
-
-    const event = await prisma.event.create({
+    const createEvent = await prisma.event.create({
       data: {
-        title: String(title),
-        description: String(description),
-        location: String(location),
-        address: String(address),
-        category: String(category),
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
-        // isFree: isFreeValue,
-        booked: 0,
+        thumbnail_url: `/images/${file.filename}`,
+        limit: Number(limit),
+        userId: Number(userId),
         price: Number(price),
-        availableSeats: Number(availableSeats),
-        thumbnail: `/images/${file.filename}`,
-        organizerId: Number(organizerId),
+        category,
+        description,
+        location,
+        start_date,
+        time,
+        end_date,
+        title,
+        address,
+        isAvailable,
       },
     });
 
-    // Check if event is free
-    // if (!isFreeValue) {
-    //   await prisma.ticketType.createMany({
-    //     data: JSON.parse(ticketTypes).map((ticketType: any) => ({
-    //       name: String(ticketType.name),
-    //       price: Number(ticketType.price),
-    //       limit: Number(ticketType.limit),
-    //       eventId: event.id,
-    //     })),
-    //     skipDuplicates: true,
-    //   });
-    // if (!isFreeValue) {
-    //   await prisma.ticketType.createMany({
-    //     data: JSON.parse(ticketTypes).map((ticketType: any) => ({
-    //       name: String(ticketType.name),
-    //       price: Number(ticketType.price),
-    //       limit: Number(ticketType.limit),
-    //       eventId: event.id,
-    //     })),
-    //     skipDuplicates: true,
-    //   });
+    let createVoucher = null;
 
-    //   await prisma.voucher.create({
-    //     data: {
-    //       voucher: String(voucherName),
-    //       price: Number(voucherPrice),
-    //       limit: Number(voucherLimit),
-    //       isUsed: false,
-    //       organizerId: Number(organizerId),
-    //       eventId: event.id,
-    //     },
-    //   });
-    // }
-    //   await prisma.voucher.create({
-    //     data: {
-    //       voucher: String(voucherName),
-    //       price: Number(voucherPrice),
-    //       limit: Number(voucherLimit),
-    //       isUsed: false,
-    //       organizerId: Number(organizerId),
-    //       eventId: event.id,
-    //     },
-    //   });
-    // }
+    if (voucherAmount && voucherCode && voucherExpDate && voucherLimit) {
+      createVoucher = await prisma.voucher.create({
+        data: {
+          code: voucherCode,
+          discountAmount: Number(voucherAmount),
+          expirationDate: voucherExpDate,
+          limit: Number(voucherLimit),
+          eventId: Number(createEvent.id),
+          userId: Number(userId),
+        },
+      });
+    }
 
-    return event;
+    return {
+      event: createEvent,
+      voucher: createVoucher,
+    };
   } catch (error) {
     throw error;
   }

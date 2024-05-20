@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/lib/axios';
-import { IFormCreateTransaction, Transaction } from '@/types/ts.type';
+import { IFormTransaction, Transaction } from '@/types/transaction.type';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FileWithPath } from 'react-dropzone';
@@ -8,9 +8,7 @@ const useConfirmTransaction = (transactionId: number) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const confirmTransaction = async (
-    payload: Partial<IFormCreateTransaction>,
-  ) => {
+  const confirmTransaction = async (payload: Partial<IFormTransaction>) => {
     setIsLoading(true);
     try {
       const { paymentProof } = payload;
@@ -31,3 +29,5 @@ const useConfirmTransaction = (transactionId: number) => {
   };
   return { confirmTransaction, isLoading };
 };
+
+export default useConfirmTransaction;

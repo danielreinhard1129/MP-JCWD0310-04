@@ -1,6 +1,3 @@
-import { createReviewService } from '@/services/review/create-review.service';
-import { getReviewService } from '@/services/review/get-review.service';
-import { getReviewsService } from '@/services/review/get-reviews.service';
 import { getUserService } from '@/services/user/get-user.service';
 import { getUsersService } from '@/services/user/get-users.service';
 import { NextFunction, Request, Response } from 'express';

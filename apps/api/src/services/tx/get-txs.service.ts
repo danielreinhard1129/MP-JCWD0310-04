@@ -15,7 +15,7 @@ export const getTransactionsService = async (query: GetTransactionsQuery) => {
 
     const whereClause: Prisma.TransactionWhereInput = {
       invoice: { contains: search },
-      event: { organizer: { id } },
+      event: { user: { id } },
       status: status,
     };
 
@@ -27,7 +27,7 @@ export const getTransactionsService = async (query: GetTransactionsQuery) => {
       orderBy: {
         [sortBy]: sortOrder,
       },
-      include: { event: { include: { organizer: true } }, user: true },
+      include: { event: { include: { user: true } }, user: true },
     });
 
     const count = await prisma.transaction.count({ where: whereClause });

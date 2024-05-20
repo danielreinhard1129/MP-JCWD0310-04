@@ -1,5 +1,6 @@
+'use client';
 import { axiosInstance } from '@/lib/axios';
-import { IFormCreateEvent } from '@/types/event.type';
+import { IFormEvent } from '@/types/event.type';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FileWithPath } from 'react-dropzone';
@@ -8,19 +9,20 @@ const useUpdateEvent = (eventId: number) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const updateEvent = async (payload: Partial<IFormCreateEvent>) => {
+  const updateEvent = async (payload: Partial<IFormEvent>) => {
     setIsLoading(true);
     try {
       const {
         address,
         category,
         description,
-        endDate,
-        availableSeats,
+        end_date,
+        limit,
         location,
         price,
-        startDate,
-        thumbnail,
+        start_date,
+        thumbnail_url,
+        time,
         title,
       } = payload;
 
@@ -32,16 +34,16 @@ const useUpdateEvent = (eventId: number) => {
       if (description) eventUpdateForm.append('description', description);
       if (location) eventUpdateForm.append('location', location);
       if (price) eventUpdateForm.append('price', String(price));
-      if (availableSeats)
-        eventUpdateForm.append('limit', String(availableSeats));
-      if (startDate) eventUpdateForm.append('start_date', String(startDate));
-      if (endDate) eventUpdateForm.append('end_date', String(endDate));
-      if (thumbnail)
-        thumbnail.forEach((file: FileWithPath) => {
-          eventUpdateForm.append('thumbnail', file);
+      if (limit) eventUpdateForm.append('limit', String(limit));
+      if (time) eventUpdateForm.append('time', time);
+      if (start_date) eventUpdateForm.append('start_date', String(start_date));
+      if (end_date) eventUpdateForm.append('end_date', String(end_date));
+      if (thumbnail_url)
+        thumbnail_url.forEach((file: FileWithPath) => {
+          eventUpdateForm.append('thumbnail_url', file);
         });
       await axiosInstance.patch(`/events/${eventId}`, eventUpdateForm);
-      router.push('/event-list');
+      router.push('/organizer');
     } catch (error) {
       console.log(error);
     } finally {
