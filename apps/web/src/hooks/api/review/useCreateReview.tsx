@@ -19,7 +19,7 @@ const useCreateReviews = () => {
       createReviewForm.append('userId', String(userId));
 
       await axios.post<Review>('http://localhost:8000/api/reviews/', payload);
-      router.push('/');
+      router.push(`/${eventId}`);
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error);
