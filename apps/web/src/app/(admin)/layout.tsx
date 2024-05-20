@@ -1,5 +1,6 @@
 'use client';
 import Sidebar from '@/components/admin/SideBar';
+import AuthGuard from '@/hoc/AuthGuardAdmin';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -10,4 +11,4 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Layout;
+export default AuthGuard(Layout);

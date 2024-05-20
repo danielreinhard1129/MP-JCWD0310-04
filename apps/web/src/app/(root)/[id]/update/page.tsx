@@ -9,6 +9,7 @@ import { addDays } from 'date-fns';
 import { Formik } from 'formik';
 import UpdateEventForm from './components/UpdateEventForm';
 import { validationSchema } from './components/validationSchema';
+import AuthGuard from '@/hoc/AuthGuardAdmin';
 
 const UpdateEvent = ({ params }: { params: { id: string } }) => {
   const { event, isLoading: isLoadingGetEvent } = useGetEvent(
@@ -67,4 +68,4 @@ const UpdateEvent = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default UpdateEvent;
+export default AuthGuard(UpdateEvent);

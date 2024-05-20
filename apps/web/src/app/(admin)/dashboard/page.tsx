@@ -18,10 +18,12 @@ import {
   PlusSquareIcon,
 } from 'lucide-react';
 import ChartByYear from './components/ChartByYears';
+import { useRouter } from 'next/navigation';
 
 const Dashboard = () => {
   const { username } = useAppSelector((state) => state.user);
   const initials = username.substring(0, 2);
+  const router = useRouter();
   return (
     <section className="container mx-auto md:max-w-6xl md:px-4 md:pr-2 rounded-lg">
       <div className="text-4xl font-bold py-5">
@@ -45,7 +47,11 @@ const Dashboard = () => {
           </div>
 
           <div className="flex md:flex-col md:space-y-4 gap-4">
-            <Button variant="secondary" className="flex items-center gap-4">
+            <Button
+              variant="secondary"
+              className="flex items-center gap-4"
+              onClick={() => router.push('/create')}
+            >
               <PlusSquareIcon />
               <span className="text-xl">Create Event</span>
             </Button>
@@ -61,7 +67,10 @@ const Dashboard = () => {
           <div className="bg-white border rounded-md p-4">
             <h1 className="text-xl font-semibold mb-4">Statistics</h1>
             <ChartByYear />
-            <Button className="bg-blue-700 mt-auto text-xl flex items-center justify-center gap-2">
+            <Button
+              className="bg-blue-700 mt-auto text-xl flex items-center justify-center gap-2"
+              onClick={() => router.push('/statistic')}
+            >
               View Details
               <ArrowUpRight size={24} />
             </Button>
@@ -101,7 +110,10 @@ const Dashboard = () => {
                 ))}
               </TableBody>
             </Table>
-            <Button className="bg-blue-700 mt-auto text-xl flex items-center justify-center gap-2">
+            <Button
+              className="bg-blue-700 mt-auto text-xl flex items-center justify-center gap-2"
+              onClick={() => router.push('/approval')}
+            >
               View All
               <ArrowUpRight size={24} />
             </Button>
@@ -145,7 +157,10 @@ const Dashboard = () => {
               </TableRow>
             </TableBody>
           </Table>
-          <Button className="bg-blue-700 mt-4 text-xl flex items-center justify-center gap-2">
+          <Button
+            className="bg-blue-700 mt-4 text-xl flex items-center justify-center gap-2"
+            onClick={() => router.push('/event-list')}
+          >
             View All
             <ArrowUpRight size={24} />
           </Button>

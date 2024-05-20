@@ -23,7 +23,7 @@ export default function Home() {
     refetch,
   } = useGetEventsByFilter({
     page,
-    take: 8,
+    take: 6,
     location,
     category,
   });
@@ -81,16 +81,17 @@ export default function Home() {
           </div>
         ) : (
           <div>
-            {events.length === 0 ? (
+            {events?.length === 0 ? (
               <div className="container mb-40 mt-10 flex flex-col items-center p-0">
                 <div className="flex w-full justify-center">
-                  <Image
+                  {/* <Image
                     src=""
                     alt="no event found"
                     height={400}
                     className="object-contain opacity-50"
                     draggable="false"
-                  />
+                  /> */}
+                  {/* <div>no event found</div> */}
                 </div>
                 <p className="text-md -mt-16 mb-10 font-medium text-neutral-300 xl:text-xl">
                   Sorry, we cant find any event for you
@@ -98,7 +99,7 @@ export default function Home() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-4 py-4 md:gap-4">
-                {events.map((event, index) => {
+                {events?.map((event, index) => {
                   return (
                     <EventCardNew
                       key={index}

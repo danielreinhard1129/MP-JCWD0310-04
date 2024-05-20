@@ -38,8 +38,8 @@ const page = () => {
       </div>
       <Tabs defaultValue="account" className="w-full">
         <TabsList>
-          <TabsTrigger value="pending">Nedd approval</TabsTrigger>
           <TabsTrigger value="history">Transaction List</TabsTrigger>
+          <TabsTrigger value="pending">Need approval</TabsTrigger>
         </TabsList>
         <TabsContent value="pending">
           Make changes to your account here.

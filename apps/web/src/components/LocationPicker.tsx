@@ -33,20 +33,16 @@ const locations = [
     label: 'Bandung',
   },
   {
-    value: 'denpasar',
-    label: 'Denpasar',
+    value: 'surabaya',
+    label: 'Surabaya',
   },
   {
     value: 'yogyakarta',
     label: 'Yogyakarta',
   },
   {
-    value: 'medan',
-    label: 'Medan',
-  },
-  {
-    value: 'semarang',
-    label: 'Semarang',
+    value: 'batam',
+    label: 'Batam',
   },
 ];
 
