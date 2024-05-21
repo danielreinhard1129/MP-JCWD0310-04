@@ -1,7 +1,7 @@
 'use client';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import AuthGuard from '@/hoc/AuthGuardUser';
+// import AuthGuard from '@/hoc/AuthGuardUser';
 
 // export default function RootLayout({
 //   children,
@@ -27,4 +27,4 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AuthGuard(Layout);
+export default Layout;

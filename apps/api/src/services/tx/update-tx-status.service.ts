@@ -7,6 +7,15 @@ export const updateTransactionStatusService = async (
 ) => {
   try {
     const { status } = body;
+
+    const tx = await prisma.transaction.findFirst({
+      where: { id },
+    });
+
+    if (!tx) {
+      throw new Error('Transaction not found');
+    }
+
     return await prisma.transaction.update({
       where: { id },
       data: { status },

@@ -24,14 +24,14 @@ export default function AuthGuard(Component: any) {
       }
     }, [id, isLoading]);
 
-    useEffect(() => {
-      if (role === 'ORGANIZER' && !isLoading) {
-        toast({
-          description: 'you must login as an event customer',
-        });
-        redirect('/dashboard');
-      }
-    }, [role, isLoading]);
+    // useEffect(() => {
+    //   if (role === 'ORGANIZER' && !isLoading) {
+    //     toast({
+    //       description: 'you must login as an event customer',
+    //     });
+    //     redirect('/dashboard');
+    //   }
+    // }, [role, isLoading]);
 
     if (isLoading || !id) {
       return (
