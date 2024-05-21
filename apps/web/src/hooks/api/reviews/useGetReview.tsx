@@ -1,5 +1,5 @@
-import { axiosInstance } from '@/lib/axios';
 import { Review } from '@/types/review.type';
+import { axiosInstance } from '@/lib/axios';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -9,7 +9,7 @@ const useGetReview = (id: number) => {
 
   const getReview = async () => {
     try {
-      const { data } = await axiosInstance.get<Review>(`/events/${id}`);
+      const { data } = await axiosInstance.get<Review>(`/reviews/${id}`);
       setData(data);
     } catch (error) {
       if (error instanceof AxiosError) {

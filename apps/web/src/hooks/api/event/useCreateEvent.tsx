@@ -62,7 +62,7 @@ const useCreateEvent = () => {
 
       await axiosInstance.post<Event>('/events', createEventForm);
 
-      router.push('/');
+      router.push('/event-list');
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log('Axios error:', error);

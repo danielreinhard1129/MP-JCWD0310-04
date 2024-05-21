@@ -6,17 +6,18 @@ export interface Review {
   userId: number;
   eventId: number;
   rating: number;
-  comment: string;
-  createdAt: Date;
+  review: string;
+  // createdAt: Date;
+  // updateAt: Date;
 
   user: User;
   event: Event;
 }
 
 export interface IFormCreateReview {
-  rating: string;
-  comment: string;
-  createdAt: String;
   userId?: number;
-  eventId?: string;
+  eventId?: number;
+  rating: number;
+  review: string;
+  // createdAt: String;
 }

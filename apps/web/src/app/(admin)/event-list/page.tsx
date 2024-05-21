@@ -66,10 +66,10 @@ const EventList = () => {
               <TableHead>Start & End Date</TableHead>
               <TableHead>Time</TableHead>
               <TableHead>Available Seats</TableHead>
-              <TableHead>Booked</TableHead>
+              {/* <TableHead>Booked</TableHead> */}
               <TableHead>Price</TableHead>
-              <TableHead>
-                {/* <Button
+              {/* <TableHead> */}
+              {/* <Button
                   variant="ghost"
                   className="flex gap-2 rounded-none p-0 text-[#767676] hover:bg-inherit"
                   onClick={() => {
@@ -79,7 +79,7 @@ const EventList = () => {
                   <p className="text-[16px] font-medium">Create Event</p>
                   <BadgePlus className="h-6 w-6" />
                 </Button> */}
-              </TableHead>
+              {/* </TableHead> */}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -119,7 +119,7 @@ const EventList = () => {
                   <TableCell>
                     {event.price === 0 ? 'Free' : formatRupiah(event.price)}
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <Button variant="outline">
                       <div
                         className="cursor-pointer flex text-yellow-500 hover:text-yellow-600"
@@ -129,7 +129,7 @@ const EventList = () => {
                         <span className="text-sm">Edit</span>
                       </div>
                     </Button>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               );
             })}

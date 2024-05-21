@@ -12,11 +12,11 @@ datasource db {
 
 model User {
   id               Int           @id @default(autoincrement())
-  username         String
+  username         String        @unique
   email            String        @unique
   password         String
   avatar           String?
-  role             String        @default("user")
+  role             String        @default("CUSTOMER")
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   referralCode     String?       @unique
@@ -152,8 +152,9 @@ model Review {
   userId    Int
   eventId   Int
   rating    Int
-  comment   String
+  review    String
   createdAt DateTime @default(now())
+  updatedAt DateTime
 
   @@map("reviews")
 }

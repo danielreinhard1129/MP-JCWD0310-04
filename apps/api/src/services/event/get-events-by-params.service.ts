@@ -27,11 +27,10 @@ export const getEventsByParamsService = async (query: getEventsByParams) => {
       },
     });
 
-    if (events.length === 0) {
-      throw new Error('no event found');
-    }
-
-    return events;
+    return {
+      data: events,
+      meta: { page, take },
+    };
   } catch (error) {
     throw error;
   }

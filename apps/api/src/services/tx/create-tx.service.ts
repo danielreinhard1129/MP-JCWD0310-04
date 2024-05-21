@@ -37,7 +37,6 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
       expiresIn: '30m',
     });
 
-    const confirmationLink = NEXT_BASE_URL + `/confirmation?token=${token}`;
     const event = await prisma.event.findFirst({
       where: { id: Number(eventId) },
     });
@@ -46,16 +45,24 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
       throw new Error('event not found');
     }
 
+    const baseLimit = event.limit;
+
     const invoice = uuidv4();
 
-    const totalPrice = event.price * qty;
+    const baseUserPoint = user.point;
 
     let point = null;
 
+    let total = event.price * qty;
+
+    const totalPriceWithoutDiscount = event.price * qty;
+
+    let totalDiscountCouponVoucher = 0;
+
     if (String(isPointUse) === 'true') {
-      point = await prisma.user.findFirst({
-        where: { id: Number(userId) },
-      });
+      point = user.point;
+
+      total -= point;
 
       await prisma.user.update({
         where: { id: Number(userId) },
@@ -65,53 +72,67 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
       });
     }
 
-    let coupon = null;
-
     if (String(isUseCoupon) === 'true') {
-      coupon = await prisma.userCoupon.findFirst({
-        where: { id: Number(userCouponId) },
+      const userCoupon = await prisma.userCoupon.findFirst({
+        where: { userId: Number(userId), isUse: false },
         include: { coupon: true },
       });
 
+      total -= Number(userCoupon?.coupon.discountAmount);
+      totalDiscountCouponVoucher += Number(userCoupon?.coupon.discountAmount);
+
       await prisma.userCoupon.update({
-        where: { id: Number(userCouponId) },
+        where: { id: Number(userCoupon?.id) },
         data: {
           isUse: true,
         },
       });
     }
 
-    const couponAmount: number = coupon?.coupon.discountAmount || 0;
-
-    let voucher = null;
-
     if (String(isUseVoucher) === 'true') {
-      voucher = await prisma.userVoucher.findFirst({
-        where: { id: Number(userVoucherId) },
+      const userVoucher = await prisma.userVoucher.findFirst({
+        where: { userId: Number(userId), isUse: false },
         include: { voucher: true },
       });
 
+      total -= Number(userVoucher?.voucher.discountAmount);
+      totalDiscountCouponVoucher += Number(userVoucher?.voucher.discountAmount);
+
       await prisma.userVoucher.update({
-        where: { id: Number(userCouponId) },
+        where: { id: Number(userVoucher?.id) },
         data: {
           isUse: true,
         },
       });
     }
 
-    const voucherAmount: number = voucher?.voucher.discountAmount || 0;
+    const totalBeforeReducePoint =
+      totalPriceWithoutDiscount - totalDiscountCouponVoucher;
 
-    const totalDiscount =
-      totalPrice - Number(couponAmount) - Number(voucherAmount);
+    if (user.point - totalBeforeReducePoint < 0) {
+      await prisma.user.update({
+        where: { id: Number(userId) },
+        data: {
+          point: 0,
+        },
+      });
+    }
 
-    const total = totalDiscount - user.point;
+    if (user.point - totalBeforeReducePoint >= 0) {
+      await prisma.user.update({
+        where: { id: Number(userId) },
+        data: {
+          point: user.point - totalBeforeReducePoint,
+        },
+      });
+    }
 
     const newTransaction = await prisma.transaction.create({
       data: {
         ...body,
         paymentProof: `/txProof/`,
         invoice,
-        total,
+        total: Number(total),
         userId: Number(userId),
         eventId: Number(eventId),
         qty: Number(qty),
@@ -125,36 +146,25 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
       },
     });
 
-    if (user.point - totalDiscount >= 0) {
-      await prisma.user.update({
-        where: { id: Number(userId) },
-        data: {
-          point: user.point - totalDiscount,
-        },
-      });
-    } else if (user.point - totalDiscount < 0) {
-      await prisma.user.update({
-        where: { id: Number(userId) },
-        data: {
-          point: 0,
-        },
+    if (newTransaction.status === 'PENDING') {
+      await prisma.event.update({
+        where: { id: Number(eventId) },
+        data: { limit: event.limit - qty },
       });
     }
 
+    const confirmationLink =
+      NEXT_BASE_URL + `/confirmation?token=${token}&id=${newTransaction.id}`;
     if (newTransaction.total === 0) {
       await prisma.transaction.update({
         where: { id: newTransaction.id },
         data: { status: 'COMPLETE' },
       });
-      await prisma.event.update({
-        where: { id: Number(eventId) },
-        data: { limit: event.limit - 1 },
-      });
       await transporter.sendMail({
         from: 'Admin',
         to: userEmail,
         subject: 'Thanks for ordering',
-        html: `<p>Thanks!</p>`,
+        html: `<p>Thanks brok!</p>`,
       });
     } else {
       await transporter.sendMail({
@@ -164,8 +174,8 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
         html: `<a href="${confirmationLink}" target="_blank">Upload payment proof</a>`,
       });
     }
+
     const schedule = new Date(Date.now() + 10 * 1000);
-    // const schedule = new Date(Date.now() + 2 * 60 * 60 * 1000);
     scheduleJob('run every ', schedule, async () => {
       const transaction = await prisma.transaction.findFirst({
         where: {
@@ -178,21 +188,17 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
           where: { id: newTransaction.id },
           data: { status: 'EXPIRED' },
         });
+        await prisma.event.update({
+          where: { id: Number(eventId) },
+          data: { limit: baseLimit },
+        });
         await prisma.user.update({
           where: { id: newTransaction.userId },
-          data: { point: user.point },
+          data: { point: baseUserPoint },
         });
         if (isUseVoucher) {
           await prisma.userVoucher.update({
             where: { id: Number(userVoucherId) },
-            data: {
-              isUse: false,
-            },
-          });
-        }
-        if (isUseCoupon) {
-          await prisma.userCoupon.update({
-            where: { id: Number(userCouponId) },
             data: {
               isUse: false,
             },
@@ -221,8 +227,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
       };
     });
 
-    // const scheduleAdmin = new Date(Date.now() + 24 * 60 * 60 * 1000);
-    const scheduleAdmin = new Date(Date.now() + 10 * 1000);
+    const scheduleAdmin = new Date(Date.now() + 24 * 60 * 60 * 1000);
     scheduleJob('run every ', scheduleAdmin, async () => {
       const transaction = await prisma.transaction.findFirst({
         where: {
@@ -237,7 +242,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
         });
         await prisma.user.update({
           where: { id: newTransaction.userId },
-          data: { point: user.point },
+          data: { point: baseUserPoint },
         });
         if (isUseVoucher) {
           await prisma.userVoucher.update({
@@ -272,6 +277,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
 
     return {
       message: `Transaction created`,
+      data: newTransaction,
     };
   } catch (error) {
     throw error;

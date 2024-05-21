@@ -1,4 +1,5 @@
 import { Event } from './event.type';
+import { Review } from './review.type';
 
 export interface User {
   id: number;
@@ -11,4 +12,5 @@ export interface User {
   userReward?: boolean;
 
   event?: Event;
+  Review?: Review[];
 }

@@ -3,7 +3,7 @@
 import FormInput from '@/components/FormInput';
 import FormTextArea from '@/components/root/FormTextArea';
 import { Button } from '@/components/ui/button';
-import useCreateReview from '@/hooks/api/reviews/useCreateReview';
+import useCreateReviews from '@/hooks/api/reviews/useCreateReview';
 import { useAppSelector } from '@/redux/hooks';
 import { IFormCreateReview } from '@/types/review.type';
 import { useFormik } from 'formik';
@@ -16,7 +16,7 @@ const ReviewForm = () => {
   // console.log(result);
   const { id } = useAppSelector((state) => state.user);
 
-  const { createReview } = useCreateReview();
+  const { createReview } = useCreateReviews();
 
   const {
     handleSubmit,
