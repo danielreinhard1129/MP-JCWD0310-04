@@ -1,6 +1,7 @@
 import { createReviewService } from '@/services/review/create-review.service';
 import { getReviewService } from '@/services/review/get-review.service';
 import { getReviewByEventService } from '@/services/review/get-reviewByEvent.service';
+import { getReviewByEventService } from '@/services/review/get-reviewByEvent.service';
 import { getReviewsService } from '@/services/review/get-reviews.service';
 import { NextFunction, Request, Response } from 'express';
 

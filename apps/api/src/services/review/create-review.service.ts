@@ -1,11 +1,14 @@
 import prisma from '@/prisma';
 import { Review } from '@prisma/client';
+import { Review } from '@prisma/client';
 
 interface CreateReviewBody
   extends Omit<Review, 'id' | 'updatedAt' | 'createdAt'> {}
 
 export const createReviewService = async (body: CreateReviewBody) => {
+export const createReviewService = async (body: CreateReviewBody) => {
   try {
+    const { eventId, userId, rating, review } = body;
     const { eventId, userId, rating, review } = body;
     const user = await prisma.user.findFirst({
       where: { id: userId },

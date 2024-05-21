@@ -4,7 +4,8 @@ import useGetEvent from '@/hooks/api/event/useGetEvent';
 import { format } from 'date-fns';
 import { CalendarIcon, EditIcon, LocateIcon, Share2 } from 'lucide-react';
 
-import ReviewForm from '@/components/ReviewForm';
+import ReviewCard from '@/components/root/ReviewCard';
+import ReviewForm from '@/components/root/ReviewForm';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Card,
@@ -15,6 +16,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import useGetEvents from '@/hooks/api/event/useGetEvents';
+import useGetReviewByEvent from '@/hooks/api/reviews/useGetReviewByEvent';
 import useGetReviewByEvent from '@/hooks/api/reviews/useGetReviewByEvent';
 import { useAppSelector } from '@/redux/hooks';
 import { appConfig } from '@/utils/config';
@@ -30,7 +32,9 @@ import ReviewCard from '@/components/root/ReviewCard';
 const EventDetail = ({ params }: { params: { id: string } }) => {
   const { id, role, point } = useAppSelector((state) => state.user);
   const { event, isLoading } = useGetEvent(Number(params.id));
+
   const router = useRouter();
+
   const [page, setPage] = useState(1);
   const { data: events } = useGetEvents({
     page,
@@ -64,7 +68,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   return (
     <main>
       {/* image and title components */}
-      <section className=" mb-8">
+      <section className=" md:mb-3">
         <div className="relative h-[400px] overflow-hidden ">
           <Image
             fill
@@ -176,6 +180,20 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
         <div className=" md:justify-between md:mx-5 grid md:grid-cols-7">
           <div className="md:mx-5 col-span-5">
             <ReviewForm />
+            <div>
+              {reviews && reviews.length > 0 ? (
+                reviews.map((review: any, index: any) => (
+                  <div key={index}>
+                    <ReviewCard
+                      username={review?.user?.username}
+                      rating={review?.rating}
+                      review={review?.review}
+                    />
+                  </div>
+                ))
+              ) : (
+                <p>No reviews available.</p>
+              )}
             <div>
               {reviews && reviews.length > 0 ? (
                 reviews.map((review: any, index: any) => (

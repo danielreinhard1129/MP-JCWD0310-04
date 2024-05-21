@@ -15,7 +15,7 @@ const Pagination: FC<PaginationProps> = ({ onChangePage, total, take }) => {
       pageCount={Math.ceil(total / take)}
       nextLabel={<ChevronRight />}
       previousLabel={<ChevronLeft />}
-      pageRangeDisplayed={6}
+      pageRangeDisplayed={4}
       renderOnZeroPageCount={null}
       containerClassName="flex gap-4 w-fit m-4"
       pageLinkClassName="p-2 rounded-lg"

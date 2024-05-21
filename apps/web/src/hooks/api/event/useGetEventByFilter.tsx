@@ -51,6 +51,7 @@ const useGetEventsByFilter = (queries: IGetEventsQuery) => {
     }
   };
 
+  
   useEffect(() => {
     getEventsByFilter();
   }, [queries.page, queries.location, queries.category]);
