@@ -15,9 +15,9 @@ export const createReviewService = async (body: CreateReviewBody) => {
       where: { id: userId },
     });
 
-    if (!user) {
-      throw new Error('user not found');
-    }
+      if (!user) {
+        throw new Error('user not found');
+      }
 
     const reviewByUser = await prisma.review.findFirst({
       where: {

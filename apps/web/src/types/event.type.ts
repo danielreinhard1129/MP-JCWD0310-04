@@ -5,11 +5,7 @@ export interface Event {
   date: string | number | Date;
   id: number;
   title: string;
-<<<<<<< Updated upstream
-  start_date: Date; 
-=======
   start_date: Date;
->>>>>>> Stashed changes
   end_date: Date;
   description: string;
   thumbnail_url: string;

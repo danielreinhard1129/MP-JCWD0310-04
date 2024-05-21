@@ -1,4 +1,5 @@
 'use client';
+'use client';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 // import AuthGuard from '@/hoc/AuthGuardUser';
@@ -21,6 +22,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex h-screen flex-col">
       <Header />
+      <div className="flex-1 md:mt-16 mt-14">{children}</div>
       <div className="flex-1 md:mt-16 mt-14">{children}</div>
       <Footer />
     </div>

@@ -35,7 +35,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   const { data: events } = useGetEvents({ page, take: 4 });
   const [open, setOpen] = useState(false);
   const excludedEvent = event?.id;
-  const filteredEvents = events.filter((e) => e.id !== excludedEvent);
+  const filteredEvent = events.filter((event) => event.id !== excludedEvent);
   const { data: reviews } = useGetReviewByEvent(Number(params.id));
 
   const handleClick = () => {
