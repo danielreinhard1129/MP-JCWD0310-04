@@ -1,7 +1,8 @@
 'use client';
+'use client';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import AuthGuard from '@/hoc/AuthGuardUser';
+// import AuthGuard from '@/hoc/AuthGuardUser';
 
 // export default function RootLayout({
 //   children,
@@ -22,9 +23,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <div className="flex h-screen flex-col">
       <Header />
       <div className="flex-1 md:mt-16 mt-14">{children}</div>
+      <div className="flex-1 md:mt-16 mt-14">{children}</div>
       <Footer />
     </div>
   );
 };
 
-export default AuthGuard(Layout);
+export default Layout;

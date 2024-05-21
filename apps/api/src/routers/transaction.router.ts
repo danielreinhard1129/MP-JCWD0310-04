@@ -17,19 +17,27 @@ export class TransactionRouter {
       '/organizer',
       this.transactionController.getTransactionsController,
     );
+
     this.router.post(
       '/',
       uploader('IMG', '/txProof').array('paymentProof', 1),
       this.transactionController.createTransaction,
     );
+
     this.router.get(
       '/:id',
       this.transactionController.getTransactionController,
     );
+
     this.router.patch(
       '/:id',
       uploader('IMG', '/txProof').array('paymentProof', 1),
       this.transactionController.updateTransactionController,
+    );
+
+    this.router.patch(
+      '/:id/status',
+      this.transactionController.updateTransactionStatusController,
     );
   }
 
