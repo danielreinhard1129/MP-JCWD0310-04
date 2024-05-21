@@ -17,7 +17,6 @@ import {
 } from '@/components/ui/card';
 import useGetEvents from '@/hooks/api/event/useGetEvents';
 import useGetReviewByEvent from '@/hooks/api/reviews/useGetReviewByEvent';
-import useGetReviewByEvent from '@/hooks/api/reviews/useGetReviewByEvent';
 import { useAppSelector } from '@/redux/hooks';
 import { appConfig } from '@/utils/config';
 import { Avatar } from '@radix-ui/react-avatar';
@@ -27,7 +26,6 @@ import { useState } from 'react';
 import ModalOrderConfirmation from './components/ModalOrderConfirmation';
 import OrderCard from './components/OrderCard';
 import SkeletonEventDetail from './components/SkeletonEventDetail';
-import ReviewCard from '@/components/root/ReviewCard';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
   const { id, role, point } = useAppSelector((state) => state.user);
@@ -83,7 +81,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             <div>
               <h1 className="text-4xl font-semibold">{event.title}</h1>
               <p className="text-sm">
-                {format(new Date(event.start_date), 'dd MMMM yyyy')}
+                {format(event.start_date, 'dd MMMM yyyy')}
               </p>
             </div>
             <div className="flex gap-2">
@@ -169,8 +167,8 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                   </div> */}
                 </div>
               </CardContent>
-              <CardFooter className="bg-[#E8EDFB] py-4 px-4 flex flex-col justify-center items-center">
-                <div className="flex items-center gap-4 ">
+              <CardFooter className="bg-[#E8EDFB] p-4 flex justify-center items-center gap-4">
+                <div className="flex mx-auto justify-betweeen">
                   <OrderCard price={event.price} setOpen={handleClick} />
                 </div>
               </CardFooter>
@@ -180,20 +178,6 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
         <div className=" md:justify-between md:mx-5 grid md:grid-cols-7">
           <div className="md:mx-5 col-span-5">
             <ReviewForm />
-            <div>
-              {reviews && reviews.length > 0 ? (
-                reviews.map((review: any, index: any) => (
-                  <div key={index}>
-                    <ReviewCard
-                      username={review?.user?.username}
-                      rating={review?.rating}
-                      review={review?.review}
-                    />
-                  </div>
-                ))
-              ) : (
-                <p>No reviews available.</p>
-              )}
             <div>
               {reviews && reviews.length > 0 ? (
                 reviews.map((review: any, index: any) => (

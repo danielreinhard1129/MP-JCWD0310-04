@@ -12,7 +12,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
+import useGetEvent from '@/hooks/api/event/useGetEvent';
 import useCreateTransaction from '@/hooks/api/tx/useCreateTransaction';
 import { useAppSelector } from '@/redux/hooks';
 import { IFormTransaction } from '@/types/transaction.type';
@@ -35,7 +37,8 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
 }) => {
   const pathname = usePathname();
   const { createTransaction } = useCreateTransaction();
-  const { id } = useAppSelector((state) => state.user);
+
+  const { id, event } = useAppSelector((state) => state.user);
   const [numCount, setNumCount] = useState(1);
 
   useEffect(() => {
@@ -87,18 +90,26 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
       <AlertDialogContent>
         <form onSubmit={handleSubmit}>
           <AlertDialogHeader>
-            <AlertDialogTitle>Order Confirmation</AlertDialogTitle>
+            <AlertDialogTitle>
+              <div>Order Confirmation</div>
+              <Separator />
+              <div>
+                <p className="text-md text-gray-500 dark:text-gray-400 text-center md:text-right">
+                  {event?.title} 
+                </p>
+              </div>
+            </AlertDialogTitle>
             <AlertDialogDescription>
               <div className="grid w-full items-center gap-6">
                 <div className="flex items-center justify-between">
-                  <Label>Quantity</Label>
-                  <div className="flex items-center gap-4">
+                  <Label>Quantity of ticket</Label>
+                  <div className="flex items-center justify-end space-x-2">
                     <Button
                       type="button"
                       variant="outline"
                       onClick={minus}
                       disabled={numCount === 1}
-                      className="rounded-xl"
+                      className="px-2"
                     >
                       -
                     </Button>
@@ -116,7 +127,7 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
                       type="button"
                       variant="outline"
                       onClick={plus}
-                      className="rounded-xl"
+                      className="px-2"
                     >
                       +
                     </Button>
@@ -125,7 +136,6 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Label>Point</Label>
-                    <p className="text-sm">({point})</p>
                   </div>
                   {point > 0 ? (
                     <Switch

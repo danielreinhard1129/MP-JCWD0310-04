@@ -89,8 +89,8 @@ export default function Home() {
                     height={400}
                     className="object-contain opacity-50"
                     draggable="false"
-                  /> */}
-                  {/* <div>no event found</div> */}
+                  />
+                   <div>no event found</div> * */}
                 </div>
                 <p className="text-md -mt-16 mb-10 font-medium text-neutral-300 xl:text-xl">
                   Sorry, we cant find any event for you
