@@ -1,8 +1,9 @@
 'use client';
+
 import FormInput from '@/components/FormInput';
-import FormTextArea from '@/components/FormTextArea';
+import FormTextArea from '@/components/root/FormTextArea';
 import { Button } from '@/components/ui/button';
-import useCreateReviews from '@/hooks/api/review/useCreateReview';
+import useCreateReviews from '@/hooks/api/reviews/useCreateReview';
 import { useAppSelector } from '@/redux/hooks';
 import { IFormCreateReview } from '@/types/review.type';
 import { useFormik } from 'formik';
@@ -27,14 +28,17 @@ const ReviewForm = () => {
     touched,
   } = useFormik<IFormCreateReview>({
     initialValues: {
-      comment: '',
-      rating: '',
-      createdAt: '',
+      rating: 0,
+      review: '',
+      // createdAt: '',
     },
     onSubmit: (values) => {
       console.log(values);
+      console.log(Number(result));
+      console.log(Number(id));
+      
 
-      createReview({ ...values, userId: id, eventId: result });
+      createReview({ ...values, eventId: Number(result), userId: Number(id) });
     },
   });
   //   console.log(pathname.slice(1));
@@ -42,9 +46,9 @@ const ReviewForm = () => {
   return (
     <div className="mx-auto max-w-md space-y-6 px-4 py-12">
       <div className="space-y-2 text-center">
-        <h2 className="text-2xl font-bold">Leave a Review</h2>
+        <h2 className="text-2xl font-bold">What do You Think?</h2>
         <p className="text-gray-500 dark:text-gray-400">
-          Share your thoughts and experience with us.
+          Share your thoughts and experience about this event with us.
         </p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -61,30 +65,30 @@ const ReviewForm = () => {
         <div className="space-y-2">
           <FormInput
             name="rating"
+            type="text"
             label="Rating"
+            placeholder="Rating"
+            value={values.rating}
             error={errors.rating}
             isError={!!touched.rating && !!errors.rating}
             onBlur={handleBlur}
             onChange={handleChange}
-            placeholder="rating"
-            type="text"
-            value={values.rating}
           />
         </div>
         <div className="space-y-2">
           <FormTextArea
-            name="comment"
-            label="comment"
+            name="review"
+            label="Review"
             placeholder="Share your thoughts...."
-            value={values.comment}
-            error={errors.comment}
-            isError={!!touched.comment && !!errors.comment}
-            handleChange={handleChange}
-            handleBlur={handleBlur}
+            value={values.review}
+            error={errors.review}
+            isError={!!touched.review && !!errors.review}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
         <Button className="w-full" type="submit">
-          Submit Review
+          Submit here
         </Button>
       </form>
     </div>

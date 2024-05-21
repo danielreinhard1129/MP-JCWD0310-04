@@ -1,15 +1,15 @@
 'use client';
 
 import { FormikHandlers } from 'formik';
-import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
+import { Label } from '../ui/label';
+import { Textarea } from '../ui/textarea';
 
 interface FormInputProps {
   name: string;
   label: string;
   placeholder: string;
-  handleChange: FormikHandlers['handleChange'];
-  handleBlur: FormikHandlers['handleBlur'];
+  onChange: FormikHandlers['handleChange'];
+  onBlur: FormikHandlers['handleBlur'];
   value: string;
   isError: boolean;
   error: string | undefined;
@@ -22,8 +22,8 @@ const FormTextArea: React.FC<FormInputProps> = ({
   value,
   isError,
   error,
-  handleChange,
-  handleBlur,
+  onChange,
+  onBlur,
 }) => {
   return (
     <div className="flex flex-col space-y-1.5">
@@ -33,8 +33,8 @@ const FormTextArea: React.FC<FormInputProps> = ({
       <Textarea
         name={name}
         placeholder={placeholder}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        onChange={onChange}
+        onBlur={onBlur}
         value={value}
         style={{ resize: 'none' }}
         rows={4}

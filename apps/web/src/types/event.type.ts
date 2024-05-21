@@ -5,7 +5,7 @@ export interface Event {
   date: string | number | Date;
   id: number;
   title: string;
-  start_date: Date;
+  start_date: Date | undefined;
   end_date: Date;
   description: string;
   thumbnail_url: string;
@@ -33,7 +33,7 @@ export interface IFormEvent {
   thumbnail_url: File[];
   limit: number;
   start_date: Date;
-  end_date: Date | null;
+  end_date: Date;
   time: string;
   location: string;
   address: string | null;

@@ -7,7 +7,6 @@ import { LocationPicker } from '@/components/LocationPicker';
 import Pagination from '@/components/Pagination';
 import useGetEventsByFilter from '@/hooks/api/event/useGetEventByFilter';
 import { appConfig } from '@/utils/config';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 // import noeventfound from '@/public/assets/images/noeventfound.png';
 
@@ -23,7 +22,7 @@ export default function Home() {
     refetch,
   } = useGetEventsByFilter({
     page,
-    take: 6,
+    take: 4,
     location,
     category,
   });
@@ -111,8 +110,8 @@ export default function Home() {
                       imageUrl={
                         appConfig.baseURL + `/assets${event.thumbnail_url}`
                       }
-                      startDate={new Date(event.start_date)}
-                      endDate={new Date(event.end_date)}
+                      startDate={event?.start_date}
+                      endDate={event?.end_date}
                       price={event.price}
                       eventId={event.id}
                     />
