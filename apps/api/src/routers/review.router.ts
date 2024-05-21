@@ -14,6 +14,7 @@ export class ReviewRouter {
   private initializeRoutes(): void {
     this.router.get('/', this.reviewController.getReviewsController);
     this.router.get('/:id', this.reviewController.getReviewController);
+    this.router.get('/events/:id', this.reviewController.getReviewByEventController);
     this.router.post('/', this.reviewController.createReviewController);
   }
 

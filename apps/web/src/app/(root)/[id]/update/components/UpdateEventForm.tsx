@@ -3,7 +3,7 @@
 import Dropzone from '@/components/Dropzone';
 import FormInput from '@/components/FormInput';
 import FormInputCurrency from '@/components/FormInputCurrency';
-import FormTextArea from '@/components/FormTextArea';
+import FormTextArea from '@/components/root/FormTextArea';
 import PreviewImages from '@/components/PreviewImages';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';

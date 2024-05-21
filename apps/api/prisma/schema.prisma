@@ -152,8 +152,9 @@ model Review {
   userId    Int
   eventId   Int
   rating    Int
-  comment   String
+  review    String
   createdAt DateTime @default(now())
+  updatedAt  DateTime
 
   @@map("reviews")
 }

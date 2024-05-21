@@ -8,10 +8,10 @@ import { Label } from './ui/label';
 interface FormInputProps {
   name: string;
   placeholder: string;
-  type: HTMLInputTypeAttribute;
+  type: string;
+  value: string | number | Date;
   onChange: FormikHandlers['handleChange'];
   onBlur: FormikHandlers['handleBlur'];
-  value: string | number | Date;
   isError: boolean;
   label: string;
   error: string | FormikErrors<Date> | undefined;
@@ -20,7 +20,7 @@ interface FormInputProps {
 const FormInput: React.FC<FormInputProps> = ({
   name,
   placeholder,
-  type,
+  type = 'text',
   onChange,
   onBlur,
   value,

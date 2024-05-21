@@ -71,8 +71,8 @@ const EventCardNew: FC<EventCardProps> = ({
 
           <p className="text-sm font-light italic flex gap-1">
             <CalendarIcon size={20} />
-            {format(startDate, 'hh MMM yyyy')} -{' '}
-            {format(endDate, 'hh MMM yyyy')}
+            {format(new Date(startDate), 'hh MMM yyyy')} -{' '}
+            {format(new Date(endDate), 'hh MMM yyyy')}
           </p>
           <p className="line-clamp-3 flex gap-1">
             <LocateIcon size={20} />

@@ -7,6 +7,7 @@ export const getTransactionService = async (id: number) => {
       include: {
         user: true,
         event: true,
+        userVoucher: true,
       },
     });
 
