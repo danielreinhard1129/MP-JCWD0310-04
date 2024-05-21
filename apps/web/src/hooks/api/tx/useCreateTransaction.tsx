@@ -24,7 +24,7 @@ const useCreateTransaction = () => {
         createTransactionForm,
       );
 
-      router.push(`/transaction-detail/`);
+      router.push(`/transaction-detail/${eventId}`);
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log('Axios error:', error);

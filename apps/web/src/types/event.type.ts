@@ -5,7 +5,7 @@ export interface Event {
   date: string | number | Date;
   id: number;
   title: string;
-  start_date: Date | undefined;
+  start_date: Date; 
   end_date: Date;
   description: string;
   thumbnail_url: string;
