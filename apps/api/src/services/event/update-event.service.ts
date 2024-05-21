@@ -1,7 +1,7 @@
 import prisma from '@/prisma';
 import { Event } from '@prisma/client';
-import fs from 'fs';
 import { join } from 'path';
+import fs from 'fs';
 
 const defaultDir = '../../../public/images';
 

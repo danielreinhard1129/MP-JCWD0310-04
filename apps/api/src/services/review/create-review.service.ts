@@ -1,10 +1,14 @@
 import prisma from '@/prisma';
 import { Review } from '@prisma/client';
+import { Review } from '@prisma/client';
 
-interface CreateReviewBody extends Omit<Review, 'id' | 'updatedAt' | 'createdAt'> { }
+interface CreateReviewBody
+  extends Omit<Review, 'id' | 'updatedAt' | 'createdAt'> {}
 
 export const createReviewService = async (body: CreateReviewBody) => {
+export const createReviewService = async (body: CreateReviewBody) => {
   try {
+    const { eventId, userId, rating, review } = body;
     const { eventId, userId, rating, review } = body;
     const user = await prisma.user.findFirst({
       where: { id: userId },
@@ -17,13 +21,13 @@ export const createReviewService = async (body: CreateReviewBody) => {
     const reviewByUser = await prisma.review.findFirst({
       where: {
         userId: userId,
-        eventId: eventId
+        eventId: eventId,
       },
       include: { event: true },
     });
 
     if (reviewByUser) {
-      throw new Error('user already make review')
+      throw new Error('user already make review');
     } else {
       const newReview = await prisma.review.create({
         data: {
@@ -32,10 +36,10 @@ export const createReviewService = async (body: CreateReviewBody) => {
           rating: Number(rating),
           review: String(review),
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
       });
-      return { data: newReview }
+      return { data: newReview };
     }
   } catch (error) {
     throw error;

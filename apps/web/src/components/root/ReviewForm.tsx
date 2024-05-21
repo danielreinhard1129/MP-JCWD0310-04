@@ -36,7 +36,6 @@ const ReviewForm = () => {
       console.log(values);
       console.log(Number(result));
       console.log(Number(id));
-      
 
       createReview({ ...values, eventId: Number(result), userId: Number(id) });
     },

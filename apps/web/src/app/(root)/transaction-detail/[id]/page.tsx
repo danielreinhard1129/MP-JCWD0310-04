@@ -34,7 +34,7 @@ const Transaction = ({ params }: { params: { id: string } }) => {
             </div>
             <div className="flex items-center justify-between">
               <p>Voucher Event</p>
-              <p className="text-primary">{voucher_event}</p>
+              {/* <p className="text-primary">{voucher_event}</p> */}
             </div>
             <div className="flex items-center justify-between">
               <p>Referral Code point</p>
@@ -90,7 +90,7 @@ const Transaction = ({ params }: { params: { id: string } }) => {
               <Separator />
               <div className="grid items-center gap-4">
                 <div className="grid grid-cols-2 gap-1">
-                  <div className='flex'>
+                  <div className="flex">
                     <TicketIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
                     <h3 className="font-medium">Ticket Details</h3>
                   </div>
@@ -103,7 +103,6 @@ const Transaction = ({ params }: { params: { id: string } }) => {
           </Card>
         </div>
       </div>
-
     </div>
   );
 };

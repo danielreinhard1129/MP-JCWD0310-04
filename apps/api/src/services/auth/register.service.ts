@@ -5,20 +5,45 @@ import { addMonths } from 'date-fns';
 
 export const registerService = async (body: Omit<User, 'id'>) => {
   try {
-    const { email, password, referralCode } = body;
+    const { username, email, password, referralCode } = body;
 
     const existingUser = await prisma.user.findFirst({
-      where: { email },
+      where: {
+        OR: [{ email }, { username }],
+      },
     });
 
     if (existingUser) {
-      throw new Error('Email already exist!');
+      if (existingUser.email === email) {
+        throw new Error('Email already exists!');
+      } else if (existingUser.username === username) {
+        throw new Error('Username already exists!');
+      }
+    }
+
+    if (referralCode) {
+      const referral = await prisma.user.findFirst({
+        where: { referralCode },
+      });
+
+      if (!referral || referral.role === 'ORGANIZER') {
+        throw new Error('Invalid referral code');
+      }
+
+      const today = new Date();
+      const expiredDate = addMonths(today, 3).toISOString();
+
+      await prisma.user.update({
+        where: { id: referral.id },
+        data: {
+          point: { increment: 10000 },
+          pointExpiredDate: expiredDate,
+        },
+      });
     }
 
     const hashedPassword = await hashPassword(password);
-    const GeneratereferralCode = await Math.random()
-      .toString(36)
-      .substring(2, 7);
+    const GeneratereferralCode = Math.random().toString(36).substring(2, 7);
 
     const newUser = await prisma.user.create({
       data: {
@@ -35,24 +60,6 @@ export const registerService = async (body: Omit<User, 'id'>) => {
     ).toUpperCase();
 
     if (referralCode) {
-      const referral = await prisma.user.findFirst({
-        where: { referralCode: referralCode },
-      });
-
-      if (!referral) {
-        throw new Error('Invalid referral code');
-      }
-      const today = new Date();
-      const expiredDate = addMonths(today, 3).toISOString();
-
-      await prisma.user.update({
-        where: { id: referral.id },
-        data: {
-          point: { increment: 10000 },
-          pointExpiredDate: expiredDate,
-        },
-      });
-
       await prisma.user.update({
         where: { id: newUser.id },
         data: {
@@ -65,16 +72,16 @@ export const registerService = async (body: Omit<User, 'id'>) => {
           isUse: false,
           code: userCoupon,
           discountAmount: 10000,
-          expirationDate: expiredDate,
+          expirationDate: addMonths(new Date(), 3).toISOString(),
           userId: newUser.id,
         },
       });
-
-      return {
-        message: 'Register success !',
-        data: newUser,
-      };
     }
+
+    return {
+      message: 'Register success!',
+      data: newUser,
+    };
   } catch (error) {
     throw error;
   }

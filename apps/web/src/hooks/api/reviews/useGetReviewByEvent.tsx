@@ -9,7 +9,9 @@ const useGetReviewByEvent = (id: number) => {
 
   const getReviewByEvent = async () => {
     try {
-      const { data } = await axios.get<Review[]>(`http://localhost:8000/api/reviews/events/${id}`);
+      const { data } = await axios.get<Review[]>(
+        `http://localhost:8000/api/reviews/events/${id}`,
+      );
       setData(data);
     } catch (error) {
       if (error instanceof AxiosError) {

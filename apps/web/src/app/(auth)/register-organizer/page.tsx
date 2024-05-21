@@ -105,17 +105,6 @@ const Register = () => {
                       type="password"
                       value={values.password}
                     />
-                    <FormInput
-                      name="referralCode"
-                      label="referralCode"
-                      error={errors.referralCode}
-                      isError={!!touched.referralCode && !!errors.referralCode}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      placeholder="referralCode"
-                      type="text"
-                      value={values.referralCode}
-                    />
 
                     <Button type="submit" className=" w-full bg-blue-700">
                       Register

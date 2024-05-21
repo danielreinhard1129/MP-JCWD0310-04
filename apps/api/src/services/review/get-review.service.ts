@@ -3,8 +3,8 @@ import prisma from '@/prisma';
 export const getReviewService = async (id: number) => {
   try {
     const review = await prisma.review.findFirst({
-      where: { eventId : id },
-      include: { user: true , event: true },
+      where: { eventId: id },
+      include: { user: true, event: true },
     });
 
     if (!review) {
@@ -12,7 +12,6 @@ export const getReviewService = async (id: number) => {
     }
 
     return review;
-
   } catch (error) {
     throw error;
   }

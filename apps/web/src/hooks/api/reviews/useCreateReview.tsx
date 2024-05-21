@@ -1,21 +1,15 @@
-import { useAppSelector } from '@/redux/hooks';
 import { IFormCreateReview, Review } from '@/types/review.type';
 
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 
-const useCreateReviews = () => {
+const useCreateReview = () => {
   // const { id } = useAppSelector((state) => state.user);
   const router = useRouter();
 
   const createReview = async (payload: IFormCreateReview) => {
     try {
-      const { 
-        rating, 
-        review,
-        eventId,
-        userId
-         } = payload;
+      const { rating, review, eventId, userId } = payload;
 
       const createReviewForm = new FormData();
 
@@ -24,7 +18,7 @@ const useCreateReviews = () => {
       createReviewForm.append('eventId', String(eventId));
       createReviewForm.append('userId', String(userId));
 
-      await axios.post<Review>("http://localhost:8000/api/reviews", payload);
+      await axios.post<Review>('http://localhost:8000/api/reviews', payload);
       router.push(`/${eventId}`);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -35,4 +29,4 @@ const useCreateReviews = () => {
   return { createReview };
 };
 
-export default useCreateReviews;
+export default useCreateReview;

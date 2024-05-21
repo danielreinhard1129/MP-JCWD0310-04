@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/card';
 import useGetEvents from '@/hooks/api/event/useGetEvents';
 import useGetReviewByEvent from '@/hooks/api/reviews/useGetReviewByEvent';
+import useGetReviewByEvent from '@/hooks/api/reviews/useGetReviewByEvent';
 import { useAppSelector } from '@/redux/hooks';
 import { appConfig } from '@/utils/config';
 import { Avatar } from '@radix-ui/react-avatar';
@@ -26,6 +27,7 @@ import { useState } from 'react';
 import ModalOrderConfirmation from './components/ModalOrderConfirmation';
 import OrderCard from './components/OrderCard';
 import SkeletonEventDetail from './components/SkeletonEventDetail';
+import ReviewCard from '@/components/root/ReviewCard';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
   const { id, role, point } = useAppSelector((state) => state.user);
@@ -41,7 +43,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   const [open, setOpen] = useState(false);
   const excludedEvent = event?.id;
   const filteredEvent = events.filter((event) => event.id !== excludedEvent);
-  const {data: reviews} = useGetReviewByEvent(Number(params.id));
+  const { data: reviews } = useGetReviewByEvent(Number(params.id));
 
   const handleClick = () => {
     if (id) {
@@ -178,6 +180,20 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
         <div className=" md:justify-between md:mx-5 grid md:grid-cols-7">
           <div className="md:mx-5 col-span-5">
             <ReviewForm />
+            <div>
+              {reviews && reviews.length > 0 ? (
+                reviews.map((review: any, index: any) => (
+                  <div key={index}>
+                    <ReviewCard
+                      username={review?.user?.username}
+                      rating={review?.rating}
+                      review={review?.review}
+                    />
+                  </div>
+                ))
+              ) : (
+                <p>No reviews available.</p>
+              )}
             <div>
               {reviews && reviews.length > 0 ? (
                 reviews.map((review: any, index: any) => (
